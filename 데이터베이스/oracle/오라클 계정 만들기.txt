@@ -5,4 +5,4 @@ create user 사용자계정 identified by 비밀번호;
 
 grant resource,create session, connect, dba  to 사용자계정;
 
-alter user 사용자계정 default tablespace users quota unlimited on users
+alter user 사용자계정 default tablespace users quota unlimited on users;
