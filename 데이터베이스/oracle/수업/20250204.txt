@@ -1,4 +1,6 @@
 select * from hr.employees;
+
+
 -- 100, 101, 201인 상사(manager_id)를 둔 직원들을 모두 출력하시오.
 select * from hr.employees
 where manager_id in (100, 101, 201);
