@@ -241,6 +241,6 @@ select *
 from hr.employees
 where next_day(hire_date,'월') like '%/08/02';
 
--- 현재날짜의 주의 시작일인 일요일의 날짜와 주의 마지막날짜인 토요일 날짜를 출력하시오.
+-- 현재날짜로 부터 주의 시작일인 일요일의 날짜와 주의 마지막날짜인 토요일 날짜를 출력하시오.
 select sysdate , next_day(sysdate -7 , '일'), next_day(sysdate -7 , '일') + 6
 from dual;
