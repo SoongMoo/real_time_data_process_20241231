@@ -1,0 +1,274 @@
+---현재 날짜부터 돌아오는 월요일 
+select next_day(sysdate, '월') 
+from dual;
+--- 현재날짜로부터 주의 시작인 일요일의 날짜와 주의 마지막인 토용일의 날짜를 출력하시오
+select next_day(sysdate -7 , '일') ,sysdate, next_day(sysdate -7 , '일') + 6
+from dual;
+
+--- 직원이 입사한날이 그 주가 몇일 부터(일요일) 몇일 사이(토요일)에 있는 날인 지 출력하세요.
+--- 성, 이름 , 입사일 , 입사한 주의 일요일, 입사한 주의 토요일
+select next_day(hire_date - 7 ,'일') ,hire_date, next_day(hire_date - 7 ,'일') + 6
+    , last_name, first_name
+from hr.employees;
+
+--- 변환함수
+select '30' + 30 , to_number('30') + 30
+from dual;
+--- 날짜를 문자로 변환하도록고 하자 : to_char()
+                             --일-월-년
+select sysdate , to_char(sysdate , 'dd-mm-yy'), to_char(sysdate , 'yyyy-mm-dd')
+      , to_char(sysdate,'yyyy-mm-dd hh:mi:ss PM') -- 01:02:03 오후
+      , to_char(sysdate,'yyyy-mm-dd hh24:mi:ss PM') -- 13:02:03 오후
+      , to_char(sysdate,'yyyy-mm-dd hh24:mi:ss PM dy') -- 월
+      , to_char(sysdate,'yyyy-mm-dd hh24:mi:ss PM day') -- 월요일
+from dual;
+
+--- 입사일을 년-월-일 시:분:초 오전으로 출력
+select to_char(hire_date ,'yyyy-mm-dd hh:mi:ss PM')
+from hr.employees;
+--- 사원번호 , 직무 , 이름 , 입사일(일-월-년 요일)을 출력하세요.
+select employee_id, job_id, first_name
+        , to_char(hire_date, 'dd-mm-yy day')
+        , to_char(hire_date, 'dd-mm-yy dy')
+from hr.employees;
+
+--- 숫자를 문자로 변환 : 999999 => $999,999
+---                    123456 => 0123456
+select 1234567 , to_char(1234567 ,'999,999,999'), to_char(1234567 ,'999,999')
+      , to_char(1234567 ,'09,999,999')
+      , to_char(1234567 ,'$999,999,999')
+      , to_char(1234567 ,'L999,999,999') ---Local
+      , to_char(-1234567 ,'999,999,999mi')
+      , to_char(-1234567 ,'L999,999,999mi')
+from dual;
+--- 사원번호, 부서번호, 상사, 입사일, 급여를 출력할때
+-- 급여를 3자리씩 표시하면 좋겠다.
+desc hr.employees;
+
+select employee_id , department_id, manager_id, hire_date
+      , to_char(salary,'$99,999,999') , to_char(commission_pct, '999,999.00')
+from hr.employees;
+
+
+
+-- 29-07-2004로 입력받았을 때 2004-07-29에 입사한 사람을 출력하세요.
+-- 문자를 날짜로 변환
+                --문자--      --문자형태--           --날짜-- --원하는 포맷--
+select to_date('29-07-2004', 'dd-mm-yyyy'), to_char(sysdate,'yyyy-mm-dd' )
+from dual;
+
+select * from hr.employees
+where hire_date = to_date('29-07-2004', 'dd-mm-yyyy'); -- yy-mm-dd
+
+--- 17/06/03(dd-mm-yy)의 날짜의 일요일과 토요일을 출력?
+select next_day(sysdate - 7 , '일'), sysdate , next_day(sysdate - 7 , '일') + 6
+from dual;
+
+select next_day(to_date('17/06/03','dd-mm-yy') - 7 , '일') -- -7일을 한 날짜에서 돌아오는 일요일 
+     , to_date('17/06/03','dd-mm-yy') 
+     , next_day(to_date('17/06/03','dd-mm-yy') - 7 , '일') + 6 -- 토요일
+from dual;
+---  to_char , to_date, to_number
+------------------------------------------
+--- 문자열 함수, 변환 함수
+--- 일반함수 (nvl , COALESCE)
+--- 사원번호, 이름, 직무, 급여, 커미션, 월 커미션을 포함한 년봉을 출력
+select employee_id , first_name, job_id, commission_pct, salary
+      ,  salary * (1 + commission_pct) * 12  year_sal
+from hr.employees;
+
+select employee_id , first_name, job_id, commission_pct, salary
+      ,  salary * (1 + nvl(commission_pct,0)) * 12  year_sal
+from hr.employees;
+-- nvl는 문자인 숫자인 경우 자동으로 숫자로 형변환이 된다.
+
+select employee_id , first_name, job_id, commission_pct, salary
+      ,  salary * (1 + COALESCE(commission_pct,0)) * 12  year_sal
+from hr.employees;
+-- COALESCE는 문자인 숫자인 경우 자동으로 숫자로 형변환이 되지않으므로 to_number로 형변환을 해야 한다.
+
+select COALESCE(null, 10, 20, 30), COALESCE(null, null, 20, 30)
+      , COALESCE(null, null, null, 30)
+      , COALESCE(null, 10)
+      , COALESCE(10, null, null, 30)
+      , nvl(null, 10)
+from dual;
+
+--- nvl2
+select nvl2('이', 10, 20) , nvl2(null, 10, 20)
+from dual;
+
+---- nvl을 nvl2로 변경하시오
+select employee_id , first_name, job_id, commission_pct, salary
+      ,  salary * (1 + nvl(commission_pct,0)) * 12  year_sal
+      ,  salary * (1 + nvl2(commission_pct,commission_pct,0)) * 12  year_sal1
+      ,  salary * nvl2(commission_pct, 1 + commission_pct, 1) * 12  year_sal1
+from hr.employees;
+
+-- nullif
+select nullif(100,100), nullif(10, 2000)
+from dual;
+
+-- 이름과 성의 길이가  같은 사람만 출력하시오.
+select last_name, first_name from hr.employees
+where length(first_name) = length(last_name);
+
+select last_name, first_name from hr.employees
+where nullif(length(first_name), length(last_name)) is null ;
+
+---  nvl, nvl2, COALESCE, nullif : 일반함수
+--- 부서가 없는 사원을 출력하시오
+select * from hr.employees where department_id is null;
+
+/*
+String str = "서울"
+switch(str){
+    case "서울" : Sytem.out.println("02"); break;
+    case "인천" : Sytem.out.println("032"); break;
+    default :  Sytem.out.println("031");
+}
+*/
+select first_name, job_id, salary
+      , case job_id when 'IT_PROG' then salary * 0.1
+                    when 'ST_CLERK' then salary * 0.2
+                    when 'SA_REP' then salary * 0.3
+                    else salary end as sal
+from hr.employees;
+
+select first_name, job_id, salary
+      , case  when job_id = 'IT_PROG' then salary * 0.1
+              when job_id = 'ST_CLERK' then salary * 0.2
+              when job_id = 'SA_REP' then salary * 0.3
+              else salary end as sal
+from hr.employees;
+
+--- 급여가 5000이하면 low를  10000이하면 'Medium'  20000이하면 'Good'
+--- 그 이상이면 'Excellent'가 출력되게 하시오.
+select first_name, job_id, salary
+      , case when salary <= 5000 then 'low'
+             when salary <= 10000 then 'Medium'
+             when salary <= 20000 then 'Good'
+             else 'Excellent' end as sal
+from hr.employees;
+
+--- salary / 2000 나눈값의 몫이 0이면 0
+--                            1이면 0.09
+--                            2이면 0.20
+--                            3이면 0.30
+--                            4이면 0.40
+--                            아니면 0.50 출력하세요.
+
+select first_name , salary , trunc(salary / 2000)
+       ,CASE trunc(salary / 2000) WHEN 0 THEN 0
+                                  WHEN 1 THEN 0.09
+                                  WHEN 2 THEN 0.20
+                                  WHEN 3 THEN 0.30
+                                  WHEN 4 THEN 0.40
+                                  ELSE 0.50 END AS TAX
+from hr.employees;
+-- CASE , decode
+select first_name , salary , trunc(salary / 2000)
+       ,decode ( trunc(salary / 2000) , 0 , 0
+                                      , 1 , 0.09
+                                      , 2 , 0.20
+                                      , 3 , 0.30
+                                      , 4 , 0.40
+                                      , 0.50 ) AS TAX
+from hr.employees;
+
+     
+select first_name, job_id, salary
+      , case job_id when 'IT_PROG' then salary * 0.1
+                    when 'ST_CLERK' then salary * 0.2
+                    when 'SA_REP' then salary * 0.3
+                    else salary end as sal
+from hr.employees;                    
+---- decode는 값을 =(등호)로 비교할 때 사용 가능    
+select first_name, job_id, salary
+      , decode ( job_id , 'IT_PROG' , salary * 0.1
+                        , 'ST_CLERK' , salary * 0.2
+                        , 'SA_REP' , salary * 0.3
+                        , salary ) as sal
+from hr.employees; 
+
+
+--- 단일함수 : 문자함수 , 일반함수, 변환함수, 
+SELECT FIRST_NAME , LOWER(FIRST_NAME)
+FROM HR.EMPLOYEES;
+
+-- 다중행 함수 : 여러개의 행값을 받아 하나의 결과값을 가져오는 것
+-- 그룹함수 : COUNT, MAX, MIN, AVG, SUM
+SELECT COUNT(*) FROM HR.EMPLOYEES;
+SELECT * FROM HR.EMPLOYEES;
+SELECT MIN(SALARY) , MAX(SALARY) ,AVG(SALARY) , SUM(SALARY) , COUNT(SALARY)
+      ,COUNT(*)
+FROM HR.EMPLOYEES;
+
+
+SELECT  COUNT(*), COUNT(EMPLOYEE_ID) , COUNT(LAST_NAME), COUNT(JOB_ID)
+      , COUNT(PHONE_NUMBER), COUNT(DEPARTMENT_ID) --- NULL을 포함하지 않는다.
+      , COUNT(COMMISSION_PCT) ,COUNT(MANAGER_ID) 
+FROM HR.EMPLOYEES;
+
+SELECT * FROM HR.EMPLOYEES;
+
+--- 커미션을 받는 사원의 수 
+SELECT COUNT(COMMISSION_PCT) FROM HR.EMPLOYEES;
+-- 부서가 있는 사원의 수
+SELECT COUNT(DEPARTMENT_ID) FROM HR.EMPLOYEES;
+-- 부서가 없는 사원의 수
+SELECT * FROM HR.EMPLOYEES WHERE DEPARTMENT_ID IS NULL;
+SELECT COUNT(*) FROM HR.EMPLOYEES WHERE DEPARTMENT_ID IS NULL;
+
+-- 80인 부서의 직원 수와 최대 급여와 최소급여를 구하시오.
+SELECT  * FROM HR.EMPLOYEES WHERE DEPARTMENT_ID = 80;
+SELECT  COUNT(*), MIN(SALARY), MAX(SALARY) FROM HR.EMPLOYEES WHERE DEPARTMENT_ID = 80;
+
+-- 부서를 출력하세요
+select department_id from hr.employees;
+-- 부서를 한번씩만 출력하시오
+select DISTINCT department_id from hr.employees; 
+-- 직원이 속해 있는 부서의 수를 출력하시오.
+select COUNT(DISTINCT department_id) from hr.employees; 
+
+-- 직무가 RE를 포함한 직원을 출력하시오.
+SELECT * from hr.employees where job_id like '%RE%';
+-- 직무가 RE를 포함한 직원의 최대 급여와 최소 급여 그리고 직원의 수와 평균급여를 출력하시오.
+SELECT max(salary) , min(salary), count(*) , ROUND(AVG(SALARY),3)
+from hr.employees where job_id like '%RE%';
+
+--- 제일 먼저 입사한 사원과 제일 나중에 입사한 사원 입사일을 출력하세요.
+SELECT HIRE_DATE FROM HR.EMPLOYEES;
+select min(hire_date), max(hire_date) from hr.employees;
+
+--- 커미션 퍼센트의 평균을 구하시오
+SELECT AVG(COMMISSION_PCT)  , SUM(COMMISSION_PCT) / COUNT(COMMISSION_PCT)-->35
+     , AVG(NVL(COMMISSION_PCT,0))  , SUM(COMMISSION_PCT) / COUNT(*)-->107
+  -- 사원의 수를 107로 하기 위해 NULL값을 0으로 대체 
+FROM HR.EMPLOYEES;
+
+--- 80인 부서의 급여의 평균, 급여의 합계, 최대 급여, 최소 급여
+
+select avg(salary), sum(salary), max(salary), min(salary)
+from hr.employees where department_id = 80;
+--- 90인 부서의 급여의 평균, 급여의 합계, 최대 급여, 최소 급여
+select avg(salary), sum(salary), max(salary), min(salary)
+from hr.employees where department_id = 90;
+--- 70인 부서의 급여의 평균, 급여의 합계, 최대 급여, 최소 급여
+select avg(salary), sum(salary), max(salary), min(salary)
+from hr.employees where department_id = 70;
+
+
+SELECT DEPARTMENT_ID, avg(salary), sum(salary), max(salary), min(salary)
+FROM HR.EMPLOYEES
+WHERE DEPARTMENT_ID IN (80,90,70)
+GROUP BY DEPARTMENT_ID;
+-- GROUP BY절에 있는 컬럼은 SELECT 절에 사용 가능하다.
+
+--- 모든 부서의 급여의 평균, 급여의 합계, 최대 급여, 최소 급여
+SELECT DEPARTMENT_ID, avg(salary), sum(salary), max(salary), min(salary)
+FROM HR.EMPLOYEES
+GROUP BY DEPARTMENT_ID;
+
+
+
