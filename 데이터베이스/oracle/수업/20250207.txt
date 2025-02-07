@@ -1,0 +1,260 @@
+-- job_id 가 FI_ACCOUNT이고 IT_PROG 그리고 PU_CLERK 직원의 
+-- 급여의 평균, 급여의 합계, 최대값 , 최소값, 직원수를 출력
+
+select job_id ,sum(salary), avg(salary), min(salary), max(salary), count(*)
+from hr.employees
+where job_id in ('FI_ACCOUNT', 'IT_PROG', 'PU_CLERK')
+group by job_id;
+
+
+--- 직원들의 모든 정보를 출력할 때 부서를 오름차순으로 정렬하고 
+--- 정렬된 같은 부서안에서 다른 직무하는 직원이 있다면 직무를 오름차순으로 정렬
+select * from hr.employees
+order by department_id, job_id;
+
+
+select department_id , job_id , sum(salary), avg(salary), min(salary), max(salary), count(*)
+from hr.employees
+group by department_id , job_id
+order by department_id, job_id;
+--- group by절에 있는 컬럼들은 select절에 사용할 수 있다.
+
+--- 부서별 평균급여를 출력하세요
+select department_id ,avg(salary)
+from hr.employees
+group by department_id;
+-- 이 때 평균급여가 8000을 초과한 부서와 평균급여는 ?
+select department_id ,avg(salary)
+from hr.employees    --1
+group by department_id --3
+having avg(salary) > 8000
+order by department_id;
+-- 그룹함수는  group by 다음에 실행되므로 group by 이전에 실행되는 where절에서 그룹함수 조건을 
+-- 사용하지 못한다.
+-- 그러므로 그룹함수의 조건인 경우 having절을 사용한다.
+
+---  직무별 최대급여 , 최소급여, 급여의 합계, 직원수를 출력할 때 
+---  직무별 직원의 수가 3이상은 것만 출력하시오.
+select job_id, max(salary) , min(salary), sum(salary), count(*)
+from hr.employees   --1
+group by job_id     --3
+having count(*) >= 3
+order by job_id; ---4
+
+-- REP를 포함하고 있지 않은 직무들중에서 각 직무별 최대 급여, 최소급여, 급여합계를 출력하세요.
+-- 이때 급여합계가 13000이상인 것만 출력하시오.
+-- 단, 급여의 합계가 많은 것부터 출력
+
+select job_id, min(salary), max(salary), sum(salary)
+--        1        2           3             4
+from hr.employees
+where job_id not like '%REP%'
+group by job_id
+having sum(salary) >= 13000
+--order by sum(salary) desc;
+order by 4 desc;
+
+-- 각 부서별 부서의 급여의 합계, 최대, 최소, 사원의 수, 평균을 출력하는데 평균은 
+-- 소수점 2자리만 출력
+select department_id, min(salary), max(salary), sum(salary), count(*)
+       ,round(avg(salary),2)
+from hr.employees
+group by department_id;
+
+-- 각 부서에서 같은 직무를 하는 사원들의 최대 급여, 최소 급여, 
+-- 평균급여, 급여의 합계, 같은 직무를 하는 사원의 수를 출력
+select department_id, job_id , min(salary), max(salary), sum(salary), count(*), avg(salary)
+from hr.employees
+group by department_id, job_id
+order by department_id, job_id ;
+
+-- 각부서에서 직무가 같은 사원들 중 입사일이 같은 사원의 수를 구하시오.
+-- 사원수가 2명이상만 출력
+-- 단, 80인 부서만 출력
+select department_id, job_id, hire_date, count(*)
+from hr.employees
+where department_id = 80
+group by department_id, job_id, hire_date
+having count(*) >= 2;
+
+---각 부서의 평균급여가 7000이상인 부서만 출력하시오.평균 급여가 높은 것 부터 출력하시오.
+select department_id, avg(salary)
+from hr.employees
+group by department_id
+HAVING avg(salary) >= 7000
+order by avg(salary) desc;
+
+-- 각 부서의 평균급여 중 최대 평균급여를 출력하시오.
+select max(avg(salary))
+from hr.employees
+group by department_id;
+
+--- 단일함수 : 문자열 , 일반함수 , 변환함수 
+--- 다중함수 : 그룹함수 : max, min, sum, avg, count
+
+-- join : 두개 이상의 테이블로부터 데이터 가져오는 것
+select employee_id, job_id, salary, department_id
+from hr.employees;
+select department_id , department_name
+from hr.departments;
+
+select employee_id, job_id, salary, hr.employees.department_id
+      ,hr.departments.department_id , department_name
+from hr.employees join hr.departments
+on  hr.employees.department_id = hr.departments.department_id; -- join조건 on
+
+select employee_id, job_id, salary, e.department_id
+      ,d.department_id , department_name
+from hr.employees e join hr.departments d
+on  e.department_id = d.department_id;
+
+
+--- 사원번호, 이름 , 급여 ,부서번호, 직무 번호
+select  employee_id, first_name, salary, department_id, job_id
+from hr.employees;
+--- 직무 번호(job_id), 직무명(job_title) -- jobs
+select job_id, job_title
+from hr.jobs;
+
+--- join
+--- 사원번호, 이름 , 급여 , 직무 번호, 부서번호 , 직무명
+select  employee_id, first_name, salary, department_id, e.job_id
+       ,j.job_id, job_title
+from hr.employees e join hr.jobs j
+on e.job_id = j.job_id;
+
+--- ansi-join
+select  employee_id, first_name, salary, department_id
+       ,j.job_id, job_title
+from hr.employees e join hr.jobs j
+on e.job_id = j.job_id;
+-- T-SQL join
+select  employee_id, first_name, salary, department_id
+       ,j.job_id, job_title
+from hr.employees e , hr.jobs j
+where e.job_id = j.job_id;
+
+-- 사원번호 , 이름, 급여, 직무 , 부서번호, 부서명 - T-SQL join
+select employee_id, first_name, salary, job_id
+     , d.department_id, department_name
+from hr.employees e, hr.departments d;
+ 
+--- 부서번호(department_id) , 부서명(department_name) , 부서장(manager_id)를 출력
+select department_id, department_name, manager_id
+from hr.departments;
+-- 직원번호 , 성, 이름, 직무 를 출력
+select employee_id, last_name, first_name, job_id
+from hr.employees;
+--- 부서번호 , 부서명, 부서장, 부서장의 성, 부서장의 이름, 부서장 직무를 출력
+select d.department_id, department_name, d.manager_id
+        ,employee_id, last_name, first_name, job_id
+from hr.departments d , hr.employees e
+where d.manager_id = e.employee_id;
+
+--- 부서번호, 부서명, 지역번호(LOCATION_ID)
+select department_id, department_name, LOCATION_ID
+from hr.departments;
+--  주소명(STREET_ADDRESS) ,우편번호(POSTAL_CODE) : locations
+select STREET_ADDRESS, POSTAL_CODE
+from hr.locations;
+-- 부서번호, 부서명, 지역번호(LOCATION_ID)에 해당하는 주소명(STREET_ADDRESS) ,우편번호(POSTAL_CODE)를
+-- 같이 출력하고 싶다.
+--- T-SQL join
+select department_id, department_name, d.LOCATION_ID
+    , STREET_ADDRESS, POSTAL_CODE
+from hr.departments d, hr.locations l
+where d.location_id = l.location_id;
+-- Ansi join 
+select department_id, department_name, d.LOCATION_ID
+    , STREET_ADDRESS, POSTAL_CODE
+from hr.departments d join hr.locations l
+on d.location_id = l.location_id;
+
+-- 부서번호, 부서명, 지역번호(LOCATION_ID)에 해당하는 주소명(STREET_ADDRESS) ,우편번호(POSTAL_CODE)를
+-- 같이 출력하고 싶다. 이때 100인 부서만 출력하세요.
+select department_id, department_name, l.LOCATION_ID
+      ,STREET_ADDRESS, POSTAL_CODE
+from hr.departments d , hr.locations l
+where d.location_id = l.location_id and department_id = 100;
+--Ansi join
+select department_id, department_name, l.LOCATION_ID
+      ,STREET_ADDRESS, POSTAL_CODE
+from hr.departments d join hr.locations l
+on d.location_id = l.location_id and department_id = 100;
+
+select department_id, department_name, l.LOCATION_ID
+      ,STREET_ADDRESS, POSTAL_CODE
+from hr.departments d join hr.locations l
+on d.location_id = l.location_id 
+where department_id = 100;
+
+desc hr.jobs;
+desc hr.job_history;
+-- 직무명, 최소 급여(MIN_SALARY), 최대 급여(MAX_SALARY) : jobs
+select job_title , MIN_SALARY, MAX_SALARY
+from hr.jobs;
+-- 직무번호(JOB_ID), 시작일(START_DATE), 종료일(END_DATE), 부서번호(DEPARTMENT_ID) : job_history
+select JOB_ID, START_DATE, END_DATE, DEPARTMENT_ID
+from hr.job_history;
+-- 부서번호, 부서명 : deparments
+select department_id, department_name
+from hr.departments;
+
+--- T-SQL join
+select job_title , MIN_SALARY, MAX_SALARY
+      ,jh.JOB_ID, START_DATE, END_DATE, jh.DEPARTMENT_ID
+      ,d.department_id, department_name
+from hr.jobs j , hr.job_history jh , hr.departments d
+where j.JOB_ID = jh.JOB_ID and jh.department_id=d.department_id;
+
+-- 직무명, 최소 급여(MIN_SALARY), 최대 급여(MAX_SALARY) : jobs
+-- 직무번호(JOB_ID), 시작일(START_DATE), 종료일(END_DATE), 부서번호(DEPARTMENT_ID) : job_history
+-- 부서번호, 부서명 : deparments
+select job_title, MIN_SALARY, MAX_SALARY
+      ,jh.JOB_ID, START_DATE, END_DATE, jh.DEPARTMENT_ID
+      ,d.department_id, department_name
+from hr.jobs j join hr.job_history jh
+on j.job_id = jh.job_id join hr.departments d
+on jh.department_id = d.department_id;
+
+---- Ansi join : inner join
+--- 사원번호 , 이름, 직무, 부서번호, 부서명, 부서장번호
+select employee_id, first_name, job_id 
+      , d.department_id, department_name, d.manager_id
+from hr.employees e inner join hr.departments d
+on e.department_id = d.department_id;
+--- 값과 의미가 같은 것 끼리 비교를 해야 한다. 직원번호면 직원번호인 것끼리, 부서번호면 부서번호인것끼리.
+
+
+--  사원번호, 부서번호, 이름, 직무번호
+--  직무번호, 직무명를 출력 : join
+select employee_id, department_id, first_name, e.job_id
+     , j.job_id, job_title
+from hr.employees e inner join hr.jobs j
+on e.job_id = j.job_id;
+
+-- Natural join
+select employee_id, department_id, first_name, job_id
+     , job_id, job_title
+from hr.employees natural join hr.jobs ;
+--on e.job_id = j.job_id;
+--- 두 테이블에서 컬럼 이름이 같은 것끼리 비교한다.
+
+
+--  같은 부서의 부서장을 상사둔 직원들의 정보와 부서명을 출력하시오. -- inner join
+--- 사원번호 , 이름, 직무번호, 급여 , 상사번호
+--- 부서번호, 부서명, 부서장 -
+select * from hr.employees;
+select * from hr.departments;
+-- inner join
+select employee_id, first_name, job_id, salary, e.manager_id, e.department_id
+      ,d.department_id, department_name, d.manager_id
+from hr.employees e inner join hr.departments d
+on d.manager_id = e.manager_id and e.department_id = d.department_id;
+
+-- Natural join
+select employee_id, first_name, job_id, salary, manager_id, department_id
+      ,department_id, department_name, manager_id
+from hr.employees Natural join hr.departments
+--on d.manager_id = e.manager_id and e.department_id = d.department_id;
+
