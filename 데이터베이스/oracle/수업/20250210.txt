@@ -1,0 +1,176 @@
+--- 직원이 속해있는 부서정보를 가져오시오.
+select employee_id, first_name, job_id, salary, e.department_id, e.manager_id -- 직속상사 -- 직원번호
+     , d.department_id, department_name, d.manager_id -- 부서장 -- 직원번호
+from hr.employees e inner join hr.departments d     
+on e.department_id = d.department_id;
+   --   90         =     90
+
+--- 부서장의 이름과 같은 정보를 가져오시오.
+---부서 테이블에 있는 부서장의 이름과 직무 급여를 가져오시오.
+select d.department_id , department_name, d.manager_id -- 부서장 : 직원번호
+       ,employee_id,first_name, last_name, job_id, salary
+from hr.departments d inner join hr.employees e
+on d.manager_id = e.employee_id;
+   
+       
+select d.department_id , department_name, d.manager_id -- 부서장 : 직원번호
+       ,employee_id,first_name, last_name, job_id, salary
+from hr.departments d inner join hr.employees e
+on d.manager_id = e.employee_id and d.department_id = e.department_id;
+
+---------------------------------------------------------------------------------------------
+
+--- 부서장을 직속상사를 둔 사원의 정보 
+select employee_id, first_name, salary, job_id, e.department_id, e.manager_id-- 직속상사   
+       ,d.department_id, department_name, d.manager_id -- 부서장
+from hr.employees e inner join hr.departments  d
+on e.manager_id = d.manager_id and d.department_id = e.department_id;
+
+--- NATURAL join --- 두개 테이블에서 같은 이름의 컬럼끼리 비교를 하는 join
+select employee_id, first_name, salary, job_id, department_id, manager_id-- 직속상사   
+       ,department_id, department_name, manager_id -- 부서장
+from hr.employees  NATURAL join hr.departments;
+--- on e.manager_id = d.manager_id and d.department_id = e.department_id;
+
+-- using절 사용
+select employee_id, first_name, salary, job_id, department_id, manager_id-- 직속상사   
+      ,department_id ,department_name ,manager_id  -- 부서장
+from hr.employees e join hr.departments d
+--on e.manager_id = d.manager_id and d.department_id = e.department_id;
+using(department_id, manager_id); 
+--- using절에 들어간 컬럼에는 테이블 별칭을 사용할 수 없다. 
+
+select employee_id, first_name, salary, job_id, e.department_id, manager_id-- 직속상사   
+       ,d.department_id, department_name, manager_id -- 부서장
+from hr.employees e join hr.departments  d
+---on e.manager_id = d.manager_id;
+using (manager_id);
+
+
+--- using 절을 사용해서 사원번호, 이름, 급여, 직무 , 부서번호, 부서명, 부서장
+--- 직원이 속해있는 부서정보를 가져오시오.
+select employee_id, first_name, salary, job_id
+      ,department_id, department_name, d.manager_id
+from hr.employees e join hr.departments d
+using(department_id);
+-- on e.department_id = d.department_id;
+select * from hr.departments;
+select * from hr.employees;
+-- 직무에 대한 정보
+select * from hr.jobs;
+---  주소 정보
+select * from hr.locations;
+
+-------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------
+--- 직원이 담당하는 직무정보를 출력
+--  사원번호, 부서번호, 이름, 직무번호 -- employees
+--  직무번호(job_id), 직무내용(job_title) --- jobs
+--- inner join, using , NATURAL , T-SQL
+select employee_id, department_id, first_name, e.job_id
+     ,j.job_id, job_title
+from hr.employees e inner join hr.jobs j
+on e.job_id = j.job_id;
+
+select employee_id, department_id, first_name, e.job_id
+     ,j.job_id, job_title
+from hr.employees e NATURAL  join hr.jobs j;
+-- on e.job_id = j.job_id;
+
+select employee_id, department_id, first_name, job_id
+     ,job_id, job_title
+from hr.employees e  join hr.jobs j
+using (job_id);
+
+select employee_id, department_id, first_name, e.job_id
+     ,j.job_id, job_title
+from hr.employees e , hr.jobs j
+where e.job_id = j.job_id;
+
+-- 각 직원의 직원번호, 직무번호, 
+---         부서번호, 부서명
+-- 이 때 20,30,50,80인 부서만 출력
+--- T-SQL Join , Ansi Join, using절
+select employee_id, job_id
+      , d.department_id , department_name
+from hr.employees e, hr.departments d
+where e.department_id = d.department_id and e.department_id in (20,30,50,80);
+
+select employee_id, job_id
+      , d.department_id , department_name
+from hr.employees e join hr.departments d
+on e.department_id = d.department_id and e.department_id in (20,30,50,80);
+
+select employee_id, job_id
+      , d.department_id , department_name
+from hr.employees e join hr.departments d
+on e.department_id = d.department_id 
+where e.department_id in (20,30,50,80);
+
+select employee_id, job_id
+      , department_id , department_name
+from hr.employees e join hr.departments d
+using (department_id) 
+where department_id in (20,30,50,80);
+
+--- 직원번호, 이름, 급여, 직무, 입사일
+--- 부서번호, 부서명을 출력할 때 50인부서와 90인 부서는 제외한다.
+-- inner join, using
+select employee_id, first_name, salary, job_id, hire_date
+     , d.department_id, department_name
+from hr.employees e inner join hr.departments d
+on e.department_id = d.department_id 
+where e.department_id  not in (50, 90);
+
+select employee_id, first_name, salary, job_id, hire_date
+     , department_id, department_name
+from hr.employees e inner join hr.departments d
+using (department_id)
+where department_id  not in (50, 90);
+
+-- 3중 조인
+--- 직원의 직무 정보와 부서정보를 가져오시오. ---jobs, employees, departments
+select *
+from hr.jobs j join hr.employees e
+on j.job_id = e.job_id join  hr.departments d
+on e.department_id = d.department_id;
+
+--  직무번호, 직무내용  --- jobs
+--  직무번호, 사원번호, 이름, 부서번호  --- employees
+--  부서번호, 부서명 --- departments
+-- T-SQL JOIN , ansi join
+select j.job_id, job_title
+      ,e.job_id, employee_id, first_name, e.department_id
+      , d.department_id, department_name
+from hr.jobs j join hr.employees e
+on j.job_id = e.job_id join  hr.departments d
+on e.department_id = d.department_id;
+
+select j.job_id, job_title
+      ,e.job_id, employee_id, first_name, e.department_id
+      , d.department_id, department_name
+from hr.jobs j , hr.employees e ,  hr.departments d
+where j.job_id = e.job_id and e.department_id = d.department_id;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
