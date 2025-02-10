@@ -153,24 +153,226 @@ from hr.jobs j , hr.employees e ,  hr.departments d
 where j.job_id = e.job_id and e.department_id = d.department_id;
 
 
+--- 직원정보와 직원의 직무정보와 직원의 부서정보 그리고 부서의 지역정보 그리고 그 지역의 나라 정보를 가져오고
+-- 그 나라의 대륙 정보도 출력하시오. 
+--- jobs      --- job_id, job_title 
+--- employees --- employee_id, first_name, salary 
+--- departments --- department_id, department_name, manager_id
+--- locations  --- location_id, street_address 
+--- COUNTRIES  --- COUNTRY_ID, COUNTRY_NAME 
+--- regions -- REGION_ID, REGION_NAME
+--- ansi join
+--- 다중 조인
+select j.job_id, job_title 
+       ,employee_id, first_name, salary 
+       ,d.department_id, department_name, d.manager_id
+       ,l.location_id, street_address 
+       ,c.COUNTRY_ID, COUNTRY_NAME 
+       ,r.REGION_ID, REGION_NAME
+from hr.jobs j join hr.employees e
+on j.job_id = e.job_id join hr.departments d
+on e.department_id = d.department_id join hr.locations l
+on d.location_id = l.location_id join hr.COUNTRIES c
+on l.COUNTRY_ID = c.COUNTRY_ID join hr.regions r
+on c.region_id = r.region_id;
+
+
+--- jobs      --- job_id, job_title 
+--- employees --- employee_id, first_name, salary 
+--- departments --- department_id, department_name, manager_id
+--- COUNTRIES  --- COUNTRY_ID, COUNTRY_NAME 
+--- regions -- REGION_ID, REGION_NAME
+select j.job_id, job_title 
+       ,employee_id, first_name, salary 
+       ,d.department_id, department_name, d.manager_id    
+       ,c.COUNTRY_ID, COUNTRY_NAME 
+       ,r.REGION_ID, REGION_NAME
+from hr.jobs j join hr.employees e
+on j.job_id = e.job_id join hr.departments d
+on e.department_id = d.department_id join hr.locations l
+on d.location_id = l.location_id join hr.COUNTRIES c
+on l.COUNTRY_ID = c.COUNTRY_ID join hr.regions r
+on c.region_id = r.region_id;
 
 
 
+select * from hr.employees;
+
+--- self join
+--- 직원의 정보를 출력하면서 직원의 직속상사의 정보도 같이 출력
+select  e1.employee_id, e1.first_name, e1.salary, e1.manager_id  -- 직원의 정보
+       ,e2.employee_id, e2.first_name , e2.job_id -- 상사정보
+from hr.employees e1 join hr.employees e2
+on e1.manager_id = e2.employee_id;
+
+select * from hr.employees; --- 107
+select * from hr.departments; -- 27
+
+---- 직원에 대한 부서 정보를 가져오시오
+select employee_id, first_name, salary
+      ,d.department_id, department_name
+from hr.employees e left outer join hr.departments d
+on e.department_id = d.department_id;   
 
 
+select employee_id, first_name, salary
+      ,d.department_id, department_name
+from hr.departments d right outer join hr.employees e
+on e.department_id = d.department_id;   
+
+select employee_id, first_name, salary
+      ,d.department_id, department_name
+from hr.departments d , hr.employees e
+where e.department_id = d.department_id(+); 
+
+--- 직원에 대한 부서 정보를 가져오는데 부서테이블에 있는 부서정보는 다 출력
+select employee_id, first_name, salary
+      ,d.department_id, department_name
+from hr.departments d left outer join hr.employees e
+on e.department_id = d.department_id;  
+
+select employee_id, first_name, salary
+      ,d.department_id, department_name
+from hr.departments d , hr.employees e
+where e.department_id(+) = d.department_id;  
+
+--- 직원테이블의 모든 직원 정보와 부서 테이블의 모든 부서 정보를 출력되게 하시오.
+select employee_id, first_name, salary
+      ,d.department_id, department_name
+from hr.departments d full outer join hr.employees e
+on e.department_id = d.department_id;  
+/*
+select employee_id, first_name, salary
+      ,d.department_id, department_name
+from hr.departments d , hr.employees e
+where e.department_id(+) = d.department_id(+);  
+*/
+
+-- join : T-SQL join, ansi join(inner join ) , NATURAL , inner join에 using
+--       다중 조인 , self join , outer join (left, right , full)
 
 
+--- sub query
+-- 사원들중 급여가 제일 많이 받는 사원의 사원번호 , 이름, 급여, 직무, 입사일을 출력하시오.
+SELECT MAX(SALARY) FROM  HR.EMPLOYEES;
+SELECT * FROM HR.EMPLOYEES WHERE SALARY = 24000;
+
+SELECT * FROM HR.EMPLOYEES WHERE SALARY = (SELECT MAX(SALARY) FROM  HR.EMPLOYEES);
+
+--- 90인부서에 최대 급여를 받는 사원의 급여는?
+SELECT MAX(SALARY) FROM HR.EMPLOYEES WHERE DEPARTMENT_ID = 90;
+--90인부서에 최대 급여를 받는 사원의 이름 사원번호 직무 입사일을 출력
+SELECT EMPLOYEE_ID, FIRST_NAME, JOB_ID, HIRE_DATE
+FROM HR.EMPLOYEES
+WHERE salary = 24000;
+
+SELECT EMPLOYEE_ID, FIRST_NAME, JOB_ID, HIRE_DATE
+FROM HR.EMPLOYEES
+WHERE salary = (SELECT MAX(SALARY)   -- 서브쿼리 
+                FROM HR.EMPLOYEES 
+                WHERE DEPARTMENT_ID = 90);
+
+--- 성이 Abel의 급여와 같은 직원을 출력하시오.
+select salary from hr.employees
+where last_name = 'Abel';
+
+SELECT * FROM HR.EMPLOYEES WHERE SALARY = 11000;
+
+SELECT * FROM HR.EMPLOYEES WHERE SALARY = (select salary from hr.employees  -- 서브쿼리
+                                            where last_name = 'Abel');
+
+---  사원번호 103인 직원의 상사와 같은 상사를 둔 직원의 이름 , 사번, 부서, 상사번호를 출력
+SELECT MANAGER_ID FROM  HR.EMPLOYEES WHERE EMPLOYEE_ID = 103;
+
+SELECT FIRST_NAME, EMPLOYEE_ID, DEPARTMENT_ID, MANAGER_ID
+FROM HR.EMPLOYEES
+WHERE MANAGER_ID = 102;
 
 
+SELECT FIRST_NAME, EMPLOYEE_ID, DEPARTMENT_ID, MANAGER_ID
+FROM HR.EMPLOYEES
+WHERE MANAGER_ID = (SELECT MANAGER_ID FROM  HR.EMPLOYEES WHERE EMPLOYEE_ID = 103);
+
+--- 90인 부서의 평균급여 보다 더 많이 받는 모든 사원의 성, 직무, 사번, 부서를 출력
+select avg(salary) from hr.employees where department_id = 90;
+
+select last_name, job_id, employee_id, department_id, salary
+from hr.employees
+where salary > 19333.3333333333333333333333333333333333;
+
+select last_name, job_id, employee_id, department_id, salary
+from hr.employees
+where salary > (select avg(salary) 
+                from hr.employees 
+                where department_id = 90);
 
 
+--- 성이 Rogers인 사원의 급여를 출력
+SELECT SALARY FROM HR.EMPLOYEES WHERE LAST_NAME = 'Rogers'; -- 2900
+--- 성이 Rogers인 사원의 직무를 출력
+SELECT JOB_ID FROM HR.EMPLOYEES WHERE LAST_NAME = 'Rogers'; ---ST_CLERK
+
+-- 급여가 2900이고 직무가 ST_CLERK인 사원들의 이름, 직무, 급여, 입사일을 출력
+select first_name, job_id, salary, hire_date
+from hr.employees
+where salary = 2900 
+and job_id = 'ST_CLERK';
+
+--- 성이 Rogers인 사원의 급여와 직무를 출력
+select first_name, job_id, salary, hire_date
+from hr.employees
+where salary = (SELECT SALARY FROM HR.EMPLOYEES WHERE LAST_NAME = 'Rogers') 
+and job_id = (SELECT JOB_ID FROM HR.EMPLOYEES WHERE LAST_NAME = 'Rogers');
+--- 여러 조건을 사용할 때도 서브쿼리를 사용할 수 있다.
+
+--- 성이 Kumar인 사원의 직무와 같고  Kumar인 사원보다 입사일이 빠른 사원들의
+--- 성, 이름 , 직무, 입사일, 부서 를 출력하시오.
+select last_name, first_name, job_id, hire_date, department_id
+from hr.employees 
+WHERE JOB_ID = (SELECT JOB_ID FROM HR.EMPLOYEES WHERE LAST_NAME = 'Kumar')
+AND HIRE_DATE < (SELECT HIRE_DATE FROM HR.EMPLOYEES WHERE LAST_NAME = 'Kumar');
+            -- 단일행 서브쿼리 : = > < >= <= <>
+
+-- 30인부서에서 수행하는 직무들을 출력하시오.
+SELECT JOB_ID FROM HR.EMPLOYEES WHERE DEPARTMENT_ID = 30; 
+
+SELECT DISTINCT JOB_ID FROM HR.EMPLOYEES WHERE DEPARTMENT_ID = 30; 
+
+-- 30인부서에서 수행하는 직무와 같은 직무를 하는 직원을 출력
+SELECT * FROM HR.EMPLOYEES 
+WHERE JOB_ID IN ('PU_MAN' , 'PU_CLERK');
 
 
+SELECT * FROM HR.EMPLOYEES 
+WHERE JOB_ID IN (SELECT DISTINCT JOB_ID FROM HR.EMPLOYEES WHERE DEPARTMENT_ID = 30);
+                  --- 다중행 서브쿼리 : 하나이상의 결과를 가져오는 서브쿼리 : IN
 
+-- 각 부서의 최소급여에 해당하는 사원들의 모든 정보를 출력하는데 30, 80, 90 인부서는 제외하고 
+-- 직무가 'RE'를 포함하는 직무도 제외한다.
 
+--- 각 부서의 최소급여
+SELECT MIN(SALARY)
+FROM HR.EMPLOYEES
+GROUP BY DEPARTMENT_ID;
 
+SELECT * FROM HR.EMPLOYEES
+WHERE SALARY IN (SELECT MIN(SALARY)   -- 각 부서의 최소금액
+                 FROM HR.EMPLOYEES
+                 GROUP BY DEPARTMENT_ID) -- 다중행 서브쿼리
+AND DEPARTMENT_ID NOT IN (30, 80, 90)
+AND JOB_ID NOT LIKE '%RE%';
 
+--- 직원번호가 104인 직원의 직무와 같고 각부서의 최대 급여에 해당하는 직원의 모든 정보를 출력
+SELECT JOB_ID FROM HR.EMPLOYEES WHERE EMPLOYEE_ID = 104;
+--- 각 부서의 최소급여
+SELECT MAX(SALARY)
+FROM HR.EMPLOYEES
+GROUP BY DEPARTMENT_ID;
 
-
+SELECT * FROM HR.EMPLOYEES
+WHERE JOB_ID = (SELECT JOB_ID FROM HR.EMPLOYEES WHERE EMPLOYEE_ID = 104) --- 단일행 서브쿼리(< > <= >= = <>)
+AND SALARY IN (SELECT MAX(SALARY)   
+                FROM HR.EMPLOYEES    --- 다중행 서브쿼리 (IN)
+                GROUP BY DEPARTMENT_ID);
 
 
