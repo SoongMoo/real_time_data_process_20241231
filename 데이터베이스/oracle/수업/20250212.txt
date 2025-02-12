@@ -1,0 +1,149 @@
+create table jobs
+as 
+select * from hr.jobs;
+
+select * from jobs;
+desc jobs;
+--- DML문 --- select 를 제외한 나머지 명령어는 TCL문 사용해야 한다.
+--- DDL --- create , alter , drop --- TCL문을 사용하지 않는다 : commit, rollback
+--- Integer num  <===> num integer
+drop table jobs;
+desc hr.jobs;
+
+create table jobs(
+    JOB_ID VARCHAR2(10),
+    job_title VARCHAR2(35),
+    min_Salary number, --- 6 자리
+    MAX_SALARY number(6) --- 6자리
+);
+desc jobs;
+/*
+public class jobs{ 
+    String jobId;
+    String jobTitle;
+    int minSalary;
+    int maxSalary;
+}
+*/
+select * from hr.jobs;
+select * from jobs;
+insert into jobs
+values('AD_PRES','President', 20080,40000);
+
+insert into jobs (JOB_ID,JOB_TITLE, MIN_SALARY, MAX_SALARY)
+values('AD_VP','Administration Vice President',null, null);
+select * from jobs;
+
+desc  jobs;
+
+drop table jobs;
+create table jobs(
+    JOB_ID VARCHAR2(10),
+    job_title VARCHAR2(35),
+    min_Salary number not null, --- 6 자리
+    MAX_SALARY number(6) not null --- 6자리
+);
+insert into jobs
+values('AD_PRES','President', 20080,40000);
+
+insert into jobs (JOB_ID,JOB_TITLE, MIN_SALARY, MAX_SALARY)
+values('AD_VP','Administration Vice President',null, null); --- null로 오류 발생
+
+insert into jobs (JOB_ID,JOB_TITLE, MIN_SALARY, MAX_SALARY)
+values('AD_VP',null,23000, 170000);
+
+select * from jobs;
+
+/*
+class Board{
+   int boardNum,
+   String userId,
+   String boardName,
+   String boardSubject,
+   String boardContent,
+   Date boardDate = new Date();
+   int readCount = 0
+}
+*/
+drop table board;
+create table board(
+    board_Num number,
+    user_Id varchar2(10),
+    BOARD_NAME  varchar2(20),
+    BOARD_SUBJECT varchar2(100),
+    BOARD_CONTENT varchar2(2000),
+    BOARD_DATE   date default sysdate,
+    READ_COUNT   number default 0
+);
+insert into board(board_Num, user_Id, BOARD_NAME, BOARD_SUBJECT ,BOARD_CONTENT)
+values(1, 'highland0', '이숭무', '제목','내용');
+
+select * from board;
+insert into board(board_Num, user_Id, BOARD_NAME, BOARD_SUBJECT ,BOARD_CONTENT
+                    ,BOARD_DATE, READ_COUNT)
+values(1, 'highland0', '이숭무', '제목','내용', default, default );
+select * from board;
+delete from board;
+commit;
+
+insert into board(board_Num, user_Id, BOARD_NAME, BOARD_SUBJECT ,BOARD_CONTENT)
+values(1, 'highland0', '이숭무', '제목','내용');
+
+insert into board(board_Num, user_Id, BOARD_NAME, BOARD_SUBJECT ,BOARD_CONTENT
+                    ,BOARD_DATE, READ_COUNT)
+values(2, 'highland0', '이숭무', '제목','내용', default, default );
+
+select * from board;
+
+select * from board where board_Num = 1;
+
+update board
+set read_count = read_count + 1
+where board_Num = 1;
+
+select * from board
+order by board_Num desc;
+
+update board 
+set BOARD_CONTENT = '내용1', board_subject = '제목1' , board_name = '이숭무1' 
+where board_Num = 1;
+
+select board_Num, user_Id, BOARD_NAME, BOARD_SUBJECT ,BOARD_CONTENT
+                    ,BOARD_DATE, READ_COUNT
+from board
+where board_Num = 1;
+
+
+
+
+---- 글쓰기 
+insert into board(board_num, user_id, board_name , board_subject, board_content)
+values ( 3, 'highland0', '이상범', '제목', '내용');
+
+select * from board;
+
+update board 
+set read_count = read_count + 1
+where board_num = 3;
+
+select * from board
+where board_num = 3;
+
+update board 
+set board_content = '내용2' , board_subject = '제녹3'
+where board_num = 3;
+
+select * from board
+where board_num = 3;
+
+delete from board 
+where board_num = 3;
+
+select * from board;
+
+
+select max(board_num) + 1 from board;
+
+
+insert into board(board_num, user_id, board_name , board_subject, board_content)
+values ( (select max(board_num) + 1 from board) , 'highland0', '이상범', '제목', '내용');
