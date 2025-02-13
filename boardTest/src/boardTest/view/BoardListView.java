@@ -14,12 +14,8 @@ public class BoardListView {
 			System.out.println(dto.getBoardNum() + "\t" + dto.getBoardName() + "\t" 
 							+ dto.getBoardSubject());
 		}
-		System.out.println("1. 글쓰기 | 2. 상세보기 | 3. 이전으로 가기");
+		System.out.println("1. 글쓰기 | 2. 상세보기 | 3. 종료 ");
 		int i = sc.nextInt();
-		if(i == 1 || i == 2) {
-			return i;
-		}else {
-			return 0;
-		}
+		return i;
 	}
 }

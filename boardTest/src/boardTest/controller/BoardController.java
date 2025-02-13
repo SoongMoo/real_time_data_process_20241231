@@ -26,6 +26,9 @@ public class BoardController {
 				dto = action.execute();
 				num = 4;
 				break;
+			case 3:
+				System.out.println("프로그램이 종료되었습니다.");
+				run = false; break;
 			case 4: 
 				BoardWriteService writeService = new BoardWriteService();
 				writeService.execute(dto);
