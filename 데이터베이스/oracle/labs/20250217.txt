@@ -41,7 +41,10 @@ USER_num : FOREIGN KEY (BOARD_USER_NUM_FK)
 
 
 문제 3) 회원테이블에 아래 내용을 포함하여 5개의 데이터를 넣으시오.
-회원번호는 mem_100001부터 부여된다.
+회원번호는 mem_100001부터 부여된다. 
+---select concat('mem_',nvl(max(substr(USER_num,5)),10000) + 1) from members; -- 를 번호 자동부여에 사용해 볼것
+
+
 insert into member (USER_num, user_id,USER_PW,USER_NAME,USER_BIRTH,USER_GENDER,USER_ADDR ,USER_PH1,USER_PH2,USER_REGIST,USER_EMAIL)
 values(USER_num 자동부여, 'highland0','111111','이숭무','1999-12-12','M','서울','010-1234-1234',null,default,null);
 
