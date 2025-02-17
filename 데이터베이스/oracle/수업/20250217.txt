@@ -1,0 +1,445 @@
+select * from employees;
+delete from employees;
+select * from employees;
+rollback;
+select * from employees;
+truncate table employees;
+select * from employees;
+rollback;
+select * from employees;
+
+insert into employees
+select * from hr.employees;
+
+select * from employees;
+commit;
+select * from employees;
+
+--- 113인 사원 직무와 급여를 205번 사원의 급여와 직무로 변경하자.
+update employees
+set job_id = (select job_id from employees where employee_id = 205 )
+   ,salary = (select salary from employees where employee_id = 205 )
+where employee_id = 113;
+
+-- 사원번호가 100인 직원이 속해 있는 부서의 사원들의 직무를 200인 사원이 가지고 있는 직무로 변경하시오.
+update employees
+set job_id = (select job_id from employees where employee_id = 200)
+where department_id = (select department_id from employees where employee_id = 100);
+
+rollback;
+
+--DROP TABLE EMPLOYEES;
+
+--- dml문 : c:INSERT r:SELECT u:UPDATE d:DELETE
+--- ddl문 : CREATE , DROP , ALTER
+
+SELECT * FROM BOARD;
+DESC BOARD;
+INSERT INTO BOARD(BOARD_NUM,USER_ID, BOARD_NAME, BOARD_SUBJECT, BOARD_CONTENT)
+VALUES( ( SELECT MAX(BOARD_NUM) + 1 FROM BOARD ), 'HIGHLAND0' , '이숭무', '제목','내용' );
+SELECT * FROM BOARD;
+DELETE FROM BOARD;
+COMMIT;
+SELECT * FROM BOARD;
+
+INSERT INTO BOARD(BOARD_NUM,USER_ID, BOARD_NAME, BOARD_SUBJECT, BOARD_CONTENT)
+VALUES( ( SELECT MAX(BOARD_NUM) + 1 FROM BOARD ), 'HIGHLAND0' , '이숭무', '제목','내용' );
+ROLLBACK;
+
+SELECT NVL(MAX(BOARD_NUM),0) + 1 FROM BOARD;
+
+INSERT INTO BOARD(BOARD_NUM,USER_ID, BOARD_NAME, BOARD_SUBJECT, BOARD_CONTENT)
+VALUES( ( SELECT NVL(MAX(BOARD_NUM),0) + 1 FROM BOARD ), 'HIGHLAND0' , '이숭무', '제목','내용' );
+
+SELECT * FROM BOARD;
+
+INSERT INTO BOARD(BOARD_NUM,USER_ID, BOARD_NAME, BOARD_SUBJECT, BOARD_CONTENT)
+VALUES( 1 , 'HIGHLAND0' , '이숭무', '제목','내용' );
+
+SELECT * FROM BOARD;
+
+-- 기본컬럼의 값은 중복값을 허용하지 말자. (PRIMARY KEY : 기본키)
+DESC BOARD;
+DROP TABLE BOARD;
+CREATE TABLE BOARD(
+    BOARD_NUM        NUMBER PRIMARY KEY,   --- SYS_C008364     
+    USER_ID          VARCHAR2(10) NOT NULL , 
+    BOARD_NAME       VARCHAR2(20)  NOT NULL  , 
+    BOARD_SUBJECT    VARCHAR2(100) NOT NULL  ,
+    BOARD_CONTENT    VARCHAR2(2000) ,
+    BOARD_DATE       DATE         ,  
+    READ_COUNT       NUMBER  
+);
+SELECT * FROM USER_CONSTRAINTS WHERE TABLE_NAME = 'BOARD';
+
+INSERT INTO BOARD(BOARD_NUM,USER_ID, BOARD_NAME, BOARD_SUBJECT, BOARD_CONTENT)
+VALUES( 1 , 'HIGHLAND0' , '이숭무', '제목','내용' );
+
+INSERT INTO BOARD(BOARD_NUM,USER_ID, BOARD_NAME, BOARD_SUBJECT, BOARD_CONTENT)
+VALUES( 2 , 'HIGHLAND0' , '이숭무', '제목','내용' );
+
+SELECT * FROM BOARD;
+
+DROP TABLE BOARD;
+CREATE TABLE BOARD(
+    BOARD_NUM        NUMBER CONSTRAINT BOARD_PK PRIMARY KEY,        
+    USER_ID          VARCHAR2(10) NOT NULL , 
+    BOARD_NAME       VARCHAR2(20)  NOT NULL  , 
+    BOARD_SUBJECT    VARCHAR2(100) NOT NULL  ,
+    BOARD_CONTENT    VARCHAR2(2000) ,
+    BOARD_DATE       DATE         ,  
+    READ_COUNT       NUMBER  
+);
+
+SELECT * FROM USER_CONSTRAINTS WHERE TABLE_NAME = 'BOARD';
+
+INSERT INTO BOARD(BOARD_NUM,USER_ID, BOARD_NAME, BOARD_SUBJECT, BOARD_CONTENT)
+VALUES( 1 , 'HIGHLAND0' , '이숭무', '제목','내용' );
+
+DROP TABLE BOARD;
+CREATE TABLE BOARD(
+    BOARD_NUM        NUMBER CONSTRAINT BOARD_PK PRIMARY KEY,   --- 열 레벨     
+    USER_ID          VARCHAR2(10) NOT NULL /* CONSTRAINT BOARD1_PK PRIMARY KEY*/, 
+    BOARD_NAME       VARCHAR2(20)  NOT NULL  , 
+    BOARD_SUBJECT    VARCHAR2(100) NOT NULL  ,
+    BOARD_CONTENT    VARCHAR2(2000) ,
+    BOARD_DATE       DATE         ,  
+    READ_COUNT       NUMBER  
+);
+--- ORA-02260: 테이블에는 하나의 기본 키만 가질 수 있습니다.
+
+INSERT INTO BOARD(BOARD_NUM,USER_ID, BOARD_NAME, BOARD_SUBJECT, BOARD_CONTENT)
+VALUES( NULL , 'HIGHLAND0' , '이숭무', '제목','내용' );
+--- NULL을 ("RHSM"."BOARD"."BOARD_NUM") 안에 삽입할 수 없습니다
+-- PRIMARY KEY는 값의 중복을 허용하지 않고 NULL도 허용하지 않는다.
+DROP TABLE BOARD;
+CREATE TABLE BOARD(
+    BOARD_NUM        NUMBER ,      
+    USER_ID          VARCHAR2(10) NOT NULL /* CONSTRAINT BOARD1_PK PRIMARY KEY*/, 
+    BOARD_NAME       VARCHAR2(20)  NOT NULL  , 
+    BOARD_SUBJECT    VARCHAR2(100) NOT NULL  ,
+    BOARD_CONTENT    VARCHAR2(2000) ,
+    BOARD_DATE       DATE         ,  
+    READ_COUNT       NUMBER  ,
+    CONSTRAINT BOARD_PK PRIMARY KEY(BOARD_NUM) --- 테이블 레벨
+);
+INSERT INTO BOARD(BOARD_NUM,USER_ID, BOARD_NAME, BOARD_SUBJECT, BOARD_CONTENT)
+VALUES( 1 , 'HIGHLAND0' , '이숭무', '제목','내용' );
+
+SELECT * FROM BOARD;
+
+INSERT INTO BOARD(BOARD_NUM,USER_ID, BOARD_NAME, BOARD_SUBJECT, BOARD_CONTENT)
+VALUES( 1 , 'HIGHLAND0' , '이숭무', '제목','내용' );
+
+-------------------------------------------------------------------------------------
+desc employees;
+drop table employees;
+create table employees(
+    EMPLOYEE_ID             NUMBER(6)    primary key,
+    FIRST_NAME              VARCHAR2(20) ,
+    LAST_NAME               VARCHAR2(25) NOT NULL,
+    EMAIL                   VARCHAR2(25) NOT NULL unique,
+    PHONE_NUMBER            VARCHAR2(20) ,
+    HIRE_DATE               DATE         NOT NULL,
+    JOB_ID                  VARCHAR2(10) NOT NULL,
+    SALARY                  NUMBER(8,2)  ,
+    COMMISSION_PCT          NUMBER(2,2)  ,
+    MANAGER_ID              NUMBER(6)    ,
+    DEPARTMENT_ID           NUMBER(4)
+);
+
+select * from hr.employees;
+insert into employees
+values(100, 'Steven', 'King', 'SKING', '515.123.4567', '03/06/17'
+      ,'AD_PRES', '24000' , null, null, 90);
+      
+select * from employees;
+insert into employees
+values(100, 'Steven', 'King', 'SKING', '515.123.4567', '03/06/17'
+      ,'AD_PRES', '24000' , null, null, 90);
+--ORA-00001: 무결성 제약 조건(RHSM.SYS_C008385)에 위배됩니다
+insert into employees
+values(101, 'Steven', 'King', 'SKING', '515.123.4567', '03/06/17'
+      ,'AD_PRES', '24000' , null, null, 90);
+-- ORA-00001: 무결성 제약 조건(RHSM.SYS_C008386)에 위배됩니다
+insert into employees
+values(101, 'Steven', 'King', 'SKING1', '515.123.4567', '03/06/17'
+      ,'AD_PRES', '24000' , null, null, 90);
+-- unique도 primary key 처럼 중복을 허용하지 않는다.
+drop table employees;
+create table employees(       --- 열 레벨
+    EMPLOYEE_ID             NUMBER(6)  constraint employees_pk  primary key,
+    FIRST_NAME              VARCHAR2(20) ,
+    LAST_NAME               VARCHAR2(25) constraint employees_nn NOT NULL,
+    EMAIL                   VARCHAR2(25) NOT NULL constraint employees_uu unique,
+    PHONE_NUMBER            VARCHAR2(20) ,
+    HIRE_DATE               DATE         NOT NULL,
+    JOB_ID                  VARCHAR2(10) NOT NULL,
+    SALARY                  NUMBER(8,2)  ,
+    COMMISSION_PCT          NUMBER(2,2)  ,
+    MANAGER_ID              NUMBER(6)    ,
+    DEPARTMENT_ID           NUMBER(4)
+);
+insert into employees
+values(100, 'Steven', 'King', 'SKING', '515.123.4567', '03/06/17'
+      ,'AD_PRES', '24000' , null, null, 90);
+insert into employees
+values(101, 'Steven', 'King', 'SKING', '515.123.4567', '03/06/17'
+      ,'AD_PRES', '24000' , null, null, 90);
+-- ORA-00001: 무결성 제약 조건(RHSM.EMPLOYEES_UU)에 위배됩니다
+select * from user_constraints where table_name = 'EMPLOYEES'; 
+select * from user_cons_columns where table_name = 'EMPLOYEES'; 
+
+
+drop table employees;
+create table employees(       
+    EMPLOYEE_ID             NUMBER(6)  ,
+    FIRST_NAME              VARCHAR2(20) ,
+    LAST_NAME               VARCHAR2(25) constraint employees_nn NOT NULL, -- 열레벨
+    EMAIL                   VARCHAR2(25) ,
+    PHONE_NUMBER            VARCHAR2(20) ,
+    HIRE_DATE               DATE         NOT NULL,
+    JOB_ID                  VARCHAR2(10) NOT NULL,
+    SALARY                  NUMBER(8,2)  ,
+    COMMISSION_PCT          NUMBER(2,2)  ,
+    MANAGER_ID              NUMBER(6)    ,
+    DEPARTMENT_ID           NUMBER(4),
+    constraint employees_pk  primary key(EMPLOYEE_ID),--- 테이블 레벨
+    constraint employees_uu  unique(EMAIL)    --- 테이블 레벨
+);
+
+insert into employees
+values(100, 'Steven', 'King', null, '515.123.4567', '03/06/17'
+      ,'AD_PRES', '24000' , null, null, 90);
+insert into employees
+values(101, 'Steven', 'King', null, '515.123.4567', '03/06/17'
+      ,'AD_PRES', '24000' , null, null, 90);
+--- unique는 중복을 허용하지 않지만 null은 얼마든지 허용한다.
+
+desc departments;
+drop table departments;
+create table departments(
+    DEPARTMENT_ID            NUMBER(4)   constraint  DEPT_ID_PK primary key,
+    DEPARTMENT_NAME          VARCHAR2(30) constraint DEPT_NAME_NN NOT NULL,
+    MANAGER_ID               NUMBER(6)    ,
+    LOCATION_ID              NUMBER(4) 
+);
+
+select * from dba_cons_columns where owner = 'HR' and table_name ='DEPARTMENTS'; 
+select * from dba_cons_columns where owner = 'HR' and table_name ='EMPLOYEES'; 
+
+select * from hr.departments;
+insert into departments
+values(90,'Executive', 100, 1700);
+select * from departments;
+
+select * from employees;
+
+insert into employees
+values(102, 'Steven', 'King', 'SKING1', '515.123.4567', '03/06/17'
+      ,'AD_PRES', '24000' , null, null, 100);
+select * from employees;
+
+drop table employees;
+create table employees(       
+    EMPLOYEE_ID             NUMBER(6)  ,
+    FIRST_NAME              VARCHAR2(20) ,
+    LAST_NAME               VARCHAR2(25) constraint employees_nn NOT NULL, -- 열레벨
+    EMAIL                   VARCHAR2(25) ,
+    PHONE_NUMBER            VARCHAR2(20) ,
+    HIRE_DATE               DATE         NOT NULL,
+    JOB_ID                  VARCHAR2(10) NOT NULL,
+    SALARY                  NUMBER(8,2)  ,
+    COMMISSION_PCT          NUMBER(2,2)  ,
+    MANAGER_ID              NUMBER(6)    ,
+    DEPARTMENT_ID           NUMBER(4) references departments(DEPARTMENT_ID)  ,
+    constraint employees_pk  primary key(EMPLOYEE_ID),--- 테이블 레벨
+    constraint employees_uu  unique(EMAIL)    --- 테이블 레벨
+);
+select * from departments;
+insert into employees
+values(102, 'Steven', 'King', 'SKING1', '515.123.4567', '03/06/17'
+      ,'AD_PRES', '24000' , null, null, 100);
+--ORA-02291: 무결성 제약조건(RHSM.SYS_C008417)이 위배되었습니다- 부모 키가 없습니다
+insert into employees
+values(102, 'Steven', 'King', 'SKING1', '515.123.4567', '03/06/17'
+      ,'AD_PRES', '24000' , null, null, 90);
+
+select * from hr.employees;
+select * from hr.departments;
+
+select * from user_constraints where table_name = 'EMPLOYEES';
+
+
+
+drop table employees;
+create table employees(       
+    EMPLOYEE_ID             NUMBER(6)  ,
+    FIRST_NAME              VARCHAR2(20) ,
+    LAST_NAME               VARCHAR2(25) constraint employees_nn NOT NULL, -- 열레벨
+    EMAIL                   VARCHAR2(25) ,
+    PHONE_NUMBER            VARCHAR2(20) ,
+    HIRE_DATE               DATE         NOT NULL,
+    JOB_ID                  VARCHAR2(10) NOT NULL,
+    SALARY                  NUMBER(8,2)  ,
+    COMMISSION_PCT          NUMBER(2,2)  ,
+    MANAGER_ID              NUMBER(6)    ,
+    DEPARTMENT_ID           NUMBER(4) constraint DEPARTMENT_ID_FK references departments(DEPARTMENT_ID),-- 열레벨
+    constraint employees_pk  primary key(EMPLOYEE_ID),--- 테이블 레벨
+    constraint employees_uu  unique(EMAIL)    --- 테이블 레벨
+);
+select * from user_constraints where table_name = 'EMPLOYEES';
+
+drop table employees;
+create table employees(       
+    EMPLOYEE_ID             NUMBER(6)  ,
+    FIRST_NAME              VARCHAR2(20) ,
+    LAST_NAME               VARCHAR2(25) constraint employees_nn NOT NULL, -- 열레벨
+    EMAIL                   VARCHAR2(25) ,
+    PHONE_NUMBER            VARCHAR2(20) ,
+    HIRE_DATE               DATE         NOT NULL,
+    JOB_ID                  VARCHAR2(10) NOT NULL,
+    SALARY                  NUMBER(8,2)  ,
+    COMMISSION_PCT          NUMBER(2,2)  ,
+    MANAGER_ID              NUMBER(6)    ,
+    DEPARTMENT_ID           NUMBER(4),
+    constraint employees_pk  primary key(EMPLOYEE_ID),--- 테이블 레벨
+    constraint employees_uu  unique(EMAIL),    --- 테이블 레벨
+    constraint PHONE_NUMBER_uu  unique(PHONE_NUMBER),
+    constraint DEPARTMENT_ID_FK foreign key(DEPARTMENT_ID)  --- 테이블 레벨
+               references departments(DEPARTMENT_ID)
+);
+select * from user_constraints where table_name = 'EMPLOYEES';
+
+insert into employees
+values(102, 'Steven', 'King', 'SKING1', '515.123.4567', '03/06/17'
+      ,'AD_PRES', '24000' , null, null, 90);
+select * from employees;
+
+desc hr.jobs;
+select * from jobs;
+select * from dba_constraints where table_name = 'JOBS' and owner = 'HR';
+drop table jobs;
+create table jobs(
+    JOB_ID      VARCHAR2(10) NOT NULL CONSTRAINT JOB_ID_PK PRIMARY KEY,
+    JOB_TITLE   VARCHAR2(35) CONSTRAINT JOB_TITLE_NN NOT NULL,
+    MIN_SALARY  NUMBER(6),    
+    MAX_SALARY  NUMBER(6) 
+);
+INSERT INTO JOBS
+SELECT * FROM HR.JOBS;
+
+CREATE TABLE JOBS   --- 제약조건은 가져오지 않는다. NOT NULL만 적용된다.
+AS 
+SELECT * FROM HR.JOBS;
+
+drop table employees;
+create table employees(       
+    EMPLOYEE_ID             NUMBER(6)  ,
+    FIRST_NAME              VARCHAR2(20) ,
+    LAST_NAME               VARCHAR2(25) constraint employees_nn NOT NULL, -- 열레벨
+    EMAIL                   VARCHAR2(25) ,
+    PHONE_NUMBER            VARCHAR2(20) ,
+    HIRE_DATE               DATE         NOT NULL,
+    JOB_ID                  VARCHAR2(10) NOT NULL /*CONSTRAINT JOB_ID_FK REFERENCES JOBS*/,
+    SALARY                  NUMBER(8,2)  ,
+    COMMISSION_PCT          NUMBER(2,2)  ,
+    MANAGER_ID              NUMBER(6)    ,
+    DEPARTMENT_ID           NUMBER(4),
+    constraint employees_pk  primary key(EMPLOYEE_ID),--- 테이블 레벨
+    constraint employees_uu  unique(EMAIL),    --- 테이블 레벨
+    constraint PHONE_NUMBER_uu  unique(PHONE_NUMBER),
+    constraint DEPARTMENT_ID_FK foreign key(DEPARTMENT_ID)  --- 테이블 레벨
+               references departments(DEPARTMENT_ID), 
+    CONSTRAINT JOB_ID_FK  foreign key(JOB_ID)
+               REFERENCES JOBS  -- 참조하는 테이블의 커럼명과 같은 경우 컬럼명을 생략할 수 있다.
+);
+drop table a;
+create table a(    --- 부모테이블
+    a1 number primary key,
+    a2 number
+);
+create table b(    --- 자식 테이블
+    b1 number,
+    b2 number,
+    a1 number references a
+);
+insert into a values(1,1);
+insert into b values(11,11,1);
+select * from a;
+select * from b;
+
+delete from a; ---ORA-02292: 무결성 제약조건(RHSM.SYS_C008466)이 위배되었습니다- 자식 레코드가 발견되었습니다
+-----
+delete from b;
+delete from a;
+
+insert into a values(1,1);
+insert into b values(11,11,1);
+
+drop table b;
+create table b(    --- 자식 테이블
+    b1 number,
+    b2 number,
+    a1 number references a on delete cascade  --- 식별관계
+);
+select * from b;
+insert into b values(11,11,1);
+select * from b;
+
+delete from a;
+
+select * from a;
+select * from b;
+---  on delete cascade :부모를 지우면 자식데이터도 같이 삭제
+
+drop table b;
+create table b(    --- 자식 테이블
+    b1 number,
+    b2 number,
+    a1 number references a on delete set null  -- 비식별 관계
+);
+insert into a values(1,1);
+insert into b values(11,11,1); 
+select * from a;
+select * from b;
+
+delete from a;
+select * from a;
+select * from b;
+
+drop table check_tb;
+create table check_tb(
+    eid number,
+    city varchar2(20) check (city in ('서울', '인천', '부산', '대구', '대전') ),
+    value1 integer not null check (value1 between 1 and 100),
+    value2 number, 
+    salary number check (salary > 0),
+    gender char(1) check ( gender in ( 'M','F')) -- M,F
+);
+insert into check_tb (value1, gender)
+values(1 , 'M');
+select * from check_tb;
+/*
+insert into check_tb (city, value1, gender)
+values('성남',1 , 'M');
+*/
+insert into check_tb (city, value1, gender)
+values('인천',1 , 'M');
+
+drop table check_tb;
+create table check_tb(
+    eid number,
+    city varchar2(20),
+    value1 integer not null ,
+    value2 number, 
+    salary number ,
+    gender char(1) CONSTRAINT gender_CK check ( gender in ( 'M','F')) , -- M,F
+    CONSTRAINT city_cK check (city in ('서울', '인천', '부산', '대구', '대전') ),
+    CONSTRAINT value1_CK check (value1 between 1 and 100),
+    CONSTRAINT salary_CK check (salary > 0)
+    
+);
+SELECT * FROM USER_CONSTRAINTS WHERE TABLE_NAME= 'CHECK_TB'; 
+
+
