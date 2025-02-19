@@ -1,0 +1,355 @@
+------ 시퀀스
+drop table goods;
+create table goods(
+    goods_num varchar2(10) primary key,
+    goods_name varchar2(100),
+    goods_price number
+);
+insert into goods(goods_num,goods_name,goods_price)
+values(1, '청바지', 1000);
+insert into goods(goods_num,goods_name,goods_price)
+values(2, '청바지', 1000);
+
+insert into goods(goods_num,goods_name,goods_price)
+values((select nvl(max(goods_num),0) + 1 from goods), '청바지', 1000);
+--- 7
+select * from goods;
+
+---- 해당 컬럼의 값을 자동 증가하기 위해서
+drop SEQUENCE seq_num;
+
+create SEQUENCE seq_num
+increment by 10
+start with 10
+maxvalue 9990
+NOCYCLE
+NOCACHE;
+
+create SEQUENCE seq_num
+increment by 10
+start with 10;
+
+create SEQUENCE seq_num
+increment by 10;
+
+create SEQUENCE seq_num;
+
+select seq_num.nextval/* 다음 값 */, seq_num.currval /*  현재 값 */
+from dual;
+
+select seq_num.currval
+from dual;
+
+select seq_num.nextval
+from dual;
+
+select seq_num.currval
+from dual;
+
+
+insert into goods(goods_num,goods_name,goods_price)
+values(seq_num.nextval, '청바지', 1000);
+---  select nvl(max(goods_num),0) + 1 from goods <===> seq_num.nextval
+select * from goods;
+
+select * from board;
+
+insert into board
+values((select nvl(max(board_num),0) + 1 from board ), 'highland0', '이숭무', '제목', '내용', null,null);
+
+select * from board;
+
+create SEQUENCE board_seq;
+
+delete from board;
+
+insert into board
+values(board_seq.nextval, 'highland0', '이숭무', '제목', '내용', null,null);
+
+
+select * from board;
+
+--- 시퀀스는 값을 증가시키고 모든 테이블에 공유해서 사용할 수 있다. 단 증가값은 처음부터 시작 하지 않는다.
+--- 시퀀스를 사용하면 테이블의 값이 연속적이지 않을 수 있다.
+
+select * from members;
+
+insert into members (USER_num, user_id,USER_PW,USER_NAME
+                    ,USER_BIRTH,USER_GENDER,USER_ADDR 
+                    ,USER_PH1,USER_PH2,USER_REGIST,USER_EMAIL)
+values( concat('mem_' , board_seq.nextval + 100000)
+     , 'highland'||board_seq.nextval,'1111111','이숭무'
+     ,'1999-12-12','M','서울','010-1234-1234',null,default,null);
+
+select * from members;
+
+
+-- index --- 
+select * from user_indexes where table_name='EMPLOYEES';
+
+select * from members;
+
+select * from members
+order by user_num;
+
+select * from EMPLOYEES; --- primary key , unique인 경우에는 index으로 생성
+
+create index emp_hire_date_idx
+on employees(hire_date);
+
+select * from employees
+where hire_date = '07/06/21'; --- select
+
+select * from user_indexes where table_name='EMPLOYEES';
+--- 수시로 update 와 delete가 발생하는 컬럼에 대해서는 index때문에 성능에 문제가 야기될 수 있다.
+
+--- 이름의 앞에서 두글자가 'Oc'인 직원을 출력하시오.
+select * from employees
+where substr(first_name, 1, 2) = 'Oc';
+--- 함수기반의 index
+
+create index sub_idx 
+on 
+employees(substr(first_name, 1, 2));
+
+
+--- 각부서의 급여의 평균이 10000인 부서와 평균급여를 출력하시오.
+select department_id , avg(salary)
+from employees
+group by department_id
+having  avg(salary) = 10000;
+
+create index avgsal
+on employees(avg(salary)); --- group 함수는 index만들 수 없다
+
+---------------------------------------------------------------------------------------------------
+
+--- 이름, 급여,직무, 입사일, 부서를 출력하시오.
+select first_name, salary, job_id, hire_date, department_id
+from employees;
+
+select * 
+from ( select first_name, salary, job_id, hire_date, department_id
+       from employees);
+--- from 절에 있는 서브쿼리를 inline view
+
+
+-- 부서별 최대급여를 구하시오.
+select department_id , max(salary)
+from employees
+group by department_id;
+
+
+--- 각 부서에서 최대급여를 받는 직원의 이름, 급여,직무, 입사일, 부서를 출력하시오.
+select first_name, salary, job_id, hire_date, department_id
+from employees;
+
+select department_id , max(salary)
+from employees
+group by department_id;
+
+select first_name, salary, job_id, hire_date, e.department_id , max_sal 
+from employees e join (select department_id , max(salary) as max_sal 
+                       from employees
+                       group by department_id) me
+on e.department_id = me.department_id and salary = max_sal;
+
+
+--- 각 부서에서 최소급여를 받는 직원의 이름, 급여,직무, 입사일, 부서를 출력하시오.
+select department_id, min(salary)
+from employees
+group by department_id;
+
+select first_name, salary, job_id, hire_date
+from employees;
+
+select first_name, salary, job_id, hire_date, e.department_id , min_sal
+from  employees e join (select department_id, min(salary) as min_sal
+                        from employees
+                        group by department_id) me
+on e.department_id = me.department_id and salary = min_sal;           
+
+--- 각 직무에서 최소 급여를 받는 사원의 사번, 이름 , 급여, 직무
+--  입사일, 이메일 , 부서번호를 출력하시오.
+SELECT EMPLOYEE_ID, FIRST_NAME, SALARY, e.JOB_ID, HIRE_DATE, EMAIL
+      ,DEPARTMENT_ID , min_sal
+FROM EMPLOYEES e join (select job_id , min(salary) min_sal
+                       from employees
+                       group by job_id) d
+on e.job_id = d.job_id and SALARY = min_sal
+order by job_id;
+
+--- 각 부서에서 평균급여보다 많이 받는 사원의 사번, 이름 , 급여, 직무
+--  입사일, 이메일 , 부서번호를 출력하시오.
+SELECT EMPLOYEE_ID, FIRST_NAME, SALARY, JOB_ID, HIRE_DATE, EMAIL
+      ,E.DEPARTMENT_ID , avg_SAL
+FROM EMPLOYEES E join (select department_id, avg(salary) avg_SAL
+                       from employees
+                       group by department_id) d
+on E.DEPARTMENT_ID = d.DEPARTMENT_ID
+where salary > avg_SAL;
+
+--- merge : 병합  -- 있는면 update or delete , 없으면 insert
+--- 장바구니 : 없으면 insert , 있으면 수량 update
+--- 좋아요 , 관심상품(찜) 
+create table emp
+as 
+select * from hr.employees
+where employee_id = 100;
+
+select * from emp;
+
+merge into emp e
+using hr.employees he
+on (e.employee_id = he.employee_id)
+when matched then
+update set salary = salary  * 1.1
+when NOT matched then
+insert values(he.EMPLOYEE_ID, he.FIRST_NAME, he.LAST_NAME, he.EMAIL, he.PHONE_NUMBER 
+              ,he.HIRE_DATE, he.JOB_ID, he.SALARY, he.COMMISSION_PCT, he.MANAGER_ID, he.DEPARTMENT_ID);
+
+select * from emp;
+
+delete from emp where employee_id = 106;
+
+--- 장바구니
+merge into emp e
+using (select * from hr.employees where employee_id = 106) he
+on (e.employee_id = he.employee_id)
+when matched then
+update set salary = salary  * 1.1
+when NOT matched then
+insert values(he.EMPLOYEE_ID, he.FIRST_NAME, he.LAST_NAME, he.EMAIL, he.PHONE_NUMBER 
+              ,he.HIRE_DATE, he.JOB_ID, he.SALARY, he.COMMISSION_PCT, he.MANAGER_ID, he.DEPARTMENT_ID);
+
+select * from emp;
+
+delete from emp 
+where employee_id = 101;
+
+select * from emp;
+
+merge into emp e
+using (select * from hr.employees where employee_id = 101) he
+on (e.employee_id = he.employee_id)
+when matched then
+update set salary = salary  * 1.1
+when NOT matched then
+insert values(he.EMPLOYEE_ID, he.FIRST_NAME, he.LAST_NAME, he.EMAIL, he.PHONE_NUMBER 
+              , sysdate , he.JOB_ID, 10000, null, he.MANAGER_ID, he.DEPARTMENT_ID);
+              
+--- 있는 delete ,  없으면 insert
+merge into emp e
+using (select * from hr.employees where employee_id = 101) he
+on (e.employee_id = he.employee_id)
+when matched then
+update set salary = salary  * 1.1
+delete where employee_id = 101
+when NOT matched then
+insert values(he.EMPLOYEE_ID, he.FIRST_NAME, he.LAST_NAME, he.EMAIL, he.PHONE_NUMBER 
+              , sysdate , he.JOB_ID, 10000, null, he.MANAGER_ID, he.DEPARTMENT_ID);   
+              
+              
+select * from emp;
+
+--- window  함수 :  group by : partition by
+
+--- 모든 상원을 출력 할때 사원번호, 이름 , 직무 그리고 부서와 부서의 급여의 합계를 출력하세요.
+select employee_id, first_name, job_id, e.department_id, sum_sal
+from employees e join (select department_id, sum(salary) sum_sal
+                       from employees
+                       group by department_id) d
+on e.department_id = d.department_id  ;
+
+
+select employee_id, first_name, job_id, department_id , sum(salary) over (partition by department_id) sum_sal
+from employees;
+
+---  직무별 급여의 평균 그리고  사원번호, 이름, 급여를 출력
+select employee_id, first_name, salary , job_id
+       , avg(salary) over(partition by job_id order by job_id ) av_sal -- window 함수
+from employees;
+
+
+select employee_id, first_name, salary , e.job_id, avg_sal
+from employees e join (select job_id, avg(salary)avg_sal from employees
+                       group by job_id) j  --- inline view
+on e.job_id = j.job_id;
+
+---
+-- employees 테이블의 첫 행부터 마지막행까지 
+-- 직원 번호, 이름, 급여, 전체 급여의 총합계를 출력하시오
+select employee_id, first_name , salary                --- 첫행
+      , sum(salary) over (order by salary rows between  unbounded preceding 
+                                                and    UNBOUNDED FOLLOWING ) 
+                                                      --  마지막행
+from employees;
+
+select employee_id, first_name , salary                
+      , sum(salary) over () 
+                                                     
+from employees;
+
+
+--- employees 테이블의 첫 행부터 마지막행까지 
+--- 직원 번호, 이름, 급여, 급여의 누적 합계를 출력하시오;
+select employee_id, first_name , salary                
+      , sum(salary) over (order by salary rows between unbounded preceding 
+                                                and   CURRENT row  )                                           
+from employees;
+
+select employee_id, first_name , salary                
+      , sum(salary) over (order by salary rows between CURRENT row 
+                                                and    UNBOUNDED FOLLOWING )                                           
+from employees;
+
+--- 순위 
+-- rank()  동순위 같은 값이 출력, -- 1,1,1,4
+--- 부서의 급여를 순위 별로 출력하시오.
+select employee_id, first_name, salary, department_id
+    , rank() over (partition by department_id  order by salary desc) rank
+from employees;
+
+--- DENSE_RANK() -- 1,1,1,2
+select employee_id, first_name, salary, department_id
+    , rank() over (partition by department_id  order by salary desc) rank
+    , DENSE_RANK() over (partition by department_id  order by salary desc) DENSE_RANK
+from employees;
+
+
+--- 부서와 부서별 최대 급여와 이름, 사번, 급여, 직무를 출력
+select employee_id, first_name, salary , job_id, department_id 
+from employees
+order by department_id , salary desc;
+
+select first_name, salary, job_id, hire_date, e.department_id , max_sal 
+from employees e join (select department_id , max(salary) as max_sal 
+                       from employees
+                       group by department_id) me
+on e.department_id = me.department_id and salary = max_sal;
+
+--- first_value:첫번째 있는 행만 가지고 오기
+select employee_id, first_name, salary , job_id, department_id ,
+        first_value(salary) over (partition by department_id order by salary desc)
+from employees;
+
+--- last_vlaue : 마지막 행의 값을 가져오기
+select employee_id, first_name, salary , job_id, department_id ,
+        last_value(salary) over (partition by department_id order by salary desc)
+from employees;
+
+--- 부서와 부서별 최소 급여와 이름, 사번, 급여, 직무를 출력
+select employee_id, first_name, salary, job_id, e.department_id
+from hr.employees e join (select department_id , min(salary)
+                        from hr.employees 
+                        group by department_id) d
+on e.department_id = d.department_id;
+select employee_id, first_name, salary, job_id, department_id
+        , min(salary) over (partition by department_id )
+from hr.employees;
+select employee_id, first_name, salary, job_id, department_id
+    , first_value(salary) over (partition by department_id order by salary asc)
+from hr.employees;
+select employee_id, first_name, salary, job_id, department_id
+    , last_value(salary) over (partition by department_id order by salary desc)
+from hr.employees;   
