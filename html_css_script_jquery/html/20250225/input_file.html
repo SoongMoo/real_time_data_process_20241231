@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>input_file.html</title>
+</head>
+<body>
+    텍스트전송<br />
+    <form action="#" method="get">
+        상점이름: <input type="text" name="storeName" ><br />
+        수량 : <input type="number" min="1" value="1" name="num"/><br />
+        <input type="submit" value="전송" />
+    </form>
+    이미지전송
+    <form action="#" method="post" enctype="multipart/form-data" >
+        회원이름 : <input type="text" name="fileName" /><br />
+        회원사진 : <input type="file" name="uploadFile" /><br /> <!--2진 : 비트전송-->
+        <input type="submit" value="파일전송" />
+    </form>
+    <form action="#" method="post" enctype="multipart/form-data" >
+        회원이름 : <input type="text" name="fileName" /><br />
+        회원사진 : <input type="file" name="uploadFile" multiple /><br /> <!--2진 : 비트전송-->
+        <input type="submit" value="파일전송" />
+    </form>
+</body>
+</html>

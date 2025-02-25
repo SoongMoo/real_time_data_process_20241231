@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <table border="1" width="300"> <!-- 일바 글자 크기는 10px -->
+        <tr><th colspan="3" height = 20>안내문자</th>             </tr>
+        <tr><td rowspan="2" width="100">제목</td><td>1</td><td>2</td></tr>
+        <tr>                         <td align="center">3</td><td>4</td></tr>
+    </table>
+
+    <table border="1">
+        <caption>
+            <P><b>브라우저 종류</b></P><!--표의 제목-->
+        </caption>
+        <tr><th>브라우저</th><th>제조업체</th><th>다운로드</th></tr>
+        <tr><td>크롬</td><td>구글</td><td>http://www.google.com</td></tr>
+        <tr><td>파이어폭스</td><td>모질라</td><td>http://...</td></tr>
+    </table>
+
+    <figure>
+        
+    <table border="1">
+        <tr><th>브라우저</th><th>제조업체</th><th>다운로드</th></tr>
+        <tr><td>크롬</td><td>구글</td><td>http://www.google.com</td></tr>
+        <tr><td>파이어폭스</td><td>모질라</td><td>http://...</td></tr>
+    </table>
+    <figcaption>
+        <P><b>브라우저 종류</b></P><!--표의 제목-->
+    </figcaption>
+    </figure>
+
+    <table border="1"><!--논리 테이블-->
+        <caption>요안도라 객실</caption>
+        <colgroup>
+            <col width ="100">
+            <col span="2" style="background-color:yellow ;">
+            <col style="background-color:aqua ;">
+        </colgroup>
+        <thead><tr><th>방 이름</th><th>대상</th><th>크기</th><th>가격</th></tr></thead>
+        <tfoot><tr><th colspan="4">바캍채 전체를 렌탈합니다.</th></tr></tfoot>
+        <tbody>
+        <tr><th>유채방</th><td>여성 도미토리</td><td rowspan="3">4인실</td><td rowspan="4">1인2000원</td></tr>
+        <tr><th rowspan="2">동백꽃</th><td>동성 도미토리</td> </tr>
+        <tr>                           <td>가족 1팀</td> </tr>
+        <tr><th>천혜향방</th><td>-</td><td>2인실</td> </tr>
+        </tbody>
+    </table>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="#">
+        성별 : <input type="radio" name="gender" value="F"/>여자
+            <input type="radio" name="gender" value="M"/>남자<br />
+        이메일 전송여부 : <input type="radio" name="email" value="Y"  checked/>yes
+                        <input type="radio" name="email" value="N"/>no<br />
+        취미 : <input type="checkbox" name="interest" value="독서" checked />독서
+                <input type="checkbox" name="interest" value="게임" />게임
+                <input type="checkbox" name="interest" value="운동" />운동
+                <input type="checkbox" name="interest" value="음악감상" />음악감상 <!--빈요소소-->
+                <br />
+        자기소개서:<textarea name="letter" rows="10" cols="80" >이숭무</textarea><br />
+        <input type="reset" value="취소" /><br /><!--작성한 값을 지우기-->
+        <!--전송의 종류-->
+        <input type="submit" value="전송" />
+        <input type="image" src="../images/kids.jpg" width="30" height="30" />
+        <button type="submit">전송</button>
+        <!--버튼-->
+        <button type="button" onclick="javascript:location.href='http://www.naver.com'">네이버</button><!-- 자바스크립트를 이용-->
+        <a href="http://www.naver.com">네이버</a>
+    </form>
+</body>
+</html>

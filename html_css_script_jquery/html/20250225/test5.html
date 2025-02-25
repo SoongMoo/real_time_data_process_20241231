@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body> <!-- href, action :  이동할 파일이나 주소소 -->
+    <form action="aaa.html" method="get" > <!-- post / get-->
+        <table>                       <!--name : 서버에 값을 전달하기 위한 변수-->
+            <tr><td><input type="text" name="userId" /></td>
+                <td rowspan="2"><input type="submit" value="로그인" /></td>
+            </tr>
+            <tr>
+                <td><input type="password" name="userPw"/></td>
+            </tr>
+        </table>
+    </form>
+    <a href="aaa.html?userId=이숭무&userPw=12345678">aaaaq/get</a>
+    <a href="https://www.google.com/search?q=jsp">jsp검색</a>
+    <form action="https://search.naver.com/search.naver" method="get">
+        <input type="text" name="query"/> <!--빈요소-->
+        <input type="submit" value="검색"/>
+    </form>
+</body>
+</html>

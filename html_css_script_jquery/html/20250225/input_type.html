@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="aaa.html" > <!--method의 기본값은 get-->
+        사원번호 : <input type="text" name="employeeId" value="hk_100001" readonly/><br />
+        * 아이디 : <input type="text" name="userId" size="30"  placeholder="아이디 또는 @ 이하 모두 입력" ><br />
+        이메일 :  <input type="email" name="userEmail"  placeholder="@이하 모두"/><br />
+        검색 : <input type="search" name="search" /><br /> 
+        홈페이지 : <input type="url" name="homePage"   placeholder="http://"/><br /> 
+        연락처 : <input type="tel" name="userPhone"/><br />
+        수량 : <input type="number" name="qty" min="1" max="10" value="1" step="2"/><br /> 
+        몇 % : <input type="range" name="range" min="0" max="100" value="50" /><br />
+        색상 : <input type="color" name="clr" value="#7d3212" /><br /> <!--255 255 255--> 
+        날짜 : <input type="date" name="date" value="2025-02-12"/><br />
+        월 : <input type="month" name="mon" value="2025-06" /><br />
+        주 : <input type="week" name="wk" value="2025-W07"/><br />
+        시간:<input type="time" name="tm" value="17:45"/><br />
+        현지시간:<input type="datetime-local" name="loc" value="2025-02-25T02:48"/><br />
+        <input type="submit" value="전송" />
+    </form>
+</body>
+</html>
