@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            background-image: url(../images/bg_grid.gif);
+            margin: auto; /* 가운데 정렬 */
+            padding: 0; 
+        }
+        div{
+            width:500px;
+            height: 500px;
+            border: 2px dotted black;
+        }
+        .bg1{
+            background:url("../images/top.jpg")  no-repeat left top;
+            background-size: auto; /* 원본크기에서 박스 크기 만크만 보여짐 : 그림 짤림  */ 
+        }
+        .bg2{
+            background:url("../images/top.jpg")  no-repeat left top;
+            background-size: 200px 150px; /* 그림이 사이즈 만큼 확대/축소 */
+        }
+        .bg3{
+            background:url("../images/top.jpg")  no-repeat left top;
+            background-size: 60% 40%;  /* 그림이 비율 만큼 확대/축소 */
+        }
+        .bg4{
+            background:url("../images/top.jpg")  no-repeat left top;
+            background-size: contain;  /* 박스 맞게 원본 그대로 그림이 확대/축소 */
+        }
+        .bg5{
+            background:url("../images/top.jpg")  no-repeat left top;
+            background-size: cover;  /* 박스에 맞게  : 짤림현상 발생 */
+        }
+        .bg6{
+            background:url("../images/top.jpg")  no-repeat left top;
+            background-size: 100% 100%;  /* 박스에 맞게 그림 출력 */
+        }
+    </style>
+</head>
+<body>
+    <div class="bg1"></div>
+    <div class="bg2"></div>
+    <div class="bg3"></div>
+    <div class="bg4"></div>
+    <div class="bg5"></div>
+    <div class="bg6"></div>
+</body>
+</html>

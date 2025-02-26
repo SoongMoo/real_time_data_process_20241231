@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{font: italic 2em "굴림";}
+        #txt1{
+            text-align: center;
+        }
+        #txt2{
+            text-align :justify;
+        }
+        .txt3{
+            text-indent: 10em; /*  들여쓰기 */
+        }
+        #lower{
+            text-transform: lowercase;
+        }
+        #upper{
+            text-transform: uppercase;
+        }
+        .capitalize{
+            text-transform: capitalize;
+        }
+        img{
+            vertical-align: middle;
+        }
+        a{
+            text-decoration: none;
+        }
+        .letter{
+            letter-spacing: 50px; /* 글자 간격 : 자간 */
+        }
+        .word{
+            word-spacing: 50px; /* 단어 간격 */
+        }
+        .text-justify{
+            text-justify:inter-word;
+        }
+        .content{
+            border: 1px solid #ccc;
+            width:300px;
+            white-space:nowrap ;/* 줄바꿈 없음 */
+            overflow:hidden;
+            text-overflow:ellipsis; /* 말줄임표 : ... */
+        }
+    </style>
+</head>
+<body>
+    <p>웹다지인은 한 분야로 원래의 용어는 웹컨텐츠 UI 디자인이다.</p>
+    <p id="txt1">
+        웹다지인은 한 분야로 원래의 용어는 웹컨텐츠 UI 디자인이다.
+        웹다지인은 한 분야로 원래의 용어는 웹컨텐츠 UI 디자인이다.
+        웹다지인은 한 분야로 원래의 용어는 웹컨텐츠 UI 디자인이다.
+        웹다지인은 한 분야로 원래의 용어는 웹컨텐츠 UI 디자인이다.
+    </p>
+    <p id="txt2">
+        웹다지인은 한 분야로 원래의 용어는 웹컨텐츠 UI 디자인이다.
+        웹다지인은 한 분야로 원래의 용어는 웹컨텐츠 UI 디자인이다.
+        웹다지인은 한 분야로 원래의 용어는 웹컨텐츠 UI 디자인이다.
+        웹다지인은 한 분야로 원래의 용어는 웹컨텐츠 UI 디자인이다.
+    </p>
+    <p class="txt3">
+        웹다지인은 한 분야로 원래의 용어는 웹컨텐츠 UI 디자인이다.
+        웹다지인은 한 분야로 원래의 용어는 웹컨텐츠 UI 디자인이다.
+        웹다지인은 한 분야로 원래의 용어는 웹컨텐츠 UI 디자인이다.
+        웹다지인은 한 분야로 원래의 용어는 웹컨텐츠 UI 디자인이다.
+    </p>
+    <p id="lower">HAPPY DAY!!!</p>
+    <p id="upper">happy day!!!</p>
+    <p class="capitalize">happy day!!!</p>
+    <p id="image"><img src="../images/cover.jpg" />한경닷컴</p>
+    <p><a href="#">김찬중</a></p>
+    <h1 class="letter">웹다지인은 한 분야로 원래의 용어는 웹컨텐츠 UI 디자인이다.</h1>
+    <h1 class="word">웹다지인은 한 분야로 원래의 용어는 웹컨텐츠 UI 디자인이다.</h1>
+    <h1 class="text-justify">happy day!!!</h1>
+    <p class="content">
+        웹다지인은 한 분야로 원래의 용어는 웹컨텐츠 UI 디자인이다.
+        웹다지인은 한 분야로 원래의 용어는 웹컨텐츠 UI 디자인이다.
+    </p>
+</body>
+</html>
