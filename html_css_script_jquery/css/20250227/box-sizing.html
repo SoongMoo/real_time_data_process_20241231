@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        div{
+            width: 300px; /* 콘텐츠 영역 너비 300px */
+            height: 150px; /* 높이 */
+            margin: 10px; /* 마진 */
+            padding: 30px; /* 패딩 */
+            border:2px solid red; /* 테두리 */
+
+        }
+        .box1 {
+            box-sizing:content-box; /* 콘텐츠 영역 기준 */
+        }
+        .box2 {
+            box-sizing:border-box;  /* 테두리까지(박스 전체) 기준*/
+        }
+        </style>        
+</head>
+
+<body>
+    <div class="box1">content-box</div>
+    <div class="box2">border-box</div>
+</body>
+</html>
