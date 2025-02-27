@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #wrap{
+            position:relative; /* 논리적인 위치가 만들어짐짐 */
+            width:300px;
+			height:300px;
+			border:1px solid #ccc;
+        }
+        .box{
+            position:absolute; /* 0,0  */
+            width:50px;
+			height:50px;
+			background:#0094ff;
+        }
+        #crd1{  top:100px; left:100px;}
+    </style>
+</head>
+<body>
+    <div id="wrap">
+		<div class="box" id="crd1"></div>
+		<div class="box" id="crd2"></div>
+		<div class="box" id="crd3"></div>
+		<div class="box" id="crd4"></div>
+		<div class="box" id="crd5"></div>
+	</div>   
+</body>
+</html>
