@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- html , css , javascript , jquery-->
+    <style></style>
+    <style></style>
+    <style></style>
+    <!-- 내부 script -->
+    <script  type="text/javascript" >
+        document.write("안녕하세요.<br />");
+    </script>
+    <!--외부 script-->
+    <script src="js/node.js"></script>
+    <!-- cdn -->
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script>
+        i = 10; /*  var */
+        document.write( i + "<br />");
+        var i1 = 10;   /* 변수 선언 */
+        document.write( i1 + "<br />");
+        i1 = "이숭무"; 
+        document.write( i1 + "<br />");
+
+        let i2 = 10;/* 변수 선언 */
+        document.write( i2 + "<br />");
+        i2 = "이숭무";
+        document.write( i2 + "<br />");
+
+        var i1 = 30.5; /* var는 변수를 반복적으로 선언 가능 */
+        document.write( i1 + "<br />");
+        //let i2 = 100.5; /* let은 반복적으로 선언 할 수 없다 */
+
+        // 나머지 연산자
+        document.write(10 % 3 );
+        year = 2200; // &&(and) , ||(or)
+        // year가 가지고 있는 값이 2200년일 때 2200년은 윤년일까? 평년일까?
+        // 4년마다 한번씩 윤년이지만 100년마다는 평년이다. 하지만 400년마다는 윤년이라고 한다.
+        // 윤년이면 true, 평년이면 false
+        document.write( year % 400 == 0 || year % 4 == 0 && year % 100 != 0 );
+        mat = 40;
+        kor = 60;
+        eng = 80;
+        /* 일때 모든 과목이 40이상이고 평균이 60이상이면 합격(true),아니면 불합격 (false) */
+        document.write(mat >= 40 && eng >= 40 && kor >= 40 && (mat+eng+kor) / 3 >= 60);
+        /* 조건문 */
+        if (mat >= 40 && eng >= 40 && kor >= 40 && (mat+eng+kor) / 3 >= 60){ // 조건식
+            document.write("합격")
+        }else{
+            document.write("불합격")
+        }
+        age = 19;
+        if(age >= 19){
+            document.write("성인입니다.");
+        }
+        city = "051";
+        if(city == "02"){ /* 조건식이 범위일때 */
+            document.write("서울");
+        }else if(city == "031"){
+            document.write("경기도");
+        }else if(city == "032"){
+            document.write("인천");
+        }else if(city == "051"){
+            document.write("부산");
+        }
+        switch(city){ /* 비교연산자가 등호(==)일때 주로 사용 */
+            case "02" : document.write("서울"); break;
+            case "031" : document.write("경기도"); break;
+            case "032" : document.write("인천"); break;
+            case "051" : document.write("부산"); break;
+        }
+        document.write( "<br />");
+        /* 8단 출력 */
+        for(var i = 1; i <= 9; i++){
+            document.write( "8 * " + i + " = " + 8 * i + "<br />");
+        }
+        /*  while */
+        var i = 1;
+        while(i <= 9){
+            document.write( "8 * " + i + " = " + 8 * i + "<br />");
+            i++;
+        }
+        function add(a, b){
+            result = a + b;
+            document.write(result);
+        }
+        add(10, 20);
+        function sub(a, b){
+            result = a - b;
+            return result;
+        }
+        document.write("<br />");
+        document.write(sub(290 , 10));
+    </script>
+</head>
+<body>
+<a href="javascript:history.back();">이전페이지</a>
+<a href="javascript:history.go(1)">다음페이지</a>
+</body>
+</html>

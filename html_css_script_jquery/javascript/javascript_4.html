@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        function btn1(){
+           var i = prompt("숫자를 입력해주세요.", 0);
+           document.getElementById("val1").innerHTML = i;
+        }
+        function keyEvt(){
+            var txt = document.getElementById("msm").value;
+            //console.log(txt);
+            var txtLen = txt.length;
+            //console.log(txtLen)
+            if(txtLen <5 ){
+                document.getElementById("msm").style.color="black";
+                len.innerHTML = txtLen;
+            }
+            if(txtLen>=5 && txtLen < 10){
+                document.getElementById("msm").style.color="orange";
+                len.innerHTML = txtLen;
+            }
+            if(txtLen >= 11){
+                document.getElementById("msm").style.color="red";
+                var val = txt.substr(0,10);
+                document.getElementById("msm").value = val;
+                len.innerHTML = txtLen - 1;
+            }
+        }
+    </script>
+</head>
+<body >
+    <span id="val1"></span>
+    <button type="button" onclick="btn1()" >btn1</button>
+    <br />
+    당신이 입력한 글자수는 : <span id="len"></span>
+    <br />
+    <textarea rows="10" cols="30" id="msm" onkeyup="keyEvt()"></textarea>
+</body>
+</html>

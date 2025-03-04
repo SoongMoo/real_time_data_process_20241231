@@ -1,0 +1,1 @@
+document.write("node.js 안녕하세요.");

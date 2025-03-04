@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!--BOM : Browser Object Model : alert, confirm, prompt, console, location, history-->
+    <!--DOM : Document Object Model : 태그 : Element : html 코드드-->
+    <script>
+        function btn_clk(){
+            alert("경고창");
+        }
+        function confirm_btn(){
+            result = confirm("장바구니로 이동하시겠습니까?")
+            if(result){
+                location.href= "http://www.naver.com"; /// <a href="http://www.naver.com">네이버</a>
+            }
+        }
+    </script>
+</head>
+<body>
+    <button type="button" onclick="javascript:alert('경고창');" >btn1</button>
+    <button type="button" onclick="confirm_btn();" >btn2</button>
+    <a href="javascript_1.html">다음 페이지</a>
+    <a href="javascript:history.go(1)">다음페이지</a>
+    <!--history.go(-1) : -1은 이전 페이지로 간다.-->
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+    /* 문자열 변수 선언 */
+    var str = "hello javascript";
+    document.write(str);
+    str = new String("<br />hello javascript<br />");
+    document.write(str);
+    /* 문자열 함수*/
+    var theText = "web js hi ciy";
+    /*             0123456789...  : index */
+    document.write(theText.bold() + "<br />");
+    document.write(theText.length + "<br />");
+    document.write(theText.toUpperCase() + "<br />");
+    theText = "WEB JS HI CIY";
+    document.write(theText.toLowerCase() + "<br />");
+    /* I가 있는 위치 */
+    document.write(theText.indexOf('I') + "<br />");
+    /* index가 5인 문자  */
+    document.write(theText.charAt(5) + "<br />");
+    /* index가 4번 부터 2글자 출력 */
+    document.write(theText.substring(4 , 4 + 2) + "<br />");
+    document.write(theText.substr(4, 2) + "<br />" );
+    document.write(theText.slice(4, 4 + 2) + "<br />" );
+    /* WEB을 BYE로 변경 */
+    document.write(theText.replace("WEB", "BYE") + "<br />" );
+    
+    document.write(theText.split(" ") + "<br />");
+    document.write(theText.split(" ")[1] + "<br />"); /* WEB JS HI CIY */
+                                                       /* 0   1  2  3  */
+    </script>
+</head>
+<body>
+    
+</body>
+</html>

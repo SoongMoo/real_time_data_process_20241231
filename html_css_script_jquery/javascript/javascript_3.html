@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        /* 배열 : 크기가 없다. */
+        var arr = new Array();
+        arr[0] = "이숭무";
+        arr[1] = "이상범";
+        document.write(arr[0] + "<br />");
+        document.write(arr[1] + "<br />");
+        var arr1 = new Array(2);
+        arr1[0] = "이숭무";
+        arr1[1] = "이상범";
+        document.write(arr1[0] + "<br />");
+        document.write(arr1[1] + "<br />");
+        arr1[2] = "이장범";
+        document.write(arr1[2] + "<br />");
+        /* 배열 함수 */
+        var theFood=["짜장면","냉면","갈비탕","돈까스","삼겹살"];
+        /* 배열을 역순으로 저장 : reverse() */
+        theFood.reverse()
+        console.log(theFood);
+        /* 정렬 */
+        theFood.sort()
+        console.log(theFood);
+        var theSubway=["2호선","9호선","7호선","4호선","3호선"];
+        /* 두개의 배열을 연결 */
+        var result = theFood.concat(theSubway);
+        console.log(result);
+        /* 원하는 범위 만큼 가져오기 */
+        result = theSubway.slice(2 , 2 + 2);
+        console.log(result);
+        /* 배열을 문자열로 변환 */
+        result = theSubway.join("-");
+        console.log(result);
+
+        /* 내장 함수 : eval() , isNaN() : Not a Number */
+        var num = 100;
+        document.write("num" + 100 + "<br />");
+        document.write(eval("num") + 100 + "<br />");
+        document.write("100+200"+ "<br />");
+        document.write(eval("100+200")+ "<br />");
+        var result2 = "010-7146-1970"; /* 숫자가 아닌지 확인 */
+        document.write(isNaN(result2))
+    </script>
+</head>
+<body>
+    
+</body>
+</html>
