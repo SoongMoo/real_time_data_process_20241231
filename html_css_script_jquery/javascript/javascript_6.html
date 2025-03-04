@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- BOM 추가 : setInterval(), clearInterval(), setTimeout() -->
+</head>
+<body>
+    <button onclick="interval()">증가</button>
+    <button onclick="stop()">정지</button>
+    <button onclick="setTime()">3초후 경고창</button>
+    <h1 id="msg">0</h1>
+</body>
+<script>
+    var myTime;
+    var x = 0;
+    var msg = document.getElementById("msg");
+    function interval(){
+        myTime = setInterval( function(){
+            x++;
+            msg.innerHTML=x;
+        } , 1000);
+    }
+    function stop(){
+        clearInterval(myTime);
+        x = 0;
+        msg.innerHTML=x;
+    }
+    function setTime(){
+        setInterval(function(){
+            x++;
+            msg.innerHTML = x;
+        }, 1000);
+        setTimeout(function(){
+            alert("3초가 지났습니다.");
+            location.href="http://www.naver.com";
+        }, 4000);
+    }
+</script>
+</html>
