@@ -1,61 +1,85 @@
-1. <input type="text">, <input type="password">, <input type="email">, <input type="search">
-이러한 텍스트 기반 input 요소들은 기본적인 텍스트 입력과 관련된 여러 이벤트를 사용할 수 있습니다.
+1. <button>
+버튼은 사용자 인터페이스에서 중요한 역할을 하며 다양한 이벤트를 처리할 수 있습니다.
 
-input: 사용자가 값을 입력할 때마다 발생. (최신 입력값을 실시간으로 받아올 수 있음)
-change: 입력 값이 변경되고 포커스를 잃었을 때 발생.
-focus: 입력란에 포커스가 갔을 때 발생.
-blur: 입력란에서 포커스가 빠져나갈 때 발생.
-keydown, keyup, keypress: 키보드 키를 누를 때, 떼었을 때 발생 (예: 글자 입력 시).
-input: 실시간으로 텍스트가 입력될 때마다 발생 (반복적으로 실행).
-cut, copy, paste: 클립보드와 관련된 작업이 있을 때 발생 (예: 텍스트를 자르거나 복사, 붙여넣기).
+click: 버튼이 클릭될 때 발생.
+dblclick: 버튼이 더블 클릭될 때 발생.
+focus: 버튼에 포커스가 갔을 때 발생.
+blur: 버튼에서 포커스가 빠져나갔을 때 발생.
+keydown, keyup: 키보드 키를 누를 때나 뗄 때 발생.
+mousedown, mouseup: 마우스 버튼을 누를 때나 뗄 때 발생.
 
-2. <input type="number">
-숫자 입력을 위한 input 요소는 주로 숫자에 대한 이벤트를 처리할 수 있습니다.
+2. <input>
+input 태그는 여러 가지 타입을 지원하며 각 타입에 따라 다양한 이벤트가 발생합니다.
 
-input: 실시간으로 값이 변경될 때마다 발생.
-change: 값이 변경되고, 입력이 끝났을 때 발생.
+input: 입력이 발생할 때마다 발생. (텍스트, 숫자 등)
+change: 값이 변경되고 포커스를 잃었을 때 발생.
 focus, blur: 입력란에 포커스가 갔을 때와 빠져나갈 때 발생.
-keydown, keyup, keypress: 키 입력을 감지.
+keydown, keyup, keypress: 키보드 입력 시 발생.
+select: 텍스트 선택 시 발생.
 
-3. <input type="checkbox">
-체크박스의 경우 체크 상태 변경과 관련된 이벤트를 다룹니다.
+3. <textarea>
+여러 줄로 입력을 받을 수 있는 텍스트 영역입니다.
 
-change: 체크박스의 상태가 변경될 때 발생.
-focus, blur: 체크박스에 포커스가 갔을 때와 빠져나갈 때 발생.
+input: 입력할 때마다 발생.
+change: 값이 변경되고 포커스를 잃었을 때 발생.
+focus, blur: 포커스가 갔을 때, 빠져나갈 때 발생.
+keydown, keyup, keypress: 키보드 입력 시 발생.
 
-4. <input type="radio">
-라디오 버튼은 서로 다른 버튼들 중 하나를 선택하는 데 사용되므로, 상태 변경을 처리하는 이벤트가 중요합니다.
+4. <select>
+<select> 태그는 드롭다운 리스트를 생성하는 데 사용됩니다.
 
-change: 라디오 버튼의 선택 상태가 바뀔 때 발생.
-focus, blur: 라디오 버튼에 포커스가 갔을 때와 빠져나갈 때 발생.
+change: 선택된 옵션이 변경될 때 발생.
+focus, blur: 포커스가 갔을 때, 빠져나갈 때 발생.
+keydown, keyup: 키보드 입력 시 발생.
 
-5. <input type="file">
-파일 업로드를 위한 input 요소입니다.
+5. <a>
+링크를 나타내는 <a> 태그는 클릭과 관련된 여러 이벤트를 다룹니다.
 
-change: 파일이 선택될 때 발생.
-focus, blur: 파일 입력란에 포커스가 갔을 때와 빠져나갈 때 발생.
+click: 링크가 클릭될 때 발생.
+dblclick: 링크가 더블 클릭될 때 발생.
+focus, blur: 링크에 포커스가 갔을 때, 빠져나갈 때 발생.
+mouseenter, mouseleave: 마우스가 링크 위에 올려졌을 때와 떠날 때 발생.
+mousedown, mouseup: 마우스 버튼을 누를 때, 뗄 때 발생.
 
-6. <input type="date">, <input type="time">, <input type="month">, <input type="week">
-날짜와 시간 입력을 위한 input 요소는 관련된 값이 변경될 때 발생하는 이벤트를 다룹니다.
+6. <img>
+이미지 요소는 마우스 이벤트 및 로딩 상태와 관련된 이벤트를 처리할 수 있습니다.
 
-change: 날짜나 시간이 선택될 때 발생.
-focus, blur: 날짜/시간 입력란에 포커스가 갔을 때와 빠져나갈 때 발생.
+load: 이미지가 성공적으로 로드될 때 발생.
+error: 이미지 로드에 실패했을 때 발생.
+click: 이미지를 클릭할 때 발생.
+mouseenter, mouseleave: 마우스가 이미지 위에 올려졌을 때와 떠날 때 발생.
+mousedown, mouseup: 마우스를 누를 때, 뗄 때 발생.
 
-7. <input type="color">
-색상 선택을 위한 input 요소입니다.
+7. <form>
+폼 요소에서 발생하는 이벤트들은 주로 폼의 제출과 관련이 있습니다.
 
-input: 색상이 변경될 때마다 발생.
-change: 색상이 선택된 후 발생.
-focus, blur: 색상 입력란에 포커스가 갔을 때와 빠져나갈 때 발생.
+submit: 폼이 제출될 때 발생.
+reset: 폼이 리셋될 때 발생.
+focus, blur: 폼 요소에 포커스가 갔을 때, 빠져나갈 때 발생.
 
-8. <input type="tel">, <input type="url">
-전화번호나 URL 입력을 위한 input 요소입니다.
+8. <div>, <span>, <p> 등 (블록 및 인라인 요소들)
+이러한 태그들은 주로 마우스 이벤트와 관련된 이벤트를 다룹니다.
 
-input: 사용자가 입력할 때마다 발생.
-change: 입력이 끝난 후 값이 변경되었을 때 발생.
-focus, blur: 포커스와 관련된 이벤트.
+click: 요소가 클릭될 때 발생.
+dblclick: 요소가 더블 클릭될 때 발생.
+mouseenter, mouseleave: 마우스가 요소 위에 올려졌을 때와 떠날 때 발생.
+mousedown, mouseup: 마우스를 누를 때, 뗄 때 발생.
+focus, blur: 포커스가 갔을 때, 빠져나갈 때 발생.
+keydown, keyup: 키보드 입력 시 발생.
 
-9. <input type="hidden">
-이 입력 요소는 사용자에게 보이지 않지만, 폼 전송 시 값을 전송할 수 있도록 사용됩니다.
+9. <video>, <audio>
+미디어 파일을 처리하는 <video>와 <audio> 태그는 재생과 관련된 이벤트를 다룹니다.
 
-change: 값이 변경될 때 발생.
+play: 미디어가 재생되기 시작할 때 발생.
+pause: 미디어 재생이 일시 정지될 때 발생.
+ended: 미디어가 끝났을 때 발생.
+volumechange: 볼륨이 변경될 때 발생.
+timeupdate: 미디어의 재생 시간이 변경될 때 발생.
+error: 미디어 로드에 오류가 발생했을 때 발생.
+
+10. <table>, <tr>, <th>, <td>
+테이블 관련 태그들은 주로 클릭 및 마우스 이벤트와 관련이 있습니다.
+
+click: 테이블 행(tr), 셀(td), 헤더(th) 등을 클릭할 때 발생.
+mouseenter, mouseleave: 마우스가 요소 위에 올려졌을 때와 떠날 때 발생.
+focus, blur: 요소에 포커스가 갔을 때, 빠져나갈 때 발생.
