@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-1.8.1.js"></script><!--cdn-->
+    <script>
+        $(function(){
+            /*
+                document.querySelector("#btn1").addEventListener('click',function(){
+                    document.querySelector("a[target='_blank']").style.border= '5px solid red';
+                });
+            */
+            $("#btn1").click(function(){
+                $("a[target='_blank']").css("border","5px solid red");
+            });
+        });
+    </script>
+</head>
+<body>
+    <a href="http://www.naver.com" target="_blank"> 네이버 </a><br>
+    <button type="button" id="btn" >속성1</button>
+    <button type="button" onclick="a_attr()">속성</button>
+    <button type="button" id="btn1" >속성2</button>
+</body>
+<script>
+    function a_attr(){
+        document.querySelector("a[target='_blank']").style.border= '5px solid red';
+    }
+    document.getElementById("btn").addEventListener('click',function(){
+        document.querySelector("a[target='_blank']").style.border= '5px solid red';
+    });
+</script>
+</html>

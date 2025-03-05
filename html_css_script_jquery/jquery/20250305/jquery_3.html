@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-1.8.1.js"></script><!--cdn-->
+    <script>
+        $(function(){
+            // class가 theTitle인 요소의 내용을 가져오기
+            console.log($(".theTitle").html()); 
+            // class="theTitle"인 요소에 하위요소로 내용을 변경.
+            $(".theTitle").html('<a href="#">네이버</a>');
+            // class="obj1"인 요소에 텍스트내용 가져오기
+            console.log($(".obj1").text());
+            // class="obj1"인 요소에 내용을 변경.
+            $(".obj1").text('리스트_2')
+            // id="list3"인 요소에 마지막 위치에 새요소를 추가합니다.(<li>list_6</li>)
+            $("#list3").append("<li>list_6</li>");
+            // id="list3"인 요소에 첫 위치에 새요소를 추가합니다.(<li>list_1</li>)
+            $("#list3").prepend("<li>list_1</li>");
+            // id="list3"인 요소에 하위 <li>요소중 첫번째 요소 삭제
+            //$("#list3 li").eq(0).remove();
+            $("#list3 li:first").remove();
+            // id="list3"인 요소에 하위 <li>요소중 첫번째 요소에 클래스 값을 반환 합니다.
+            console.log($("#list3 li:first").attr("class"));
+            // id="list3"인 요소에 하위 <li>요소중 두번째 요소에 클래스 값을 반환 합니다.
+            $("#list3 li").eq(1).attr("class","obj2")    
+            // id="list3"인 요소에 하위 <li>요소중 첫번째 요소에 클래스 값을 변경 합니다.
+            $("#list3 li").eq(0).attr("class","obj2")    
+            // id="list3"인 요소에 하위 <li>요소중 첫번째 요소에 클래스 값을 추가합니다.
+            $("#list3 li").eq(0).addClass("obj3");
+        });
+    </script>
+</head>
+
+<body>
+    <div id="wrap">
+        <h1>문서 객체 조작 메서드</h1>
+        <h2>조작 메서드</h2>
+        <!--문서 객체의 생성, 복제, 추가, 삭제 및 속성에 대한 변경, 삭제할 때 사용한다.-->
+        <h2 class="theTitle">html 조작</h2>
+        <ul id="list3">
+            <li class="obj1">list_2</li>
+            <li>list_3</li>
+            <li>list_4</li>
+            <li>list_5</li>
+        </ul>
+    </div>
+</body>
+
+</html>

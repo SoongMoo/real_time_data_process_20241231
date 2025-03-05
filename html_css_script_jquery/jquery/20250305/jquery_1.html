@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!--
+    <script src="js/jquery-3.7.1.js"></script>
+    -->
+    <script src="https://code.jquery.com/jquery-1.8.1.js"></script><!--cdn-->
+    <script>
+        $(document).ready(function () {
+            /* jquery 코드 작성  */
+        });
+        $(function () {
+            /* document.querySelector("*") */
+            $("*").css("font", "13px '굴림'");
+            $("*").css("color", "red");
+            $("h1").css("color", "green");
+            $(".nextTitle").css("color", "blue");
+            $("#firstTitle").css("color", "pink");
+            $(".obj3 > li").css("font-weight", "bold");
+            $(".obj3").children(".theObj1").css("color", "gray");
+            $(".obj4").next().css("color", "orange");
+            $(".obj4").prev().css("color", "blue");
+            $(".obj4").siblings("li").css("text-align", "center");
+            $(":text").css({"background-color":"red", "border" : "1px solid black" ,"color":"white"});
+            $(":text").next().css({"background-color":"blue", "border" : "1px solid black" ,"color":"white"});
+        });
+    </script>
+</head>
+
+<body>
+    <div id="wrap">
+        <h1>제이쿼리</h1>
+        <h2 id="firstTitle">선택자</h2>
+        <h3 class="nextTitle">부모 요소 선택자</h3>
+        <div>
+            <p class="obj1">현재 id가 "obj1"인 요소를 기준으로, 부모 요소는 'div'요소입니다.</p>
+        </div>
+        <h3>자식 요소 선택자</h3>
+        <ul class="obj3">
+            <li><a href="#">리스트1</a></li>
+            <li class="theObj1">리스트2</li>
+            <li>리스트3</li>
+        </ul>
+        <h3>형/동생 요소 선택자</h3>
+        <ul>
+            <li>리스트4</li>
+            <li class="obj4">리스트5</li>
+            <li>리스트6</li>
+        </ul>
+        <h3>입력 요소 선택자</h3>
+        <p><label for="user_name">이름</label>
+            <input type="text" name="user_name" id="user_name" />
+            <input type="text" name="user_pw" id="user_pw" />
+        </p>
+    </div>
+</body>
+<script>
+    /*
+    document.querySelector("*").style.font = "13px '굴림'";
+    document.querySelector("*").style.color = "red";
+    document.querySelector("h1").style.color = "green";
+    */
+</script>
+
+</html>
