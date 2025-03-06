@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-1.8.1.js"></script>
+    <style>
+        a{
+            text-decoration: none;
+            color : black; 
+        }
+    </style>
+    <script>
+        // 여러개 이벤트를 발생
+        $(function(){
+            /*
+            $("#textZone1").mouseenter(function(){
+                $("#textZone1").css({"text-decoration":"underline","color":"blue"});
+            });
+            $("#textZone1").mouseleave(function(){
+                $("#textZone1").css({"text-decoration":"none","color":"black"})
+            });
+            */
+           $("#textZone1").hover(function(){ // mouseenter
+                $("#textZone1").css({"text-decoration":"underline","color":"blue"});
+           },function(){ // mouseleave
+                $(this).css({"text-decoration":"none","color":"black"})
+           });
+           $("#textZone2").hover(function(){
+                $(this).prev().css("color","blue");
+           },function(){
+                $(this).prev().css("color","black");
+           });
+           $("#textZone2").hover(function(){
+                $(this).next().css("color","blue");
+           },function(){
+                $(this).next().css("color","black");
+           });
+           // click할 때마다 실행하기
+           $("#btn").toggle(function(){ 
+                $(this).next().css("background-color","red");
+           },function(){
+                $(this).next().css("background-color","green");
+           },function(){
+                $(this).next().css("background-color","yellow");
+           },function(){
+                $(this).next().css("background-color","orange");
+           });
+        });
+    </script>
+</head>
+<body>
+
+    <p id="textZone">
+        어느덧 검은 호랑이의 해인 2022 임인년을 맞이하기까지 
+        약 2주 가량 남았습니다! 과학기술정보통신부가 발표한 2022년도 
+        월력요항에 따르면, 2022년에는 52일의 일요일과 국경
+    </p>
+    <a href="#" id="textZone2">약 2주 가량 남았습니다</a><br />
+    <a href="#" id="textZone1">약 2주 가량 남았습니다</a><br />
+    <button id="btn">버튼1</button>
+    <p >
+        어느덧 검은 호랑이의 해인 2022 임인년을 맞이하기까지 
+        약 2주 가량 남았습니다! 과학기술정보통신부가 발표한 2022년도 
+        월력요항에 따르면, 2022년에는 52일의 일요일과 국경
+    </p>
+</body>
+</html>

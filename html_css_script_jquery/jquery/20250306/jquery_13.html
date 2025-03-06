@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        function valCk(){ //유효성 검사
+            if(document.getElementById("userName").value == ""){
+                alert("이름 입력하세요.");
+                document.getElementById("userName").focus();
+                return false;
+            }
+            if(document.getElementById("userPw").value == ""){
+                alert("비밀번호를 입력하세요.");
+                return false;
+            }else{
+                if(document.getElementById("userPw").value !=
+                                document.getElementById("userPwCon").value ){
+                    alert("비밀번호확인이 다릅니다.");
+                    return false;
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+<form action="#" name="frm" id="frm" onsubmit="return valCk();">
+    이름 : <input type="text" id = "userName" name="userName" /><br />
+    비밀번호 : <input type="password" id = "userPw" name="userPw" /><br />
+    비밀번호확인 : <input type="password" id = "userPwCon"  /><br />
+    <input type="submit" value="전송" />
+</form>  
+</body>
+</html>

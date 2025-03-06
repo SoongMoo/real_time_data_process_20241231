@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .list1, .list2, .list3{
+            display: none;
+        }
+        #listWrap, #listWrap1, #listWrap2{
+            width : 120px;
+        }
+    </style>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.8.1.min.js"></script>
+    <script>
+        $(function(){
+            $("#btn4").click(function(){
+                $(".list1").slideDown(1000); // 1000:1초초
+            });
+            $("#btn5").click(function(){
+                $(".list1").slideUp("fast");
+            });
+            $("#btn6").click(function(){
+                $(".list1").slideToggle("slow");
+            });
+            $("#wrap").hover(function(){
+                $(".list1").slideToggle("slow");
+            });
+            $("#btn7").click(function(){
+                $(this).parent().next().children(1).next().slideToggle("slow");
+            });
+        });
+    </script>
+</head>
+<body>
+    <p>
+        <button id="btn4">slideDown</button>
+        <button id="btn5">slideUp</button>
+        <button id="btn6">slideToggle</button>
+        <button id="btn7">slideToggle</button>
+    </p>
+    <div id="listWrap">
+		<h3>관련 사이트</h3>
+		<ul class="list1">
+		  <li><a href="#">list1</a></li>
+		  <li><a href="#">list2</a></li>
+		  <li><a href="#">list3</a></li>
+		  <li><a href="#">list3</a></li>
+		</ul>
+  </div>  
+</body>
+</html>
