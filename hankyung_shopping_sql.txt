@@ -229,12 +229,6 @@ add constraint pk_INQUIRE primary key(INQUIRE_NUM, MEMBER_NUM, goods_num);
 
 --------------------------------------------------------------------------------
 
-alter table goods
-drop constraint fk_employees_to_goods_emp_num;
-alter table goods
-drop constraint fk_employees_to_goods_update_emp_num;
-
-
 --상품
 alter table goods
 add (constraint fk_employees_to_goods_emp_num  --- 직원->상품  
@@ -248,12 +242,6 @@ add (constraint fk_employees_to_goods_emp_num  --- 직원->상품
     on delete set null 
 );
 
-
-alter table goods_ipgo
-drop constraint fk_employees_to_goods_ipgo;
-alter table goods_ipgo
-drop constraint fk_goods_to_goods_ipgo;
-
 alter table goods_ipgo
 add constraint fk_employees_to_goods_ipgo
     foreign key (emp_num) --- 직원 번호
@@ -266,9 +254,6 @@ add constraint fk_goods_to_goods_ipgo
     REFERENCES goods(goods_num) ; --- 상품에 상품번호를 참조
     -- 주식별자이지만 on delete cascade를 사용하지 않음.
     -- 상품이 삭제될 때 입고가 삭제되서는 안되므로
-
-alter table reviews
-drop constraint fk_purchase_list_to_reviews;
 
 alter table reviews
 add constraint fk_purchase_list_to_reviews
@@ -366,6 +351,7 @@ ALTER TABLE CART
 	MEMBER_NUM -- 회원번호
 	) on delete cascade;
 
+--- 주문 상품
 ALTER TABLE PURCHASE_LIST
 	ADD CONSTRAINT FK_GOODS_TO_PURCHASE_LIST -- 상품 -> 주문상품
 	FOREIGN KEY (
@@ -374,6 +360,12 @@ ALTER TABLE PURCHASE_LIST
 	REFERENCES GOODS ( -- 상품
 	goods_num -- 상품번호
 	);  
+
+alter table PURCHASE_LIST
+    add constraint fk_PURCHASE_to_PURCHASE_LIST
+    foreign key (PURCHASE_num)
+    REFERENCES PURCHASE(PURCHASE_num)
+    on delete cascade;
 
 -- 주문
 ALTER TABLE PURCHASE
