@@ -7,10 +7,10 @@
 <title>Insert title here</title>
 </head>
 <body>
-한경 쇼핑몰<br />
-<ul>
-	<li><a href="memberList.mem">회원관리</a></li>
-	<li><a href="employeeList.emp">직원관리</a></li>
-</ul>
+직원목록페이지입니다.<br />
+<table border =1 width=600>
+	<tr><td>직원번호</td><td>직원명</td><td>입사일</td></tr>
+</table>
+<a href="employeeWrite.emp" >직원등록</a>
 </body>
 </html>
