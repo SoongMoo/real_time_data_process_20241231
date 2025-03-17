@@ -8,12 +8,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import jspMVCHKShopping.service.MemberAutoNumService;
-import jspMVCHKShopping.service.MemberDeleteService;
-import jspMVCHKShopping.service.MemberInfoService;
-import jspMVCHKShopping.service.MemberListService;
-import jspMVCHKShopping.service.MemberUpdateService;
-import jspMVCHKShopping.service.MemberWriteService;
+import jspMVCHKShopping.service.member.MemberAutoNumService;
+import jspMVCHKShopping.service.member.MemberDeleteService;
+import jspMVCHKShopping.service.member.MemberInfoService;
+import jspMVCHKShopping.service.member.MemberListService;
+import jspMVCHKShopping.service.member.MemberUpdateService;
+import jspMVCHKShopping.service.member.MemberWriteService;
 
 public class MemberFrontController extends HttpServlet {
 	@Override

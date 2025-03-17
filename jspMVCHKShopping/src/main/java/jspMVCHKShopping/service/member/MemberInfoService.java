@@ -1,4 +1,4 @@
-package jspMVCHKShopping.service;
+package jspMVCHKShopping.service.member;
 
 import javax.servlet.http.HttpServletRequest;
 

@@ -1,13 +1,13 @@
-package jspMVCHKShopping.service;
+package jspMVCHKShopping.service.member;
 
 import javax.servlet.http.HttpServletRequest;
 
 import jspMVCHKShopping.model.MemberDAO;
 
-public class MemberAutoNumService {
+public class MemberDeleteService {
 	public void execute(HttpServletRequest request) {
+		String memberNum = request.getParameter("memberNum");
 		MemberDAO dao = new MemberDAO();
-		String memberNum = dao.selectAutoNum();
-		request.setAttribute("memberNum", memberNum);
+		dao.memberDelete(memberNum);
 	}
 }
