@@ -20,14 +20,6 @@
 		<td><textarea rows="10" cols="45" name="goodsContent"></textarea></td></tr>
 	<tr><th>조회수</th>
 		<td><input type="text" name="visitCount" value="" readonly="readonly"></td></tr>
-	<tr><th>등록한 사원</th>
-		<td><input type="text" name="empNum" value="" readonly="readonly"></td></tr>
-	<tr><th>등록일</th>
-		<td><input type="text" name="goodsRegist" value="" readonly="readonly"></td></tr>
-	<tr><th>마지막 수정 사원</th>
-		<td><input type="text" name="updateEmpNum" value="" readonly="readonly"></td></tr>
-	<tr><th>마지막 수정일</th>
-		<td><input type="text" name="goodsUpdateDate" value="" readonly="readonly"></td></tr>
 	<tr><th colspan="2">
 		<input type="submit" value="수정완료" />
 		<button type="button" onclick="">상품목록</button></th></tr>

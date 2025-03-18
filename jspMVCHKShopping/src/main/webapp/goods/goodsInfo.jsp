@@ -16,10 +16,6 @@
 	<tr><th>상품가격</th><td></td></tr>
 	<tr><th>상품설명</th><td></td></tr>
 	<tr><th>조회수</th><td></td></tr>
-	<tr><th>등록한 사원</th><td></td></tr>
-	<tr><th>등록일</th><td></td></tr>
-	<tr><th>마지막 수정 사원</th><td></td></tr>
-	<tr><th>마지막 수정일</th><td></td></tr>
 	<tr><th colspan="2">
 		<a href="goodsUpdate.goods?goodsNum=">상품수정</a> | 
 		<a href="goodsDelete.goods?goodsNum=">상품 삭제</a> | 
