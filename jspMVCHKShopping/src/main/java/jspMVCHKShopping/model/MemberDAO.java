@@ -29,6 +29,23 @@ public class MemberDAO {
 		}
 		return co;
 	}
+	
+	public void memberPwUpdate(String memberId, String newPw) {
+		con = getConnection();
+		sql = " update members "
+			+ " set member_pw = ? "
+			+ " where member_id = ? ";
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, newPw);
+			pstmt.setString(2, memberId);
+			int i = pstmt.executeUpdate();
+			System.out.println(i + " 행이(가) 수정되었습니다.");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public void memberDelete(String memberNum) {
 		con = getConnection();
 		sql = " delete from  members where member_num = ? ";
@@ -41,7 +58,7 @@ public class MemberDAO {
 			e.printStackTrace();
 		}
 	}
-	public MemberDTO memberSelectOne(String memberNum) {
+	public MemberDTO memberSelectOne(String memberNum) { // memberNum, memberId
 		MemberDTO dto  = null;
 		con = getConnection();
 		sql = " select MEMBER_NUM, MEMBER_NAME, MEMBER_ID, MEMBER_PW"
@@ -49,10 +66,11 @@ public class MemberDAO {
 				+ "		 , MEMBER_REGIST, GENDER, MEMBER_PHONE1, MEMBER_PHONE2"
 				+ "		 , MEMBER_EMAIL, MEMBER_BIRTH "
 				+ " from members "
-				+ " where MEMBER_NUM = ?";
+				+ " where MEMBER_NUM = ? or member_id = ?";
 		try {
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, memberNum);
+			pstmt.setString(2, memberNum);
 			rs = pstmt.executeQuery();
 			if(rs.next()) {
 				dto = new MemberDTO();
@@ -87,9 +105,10 @@ public class MemberDAO {
 			+ "    ,MEMBER_PHONE1 = ?"
 			+ "    ,MEMBER_PHONE2 = ?"
 			+ "    ,MEMBER_EMAIL = ? "
-			+ " where member_num = ? ";
+			+ " where member_num = ? or member_id = ? ";
 		try {
 			pstmt = con.prepareStatement(sql);
+			pstmt.setString(10, dto.getMemberId());
 			pstmt.setString(9, dto.getMemberNum());
 			pstmt.setString(1, dto.getMemberName());
 			pstmt.setString(2, dto.getMemberAddr());
@@ -99,6 +118,7 @@ public class MemberDAO {
 			pstmt.setString(6, dto.getMemberPhone1());
 			pstmt.setString(7, dto.getMemberPhone2());
 			pstmt.setString(8, dto.getMemberEmail());
+			
 			int i = pstmt.executeUpdate();
 			System.out.println(i + " 행이(가) 수정되었습니다.");
 		} catch (SQLException e) {

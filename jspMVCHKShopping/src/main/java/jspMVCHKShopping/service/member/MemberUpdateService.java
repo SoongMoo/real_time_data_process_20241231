@@ -3,12 +3,14 @@ package jspMVCHKShopping.service.member;
 import java.io.UnsupportedEncodingException;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
+import jspMVCHKShopping.model.AuthInfoDTO;
 import jspMVCHKShopping.model.MemberDAO;
 import jspMVCHKShopping.model.MemberDTO;
 
 public class MemberUpdateService {
-	public void execute(HttpServletRequest request) {
+	public int execute(HttpServletRequest request) {
 		try {
 			request.setCharacterEncoding("utf-8");
 		} catch (UnsupportedEncodingException e) {}
@@ -23,6 +25,9 @@ public class MemberUpdateService {
 		String memberGender = request.getParameter("memberGender");
 		String memberEmail = request.getParameter("memberEmail");
 		String memberBirth = request.getParameter("memberBirth");
+		
+		String memberPW = request.getParameter("memberPw");
+		
 		MemberDTO dto = new MemberDTO();
 		dto.setMemberAddr(memberAddr);
 		dto.setMemberAddrDetail(memberAddrDetail);
@@ -35,7 +40,24 @@ public class MemberUpdateService {
 		dto.setMemberPhone1(memberPhone1);
 		dto.setMemberPhone2(memberPhone2);
 		dto.setMemberPost(memberPost);
-		MemberDAO dao = new MemberDAO();
-		dao.memberUpdate(dto);
+		
+		int i;
+		HttpSession session = request.getSession();
+		AuthInfoDTO auth = (AuthInfoDTO)session.getAttribute("auth");
+		if(memberPW.equals(auth.getUserPw())) { // 비밀번호가 일치하면 수정
+			MemberDAO dao = new MemberDAO();
+			dao.memberUpdate(dto);
+			i = 1;
+		}else { // 일치하지 않으면 수정페이지
+			request.setAttribute("pwErr", "비밀번호가 틀렸습니다.");
+			i = 0;
+		}
+		return i;
 	}
 }
+
+
+
+
+
+

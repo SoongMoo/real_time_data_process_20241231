@@ -25,7 +25,6 @@ public class EmployeeFrontController extends HttpServlet{
 		String contextPath = request.getContextPath();
 		String command = requestURI.substring(contextPath.length());
 		if(command.equals("/employeeList.emp")) {
-			
 			EmployeeListService action = new EmployeeListService();
 			action.execute(request);
 			RequestDispatcher dispatcher =

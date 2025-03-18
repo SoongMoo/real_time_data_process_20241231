@@ -14,10 +14,10 @@
 	<c:if test="${auth.grade == 'emp' }">
 		<li><a href="memberList.mem">회원관리</a></li>
 		<li><a href="employeeList.emp">직원관리</a></li>
-		<li><a href="empMyPage.my">내정보 수정</a></li>
+		<li><a href="empMyPage.my">내정보 보기</a></li>
 	</c:if>
 	<c:if test="${auth.grade == 'mem' }">
-		<li><a href="memberMyPage.my">내정보 수정</a></li>
+		<li><a href="memberMyPage.my">내정보 보기</a></li>
 	</c:if>
 	<li><a href="logout.login">로그아웃</a></li>
 </ul>

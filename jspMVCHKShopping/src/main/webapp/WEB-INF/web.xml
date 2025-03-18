@@ -45,6 +45,14 @@
   	<url-pattern>*.login</url-pattern>
   </servlet-mapping>
 
+  <servlet>
+  	<servlet-name>my</servlet-name>
+  	<servlet-class>jspMVCHKShopping.controller.MyPageFrontController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>my</servlet-name>
+  	<url-pattern>*.my</url-pattern>
+  </servlet-mapping>
 </web-app>
 
 
