@@ -8,7 +8,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import jspMVCHKShopping.service.employee.EmployeeModifyService;
 import jspMVCHKShopping.service.member.MemberUpdateService;
+import jspMVCHKShopping.service.my.EmployeeInfoService;
+import jspMVCHKShopping.service.my.EmployeePwUpdateService;
 import jspMVCHKShopping.service.my.MemberDetailService;
 import jspMVCHKShopping.service.my.MemberPwUpdateService;
 
@@ -60,6 +63,49 @@ public class MyPageFrontController extends HttpServlet{
 			else {
 				RequestDispatcher dispatcher =
 						request.getRequestDispatcher("/myPage/myNewPw.jsp");
+				dispatcher.forward(request, response);
+			}
+		}
+		
+		
+		
+		else if(command.equals("/empMyPage.my")) {
+			EmployeeInfoService action = new EmployeeInfoService();
+			action.execute(request);			
+			
+			RequestDispatcher dispatcher =
+					request.getRequestDispatcher("myPage/employeeMyPage.jsp");
+			dispatcher.forward(request, response);
+		}else if(command.equals("/empUpdate.my")) {
+			EmployeeInfoService action = new EmployeeInfoService();
+			action.execute(request);
+			
+			RequestDispatcher dispatcher = 
+					request.getRequestDispatcher("myPage/empModify.jsp");
+			dispatcher.forward(request, response);
+		}else if(command.equals("/empModify.my")) {
+			EmployeeModifyService action = new EmployeeModifyService();
+			int i = action.execute(request);
+			if(i == 1) response.sendRedirect("empMyPage.my");
+			else {
+				EmployeeInfoService action1 = new EmployeeInfoService();
+				action1.execute(request);
+				RequestDispatcher dispatcher =
+						request.getRequestDispatcher("/myPage/empModify.jsp");
+				dispatcher.forward(request, response);
+			}
+		}else if(command.equals("/empPwModify.my")) {
+			RequestDispatcher dispatcher =
+					request.getRequestDispatcher("/myPage/empNewPw.jsp");
+			dispatcher.forward(request, response);
+		}else if(command.equals("/empPwPro.my")) {
+			EmployeePwUpdateService action = new EmployeePwUpdateService();
+			int i = action.execute(request);
+			if(i == 1)
+				response.sendRedirect("empMyPage.my");
+			else {
+				RequestDispatcher dispatcher =
+						request.getRequestDispatcher("/myPage/empNewPw.jsp");
 				dispatcher.forward(request, response);
 			}
 		}

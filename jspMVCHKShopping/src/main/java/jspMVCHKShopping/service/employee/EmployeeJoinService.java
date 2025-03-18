@@ -27,7 +27,7 @@ public class EmployeeJoinService {
 		String empPhone = request.getParameter("empPhone");
 		String empJumin = request.getParameter("empJumin");
 		String empEmail = request.getParameter("empEmail");
-		String empEnterDate = request.getParameter("empHireDate");
+		String empHireDate = request.getParameter("empHireDate");
 		
 		EmployeeDTO dto = new EmployeeDTO();
 		dto.setEmpAddr(empAddr);
@@ -40,7 +40,7 @@ public class EmployeeJoinService {
 		dto.setEmpPhone(empPhone);
 		dto.setEmpPost(empPost);
 		dto.setEmpPw(empPw);
-		dto.setEmpHireDate(empEnterDate);
+		dto.setEmpHireDate(empHireDate);
 		
 		EmployeeDAO dao = new EmployeeDAO();
 		dao.employeeInsert(dto);

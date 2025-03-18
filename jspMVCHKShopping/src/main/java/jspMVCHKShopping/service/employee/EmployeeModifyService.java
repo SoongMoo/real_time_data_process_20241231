@@ -1,9 +1,6 @@
 package jspMVCHKShopping.service.employee;
 
 import java.io.UnsupportedEncodingException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -13,7 +10,7 @@ import jspMVCHKShopping.model.EmployeeDAO;
 import jspMVCHKShopping.model.EmployeeDTO;
 
 public class EmployeeModifyService {
-	public void execute(HttpServletRequest request) {
+	public int execute(HttpServletRequest request) {
 		try {
 			// 한글 깨짐 방지
 			request.setCharacterEncoding("utf-8");
@@ -27,8 +24,10 @@ public class EmployeeModifyService {
 		String empPhone = request.getParameter("empPhone");
 		String empJumin = request.getParameter("empJumin");
 		String empEmail = request.getParameter("empEmail");
-		String empEnterDate = request.getParameter("empHireDate");
-
+		String empHireDate = request.getParameter("empHireDate");
+		
+		String empPw = request.getParameter("empPw");
+		
 		EmployeeDTO dto = new EmployeeDTO();
 		dto.setEmpAddr(empAddr);
 		dto.setEmpAddrDetail(empAddrDetail);
@@ -38,9 +37,20 @@ public class EmployeeModifyService {
 		dto.setEmpNum(empNum);
 		dto.setEmpPhone(empPhone);
 		dto.setEmpPost(empPost);
-		dto.setEmpHireDate(empEnterDate);
-		EmployeeDAO dao = new EmployeeDAO();
-		dao.employeeUpdate(dto);
+		dto.setEmpHireDate(empHireDate);
+		
+		HttpSession session = request.getSession();
+		AuthInfoDTO auth = (AuthInfoDTO)session.getAttribute("auth");
+		int i; 
+		if(auth.getUserPw().equals(empPw)) {
+			EmployeeDAO dao = new EmployeeDAO();
+			dao.employeeUpdate(dto);
+			i = 1;
+		}else {
+			request.setAttribute("pwErr", "비밀번호가 틀렸습니다.");
+			i = 0;
+		}
+		return i;
 
 	}
 }

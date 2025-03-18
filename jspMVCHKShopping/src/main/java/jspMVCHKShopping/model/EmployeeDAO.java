@@ -29,6 +29,21 @@ public class EmployeeDAO  {
 		}
 		return co;
 	}
+	public void employeePwUpdate(String empId,String newPw) {
+		con = getConnection();
+		sql = " update employees "
+			+ " set  emp_pw = ? "
+			+ " where emp_id = ? ";
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, newPw);
+			pstmt.setString(2, empId);
+			int i = pstmt.executeUpdate();
+			System.out.println( i + "행이(가) 수정되었습니다.");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 	public String empAutoNum() {
 		String empNum = "";
 		con = getConnection();
@@ -44,22 +59,7 @@ public class EmployeeDAO  {
 		}
 		return empNum;
 	}
-	public String empNumSelect(String empId) {
-		String empNum = null;
-		con = getConnection();
-		sql = " select emp_num from employees "
-			+ " where emp_id = ?";
-		try {
-			pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, empId);
-			rs = pstmt.executeQuery();
-			rs.next();
-			empNum = rs.getString(1);
-		}catch (Exception e) {
-			e.printStackTrace();
-		}
-		return empNum;
-	}
+	
 	public void employeeInsert(EmployeeDTO dto) {
 		con = getConnection();
 		sql = "insert into employees("
@@ -130,11 +130,12 @@ public class EmployeeDAO  {
 				+ "	 emp_phone, emp_email, EMP_HIRE_DATE,"
 				+ "	 emp_jumin"
 				+ " from employees"
-				+ " where emp_num = ?";
+				+ " where emp_num = ? or emp_id = ? ";
 		
 		try {
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, empNum);
+			pstmt.setString(2, empNum);
 			rs = pstmt.executeQuery();
 			if(rs.next()) {
 				dto.setEmpAddr(rs.getString(5));
