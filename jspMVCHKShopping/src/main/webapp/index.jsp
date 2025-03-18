@@ -15,6 +15,7 @@
 		<li><a href="memberList.mem">회원관리</a></li>
 		<li><a href="employeeList.emp">직원관리</a></li>
 		<li><a href="empMyPage.my">내정보 보기</a></li>
+		<li><a href="goodsList.goods">상품관리</a></li>
 	</c:if>
 	<c:if test="${auth.grade == 'mem' }">
 		<li><a href="memberMyPage.my">내정보 보기</a></li>
