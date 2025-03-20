@@ -13,6 +13,7 @@ import jspMVCHKShopping.service.member.MemberUpdateService;
 import jspMVCHKShopping.service.my.EmployeeInfoService;
 import jspMVCHKShopping.service.my.EmployeePwUpdateService;
 import jspMVCHKShopping.service.my.MemberDetailService;
+import jspMVCHKShopping.service.my.MemberDropService;
 import jspMVCHKShopping.service.my.MemberPwUpdateService;
 
 public class MyPageFrontController extends HttpServlet{
@@ -65,10 +66,24 @@ public class MyPageFrontController extends HttpServlet{
 						request.getRequestDispatcher("/myPage/myNewPw.jsp");
 				dispatcher.forward(request, response);
 			}
+		}else if(command.equals("/memberDrop.my")) {
+			
+			RequestDispatcher dispatcher =
+					request.getRequestDispatcher("myPage/memberDrop.jsp");
+			dispatcher.forward(request, response);
+		}else if(command.equals("/memberDropOk.my")) {
+			MemberDropService action = new MemberDropService();
+			int i = action.execute(request);
+			if(i == 1)response.sendRedirect("logout.login");
+			else {
+				RequestDispatcher dispatcher =
+						request.getRequestDispatcher("myPage/memberDrop.jsp");
+				dispatcher.forward(request, response);
+			}
 		}
 		
 		
-		
+		/// 직원 내정보 
 		else if(command.equals("/empMyPage.my")) {
 			EmployeeInfoService action = new EmployeeInfoService();
 			action.execute(request);			

@@ -53,6 +53,15 @@
   	<servlet-name>my</servlet-name>
   	<url-pattern>*.my</url-pattern>
   </servlet-mapping>
+  
+  <servlet>
+  	<servlet-name>goods</servlet-name>
+  	<servlet-class>jspMVCHKShopping.controller.GoodsFrontController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>goods</servlet-name>
+  	<url-pattern>*.goods</url-pattern>
+  </servlet-mapping>
 </web-app>
 
 

@@ -10,15 +10,15 @@
 </head>
 <body>
 <table border=1 align="center" width="600">
-	<caption> 상품 상세보기</caption>
-	<tr><th width="150" >상품번호</th><td></td></tr>
-	<tr><th width="150" >상품명</th><td></td></tr>
-	<tr><th>상품가격</th><td></td></tr>
-	<tr><th>상품설명</th><td></td></tr>
-	<tr><th>조회수</th><td></td></tr>
+	<caption>${dto.goodsName } 상품 상세보기</caption>
+	<tr><th width="150" >상품번호</th><td>${dto.goodsNum }</td></tr>
+	<tr><th width="150" >상품명</th><td>${dto.goodsName }</td></tr>
+	<tr><th>상품가격</th><td>${dto.goodsPrice }</td></tr>
+	<tr><th>상품설명</th><td>${dto.goodsContent }</td></tr>
+	<tr><th>조회수</th><td>${dto.visitCount }</td></tr>
 	<tr><th colspan="2">
-		<a href="goodsUpdate.goods?goodsNum=">상품수정</a> | 
-		<a href="goodsDelete.goods?goodsNum=">상품 삭제</a> | 
+		<a href="goodsUpdate.goods?goodsNum=${dto.goodsNum }">상품수정</a> | 
+		<a href="goodsDelete.goods?goodsNum=${dto.goodsNum }">상품 삭제</a> | 
 		<a href="goodsList.goods">상품목록</a></th></tr>
 </table>
 </body>

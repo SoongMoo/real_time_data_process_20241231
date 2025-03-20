@@ -46,12 +46,14 @@ public class MemberDAO {
 		}
 	}
 	
-	public void memberDelete(String memberNum) {
+	public void memberDelete(String memberNumNId) {
 		con = getConnection();
-		sql = " delete from  members where member_num = ? ";
+		sql = " delete from  members "
+			+ " where member_num = ? or member_id = ? ";
 		try {
 			pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, memberNum);
+			pstmt.setString(1, memberNumNId);
+			pstmt.setString(2, memberNumNId);
 			int i = pstmt.executeUpdate();
 			System.out.println(i + " 행이(가) 삭제되었습니다.");
 		} catch (SQLException e) {
