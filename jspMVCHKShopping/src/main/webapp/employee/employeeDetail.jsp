@@ -8,6 +8,7 @@
 </head>
 <body>
 직원 상세 정보 <br />
+<img src="" /><br /> 
 직원번호 : ${dto.empNum }<br />
 직원명 : ${dto.empName }<br />
 직원아이디: ${dto.empId }<br />

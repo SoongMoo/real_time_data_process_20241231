@@ -16,6 +16,17 @@
 	<tr><th>상품가격</th><td>${dto.goodsPrice }</td></tr>
 	<tr><th>상품설명</th><td>${dto.goodsContent }</td></tr>
 	<tr><th>조회수</th><td>${dto.visitCount }</td></tr>
+	<tr><th>등록한 사원</th><td>${dto.empNum }</td></tr>
+	<tr><th>등록일</th><td>${dto.goodsRegist }</td></tr>
+	<tr><th>수정한 사원</th><td>${dto.updateEmpNum }</td></tr>
+	<tr><th>수정일</th><td>${dto.goodsUpdateDate }</td></tr>
+	<tr><th>메인이미지</th>
+		<td><img width="300" height="300" src="goods/upload/${dto.goodsMainStoreImage }" /></td></tr>
+	<tr><th>메인이미지</th>
+		<td><c:forTokens items="${dto.goodsDetailStoreImage }" delims="`" var="image">
+			<img width="300" height="300" src="goods/upload/${image }" /><br />
+			</c:forTokens>
+		</td></tr>
 	<tr><th colspan="2">
 		<a href="goodsUpdate.goods?goodsNum=${dto.goodsNum }">상품수정</a> | 
 		<a href="goodsDelete.goods?goodsNum=${dto.goodsNum }">상품 삭제</a> | 

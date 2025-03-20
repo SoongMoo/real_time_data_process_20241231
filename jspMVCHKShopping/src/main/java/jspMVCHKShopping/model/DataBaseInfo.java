@@ -12,7 +12,7 @@ public class DataBaseInfo {
 	PreparedStatement pstmt;
 	ResultSet rs;
 	String sql;	
-	public DataBaseInfo() {
+	public DataBaseInfo() { // 디펄트 생성자 : 매개변수가 없는 생성자
 		jdbcDriver = "oracle.jdbc.driver.OracleDriver";
 		jdbcURL ="jdbc:oracle:thin:@localhost:1521:xe";
 	}

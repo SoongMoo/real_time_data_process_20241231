@@ -23,13 +23,20 @@ public class GoodsUpdateService {
 		String goodsPrice = request.getParameter("goodsPrice");
 		String goodsContent = request.getParameter("goodsContent");
 		
+		HttpSession session = request.getSession();
+		AuthInfoDTO auth = (AuthInfoDTO)session.getAttribute("auth");
+		String empId = auth.getUserId();
+		
+		GoodsDAO dao = new GoodsDAO();
+		String updateEmpNum = dao.employeeNumSelect(empId);
+		
 		GoodsDTO dto = new GoodsDTO();
 		dto.setGoodsNum(goodsNum);
 		dto.setGoodsName(goodsName);
 		dto.setGoodsPrice(Integer.parseInt(goodsPrice));
 		dto.setGoodsContent(goodsContent);
+		dto.setUpdateEmpNum(updateEmpNum);
 		
-		GoodsDAO dao = new GoodsDAO();
 		dao.goodsUpdate(dto);
 	}
 }
