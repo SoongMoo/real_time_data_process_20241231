@@ -5,6 +5,20 @@ import java.util.ArrayList;
 import java.util.List;
 				       // 상속
 public class GoodsDAO extends DataBaseInfo{
+	public void visitCountUpdate(String goodsNum) {
+		con = getConnection();
+		sql = " update goods "
+			+ " set visit_count = visit_count + 1 "
+			+ " where goods_num = ? ";
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, goodsNum);
+			int i = pstmt.executeUpdate();
+			System.out.println(i + "행이(가) 수정되었습니다.");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}		
+	}
 	public int goodsDelete(String goodsNum) {
 		con = getConnection();
 		sql = " delete from goods where goods_num = ? ";
@@ -115,7 +129,7 @@ public class GoodsDAO extends DataBaseInfo{
 		return list;
 	}
 	
-	public void goodsInsert(GoodsDTO dto) {
+	public void goodsInsert(GoodsDTO dto) { // 매개변수:parameter
 		con = getConnection();
 		sql = " insert into goods (GOODS_NUM,GOODS_NAME, GOODS_PRICE,GOODS_CONTENTS,VISIT_COUNT"
 				+ "                ,emp_num, GOODS_REGIST"

@@ -9,6 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import jspMVCHKShopping.service.goods.GoodsDetailService;
+import jspMVCHKShopping.service.goods.GoodsVisitCountService;
+import jspMVCHKShopping.service.item.GoodsWishItemService;
+import jspMVCHKShopping.service.item.GoodsWishService;
 
 public class ItemFrontController extends HttpServlet{
 	protected void doProcess(HttpServletRequest request, 
@@ -18,11 +21,21 @@ public class ItemFrontController extends HttpServlet{
 		String command =  requestURI.substring(contextPath.length());
 		if(command.equals("/detailView.item")) {
 			System.out.println("제품상세보기");
+			// 조회수 증가
+			GoodsVisitCountService action2 = new GoodsVisitCountService();
+			action2.execute(request);
+			//  상품만 조회
 			GoodsDetailService action = new GoodsDetailService();
 			action.execute(request);
+			// 찜 조회
+			GoodsWishService action1 = new GoodsWishService();
+			action1.execute(request);
 			RequestDispatcher dispatcher =
 					request.getRequestDispatcher("item/detailView.jsp");
 			dispatcher.forward(request, response);
+		}else if(command.equals("/wishItem.item")) {
+			GoodsWishItemService action = new GoodsWishItemService();
+			action.execute(request);
 		}
 	}
 	@Override

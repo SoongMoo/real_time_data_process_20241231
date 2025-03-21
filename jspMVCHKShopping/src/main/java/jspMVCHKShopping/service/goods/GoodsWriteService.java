@@ -64,7 +64,7 @@ public class GoodsWriteService {
 			dto.setGoodsMainStoreImage(goodsMainStoreImage);
 			dto.setGoodsDetailImage(goodsDetailImage);
 			dto.setGoodsDetailStoreImage(goodsDetailStoreImage);
-			dao.goodsInsert(dto);
+			dao.goodsInsert(dto); // 인자 : argument
 		} catch (IOException e) {
 			e.printStackTrace();
 		}		
