@@ -9,14 +9,14 @@ public class GoodsDAO extends DataBaseInfo{
 		con = getConnection();
 		sql = " delete from goods where goods_num = ? ";
 		int i = 0;
-		try {
+		try { //지역변수, 블록변수
 			pstmt= con.prepareStatement(sql);
 			pstmt.setString(1, goodsNum);
 			i = pstmt.executeUpdate();
-			System.out.println(i + "개 행이(가) 수정되었습니다.");
+			System.out.println(i + "개 행이(가) 삭제되었습니다.");
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally {close();}
+		}
 		return i;
 	}
 	public String employeeNumSelect(String empId) {
@@ -94,6 +94,7 @@ public class GoodsDAO extends DataBaseInfo{
 		List<GoodsDTO> list = new ArrayList<GoodsDTO>(); 
 		con = getConnection();
 		sql = " select GOODS_NUM,GOODS_NAME, GOODS_PRICE,GOODS_CONTENTS,VISIT_COUNT "
+			+ "        , GOODS_MAIN_STORE_IMAGE"
 			+ " from goods ";
 		try {
 			pstmt = con.prepareStatement(sql);
@@ -105,6 +106,7 @@ public class GoodsDAO extends DataBaseInfo{
 				dto.setGoodsPrice(rs.getInt(3));
 				dto.setGoodsContent(rs.getString(4));
 				dto.setVisitCount(5);
+				dto.setGoodsMainStoreImage(rs.getString("GOODS_MAIN_STORE_IMAGE"));
 				list.add(dto);
 			}
 		} catch (SQLException e) {
