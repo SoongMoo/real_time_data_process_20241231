@@ -10,6 +10,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import jspMVCHKShopping.service.goods.GoodsDetailService;
 import jspMVCHKShopping.service.goods.GoodsVisitCountService;
+import jspMVCHKShopping.service.item.CartInsertService;
+import jspMVCHKShopping.service.item.CartListService;
+import jspMVCHKShopping.service.item.GoodsItemService;
 import jspMVCHKShopping.service.item.GoodsWishItemService;
 import jspMVCHKShopping.service.item.GoodsWishService;
 
@@ -36,6 +39,23 @@ public class ItemFrontController extends HttpServlet{
 		}else if(command.equals("/wishItem.item")) {
 			GoodsWishItemService action = new GoodsWishItemService();
 			action.execute(request);
+		}else if(command.equals("/cart.item")) {
+			CartInsertService action = new CartInsertService();
+			action.execute(request);
+		}else if(command.equals("/cartList.item")) {
+			CartListService action = new CartListService();
+			action.execute(request);
+			RequestDispatcher dispatcher =
+					request.getRequestDispatcher("item/cartList.jsp");
+			dispatcher.forward(request, response);
+		}else if(command.equals("/itemBuy.item")) {
+			GoodsItemService action = new GoodsItemService();
+			action.execute(request);
+			System.out.println("구매페이지");
+			
+			RequestDispatcher dispatcher =
+					request.getRequestDispatcher("item/goodsOrder.jsp");
+			dispatcher.forward(request, response);
 		}
 	}
 	@Override

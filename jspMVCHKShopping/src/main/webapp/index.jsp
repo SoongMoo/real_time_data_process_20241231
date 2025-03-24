@@ -20,6 +20,7 @@
 	</c:if>
 	<c:if test="${auth.grade == 'mem' }">
 		<li><a href="memberMyPage.my">내정보 보기</a></li>
+		<li><a href="cartList.item">장바구니</a></li>
 	</c:if>
 	<li><a href="logout.login">로그아웃</a></li>
 </ul>
