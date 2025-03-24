@@ -13,11 +13,17 @@
 <body>
 <table width="700" align="center">
 	<tr><td>상품 대표 이미지</td><td>주문 상품 정보</td><td>수량/상품금액</td><td>금액</td></tr>
+	<c:forEach items="${list }" var="dto">
+	<tr><td><img src="goods/upload/${dto.goodsImage }" width="30"/></td>
+	    <td>${dto.goodsName }</td>
+	    <td>${dto.cartQty }개/${dto.totalPrice }원</td>
+	    <td>${dto.totalPrice }원</td></tr>
+	</c:forEach>
 </table>
 <form action="goodsOrder.item" method="post"> 
-<input type="hidden" name="purchaseName" value="개"/>
-<input type="hidden" name="goodsNums" value=""/>
-<input type="hidden" name="totalPaymentPrice" value="" />
+<input type="hidden" name="purchaseName" value="${list[0].goodsName }외 ${list.size() -1 } 개"/>
+<input type="hidden" name="goodsNums" value="${nums }"/>
+<input type="hidden" name="totalPaymentPrice" value="${goodsTotalPrice }" />
 <table width="700"  align="center">
 	<tr><td>
 			<table width="350">
@@ -42,7 +48,7 @@
 			<table width="350">
 				<tr><td colspan=2 align="center">3. 결제정보</td></tr>
 				<tr><td> 총 결제 금액 </td>
-					<td align="right">원 </td></tr>
+					<td align="right">${goodsTotalPrice }원 </td></tr>
 				<tr><td align="center"  colspan=2><input type="submit" value="결제하기"/></td></tr>
 			</table>
 		</td>

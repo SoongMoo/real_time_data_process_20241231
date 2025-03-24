@@ -13,11 +13,11 @@ public class ItemDAO extends DataBaseInfo{
 			+ " 	  ,CART_QTY * goods_Price as total_price "
 			+ " from goods g join cart c "
 			+ " on g.goods_num = c.goods_num "
-			+ " where member_num = ? and goods_num = ? ";
+			+ " where member_num = ? and g.goods_num = ? ";
 		try {
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, memberNum);
-			pstmt.setString(1, goodsNum);
+			pstmt.setString(2, goodsNum);
 			rs = pstmt.executeQuery();
 			if(rs.next()) {
 				dto = new CartListDTO();
