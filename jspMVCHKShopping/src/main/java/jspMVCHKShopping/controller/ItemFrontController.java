@@ -13,8 +13,11 @@ import jspMVCHKShopping.service.goods.GoodsVisitCountService;
 import jspMVCHKShopping.service.item.CartInsertService;
 import jspMVCHKShopping.service.item.CartListService;
 import jspMVCHKShopping.service.item.GoodsItemService;
+import jspMVCHKShopping.service.item.GoodsOrderService;
 import jspMVCHKShopping.service.item.GoodsWishItemService;
 import jspMVCHKShopping.service.item.GoodsWishService;
+import jspMVCHKShopping.service.item.INIstdpayPcReturnService;
+import jspMVCHKShopping.service.item.IniPayReqService;
 
 public class ItemFrontController extends HttpServlet{
 	protected void doProcess(HttpServletRequest request, 
@@ -55,6 +58,29 @@ public class ItemFrontController extends HttpServlet{
 			
 			RequestDispatcher dispatcher =
 					request.getRequestDispatcher("item/goodsOrder.jsp");
+			dispatcher.forward(request, response);
+		}else if(command.equals("/goodsOrder.item")) {
+			// itemBuy.item에서 넘어온 값을 purchase에 저장
+			GoodsOrderService action = new GoodsOrderService();
+			String purchaseNum = action.execute(request);
+			
+			response.sendRedirect("paymentOk.item?purchaseNum="+purchaseNum);
+		}else if(command.equals("/paymentOk.item")) {
+			IniPayReqService action = new IniPayReqService();
+			try {
+				action.execute(request);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			RequestDispatcher dispatcher =
+					request.getRequestDispatcher("item/payment.jsp");
+			dispatcher.forward(request, response);
+		}else if(command.equals("/INIstdpay_pc_return.item")) {
+			INIstdpayPcReturnService action = 
+					new INIstdpayPcReturnService();
+			action.execute(request);
+			RequestDispatcher dispatcher =
+					request.getRequestDispatcher("item/buyfinished.jsp");
 			dispatcher.forward(request, response);
 		}
 	}

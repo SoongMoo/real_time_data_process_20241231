@@ -23,6 +23,9 @@ public class GoodsItemService {
 		List<CartListDTO> list = new ArrayList<CartListDTO>();
 		Integer goodsTotalPrice = 0;
 		String nums = "";
+		/// jdbc => mybytis(spring)
+		/// select * from cart 
+		/// where goods_num in ('goods_100002', 'goods_100003') and member_num = 'mem_10001'
 		for(String goodsNum : goodsNums) {
 			CartListDTO dto = dao.itemSelectOne(goodsNum, mdto.getMemberNum());
 			list.add(dto);

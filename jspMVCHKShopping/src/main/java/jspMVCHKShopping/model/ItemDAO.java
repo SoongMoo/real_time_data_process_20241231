@@ -5,6 +5,121 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ItemDAO extends DataBaseInfo{
+	public void paymentInsert(PaymentDTO dto) {
+		con = getConnection();
+		sql = " insert into payment (purchase_Num,confirmNumber,cardNum,TID"
+			+ "                     ,totalPrice,RESULTMASSAGE,PAYMATHOD,applDate"
+			+ "                     ,appTime ) "
+			+ " values (?,?,?,?,?,?,?,?,?)";
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, dto.getPurchaseNum());
+			pstmt.setString(2, dto.getConfirmNumber());
+			pstmt.setString(3, dto.getCardNum());
+			pstmt.setString(4, dto.getTid());
+			pstmt.setString(5, dto.getTotalPrice());
+			pstmt.setString(6, dto.getResultMessage());
+			pstmt.setString(7, dto.getPayMethod());
+			pstmt.setString(8, dto.getApplDate());
+			pstmt.setString(9, dto.getApplTime());
+			int i = pstmt.executeUpdate();
+			System.out.println(i + "개가 삽입되었습니다.");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	public void cartDelete(String goodsNum, String memberNum) {
+		con = getConnection();
+		sql = " delete from cart "
+			+ " where goods_num = ? and member_num = ? ";
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, goodsNum);
+			pstmt.setString(2, memberNum);
+			int i = pstmt.executeUpdate();
+			System.out.println(i + "행이(가) 삭제되었습니다.");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	public void purchaseListInsert(String goodsNum, String purchaseNum, String memberNum){
+		con = getConnection();
+		sql = " insert into purchase_list(GOODS_NUM, PURCHASE_NUM, PURCHASE_QTY,GOODS_UNIT_PRICE )"
+			+ " select c.GOODS_NUM , ?, cart_qty , cart_qty * goods_price "
+			+ " from cart c join goods g "
+			+ " on c.goods_num = g.goods_num "
+			+ " where g.goods_num = ? and member_num = ? ";
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, purchaseNum);
+			pstmt.setString(2, goodsNum);
+			pstmt.setString(3, memberNum);
+			int i = pstmt.executeUpdate();
+			System.out.println(i + "행이(가) 삽입되었습니다.");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	public PurchaseDTO purchaseSelectOne(String purchaseNum) {
+		PurchaseDTO dto = null;
+		con = getConnection();
+		sql = " select  PURCHASE_NUM, PURCHASE_DATE, PURCHASE_PRICE  "
+			+ "     	,DELIVERY_ADDR, DELIVERY_ADDR_DETAIL, DELIVERY_POST"
+			+ "     	,DELIVERY_PHONE, MESSAGE, PURCHASE_STATUS, MEMBER_NUM"
+			+ "     	,DELIVERY_NAME, PURCHASE_NAME"
+			+ " from purchase "
+			+ " where PURCHASE_NUM = ? ";
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, purchaseNum);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				dto = new PurchaseDTO();
+				dto.setDeliveryAddr(rs.getString("DELIVERY_ADDR"));
+				dto.setDeliveryAddrDetail(rs.getString("DELIVERY_ADDR_DETAIL"));
+				dto.setDeliveryName(rs.getString("DELIVERY_NAME"));
+				dto.setDeliveryPhone(rs.getString("DELIVERY_PHONE"));
+				dto.setMemberNum(rs.getString("MEMBER_NUM"));
+				dto.setMessage(rs.getString("MESSAGE"));
+				dto.setPurchaseDate(rs.getString("PURCHASE_DATE"));
+				dto.setPurchaseName(rs.getString("PURCHASE_NAME"));
+				dto.setPurchaseNum(rs.getString("PURCHASE_NUM"));
+				dto.setPurchasePrice(rs.getLong("PURCHASE_PRICE"));
+				dto.setPurchaseStatus(rs.getString("PURCHASE_STATUS"));
+				dto.setDeliveryPost(rs.getString("DELIVERY_POST"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return dto;		
+	}
+	public void purchaseInsert(PurchaseDTO dto) {
+		con = getConnection();
+		sql = " insert into purchase (PURCHASE_NUM, PURCHASE_DATE, PURCHASE_PRICE "
+			+ " 					,DELIVERY_ADDR, DELIVERY_ADDR_DETAIL, DELIVERY_POST"
+			+ "                     ,DELIVERY_PHONE, MESSAGE, PURCHASE_STATUS, MEMBER_NUM"
+			+ "                     ,DELIVERY_NAME, PURCHASE_NAME)"
+			+ " values( ?, sysdate, ?, ?, ?, ?, ?, ?, '결제대기중', ?, ?, ?)";
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, dto.getPurchaseNum());
+			pstmt.setLong(2, dto.getPurchasePrice());
+			pstmt.setString(3, dto.getDeliveryAddr());
+			pstmt.setString(4, dto.getDeliveryAddrDetail());
+			pstmt.setString(5, dto.getDeliveryPost());
+			pstmt.setString(6, dto.getDeliveryPhone());
+			pstmt.setString(7, dto.getMessage());
+			pstmt.setString(8, dto.getMemberNum());
+			pstmt.setString(9, dto.getDeliveryName());
+			pstmt.setString(10, dto.getPurchaseName());
+			int i = pstmt.executeUpdate();
+			System.out.println(i + "행이(가) 삽입되었습니다.");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public CartListDTO itemSelectOne(String goodsNum, String memberNum) {
 		CartListDTO dto = null;
 		con = getConnection();
