@@ -376,3 +376,7 @@ ALTER TABLE PURCHASE
 	REFERENCES MEMBERS ( -- 회원
 	MEMBER_NUM -- 회원번호
 	) on delete set null;
+
+alter table purchase
+add (DELIVERY_NAME varchar2(50),
+     PURCHASE_NAME varchar2(100));
