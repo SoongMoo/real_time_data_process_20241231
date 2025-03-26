@@ -21,6 +21,7 @@
 	<c:if test="${auth.grade == 'mem' }">
 		<li><a href="memberMyPage.my">내정보 보기</a></li>
 		<li><a href="cartList.item">장바구니</a></li>
+		<li><a href="purchaseList.item">주문조회</a></li>
 	</c:if>
 	<li><a href="logout.login">로그아웃</a></li>
 </ul>
@@ -29,8 +30,11 @@
 <c:if test="${empty auth }">
 <form action="login.login" method="post" id="frm">
 <table border="1" align="center">
-	<tr><td colspan="2">로그인 유지 | 아이디 저장</td></tr>
-	<tr><td><input type="text" placeholder="아이디" name="userId"/>
+	<tr><td colspan="2">
+		<input type="checkbox" name="keepLogin"/> 로그인유지 | 
+		<input type="checkbox" name="storeId" value="store" 
+					<c:if test="${!empty sid }">checked</c:if> />아이디저장</td></tr>
+	<tr><td><input type="text" placeholder="아이디" name="userId" value="${sid }"/>
 			<span style="color:red">${idErr }</span>
 		</td>
 		<td rowspan="2"><input type="submit" value="로그인"/></td></tr>
