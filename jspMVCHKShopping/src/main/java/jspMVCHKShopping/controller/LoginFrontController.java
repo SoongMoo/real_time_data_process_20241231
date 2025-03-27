@@ -1,6 +1,7 @@
 package jspMVCHKShopping.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -28,6 +29,10 @@ public class LoginFrontController extends HttpServlet{
 			HttpSession session = request.getSession();
 			session.invalidate();  // 모든 session 삭제
 			response.sendRedirect(contextPath);
+		}else if(command.equals("/loginCk.login")) {
+			RequestDispatcher dispatcher
+				= request.getRequestDispatcher("login.jsp");
+			dispatcher.forward(request, response);
 		}
 	}
 	@Override
@@ -45,6 +50,27 @@ public class LoginFrontController extends HttpServlet{
 			else {
 				RequestDispatcher dispatcher = 
 						request.getRequestDispatcher("index.jsp");
+				dispatcher.forward(request, response);
+			}
+		}else if(command.equals("/login1.login")) {
+			LoginService action = new LoginService();
+			int i = action.execute(request, response);
+			if(i == 1) {
+				PrintWriter out = response.getWriter();
+				response.setContentType("text/html; charset=UTF-8");
+				String script = "<script type='text/javascript'>"
+							  + "	window.self.close();"
+							  +	"</script>";
+				out.print(script);
+				out.close();
+				/*
+				RequestDispatcher dispatcher =
+						request.getRequestDispatcher("NewFile.jsp");
+				dispatcher.forward(request, response);
+				*/
+			}else {
+				RequestDispatcher dispatcher =
+						request.getRequestDispatcher("login.jsp");
 				dispatcher.forward(request, response);
 			}
 		}

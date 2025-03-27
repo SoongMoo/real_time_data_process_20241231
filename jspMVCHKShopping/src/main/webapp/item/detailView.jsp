@@ -24,8 +24,8 @@
 					if (con) location.href = "cartList.item";
 				},
 				error : function() {
-					alert("로그 아웃되었습니다.\n 다시로그인 해주세요.");
-					location.href = '/jspMVCHKShopping';
+					window.open("loginCk.login","이름"
+							,"width=400, height=100 , top=100, left=100");
 				}
 			});
 		});
