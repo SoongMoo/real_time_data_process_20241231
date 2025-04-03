@@ -13,7 +13,7 @@ import jspBoardMVCProject.service.BoardDetailService;
 import jspBoardMVCProject.service.BoardListService;
 import jspBoardMVCProject.service.BoardUpdateService;
 import jspBoardMVCProject.service.BoardWriteService;
-
+@WebServlet("*.naver")
 public class BoardFrontController extends HttpServlet{
 	@Override
 	protected void doGet(HttpServletRequest request, 
