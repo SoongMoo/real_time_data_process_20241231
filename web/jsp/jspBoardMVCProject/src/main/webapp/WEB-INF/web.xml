@@ -9,12 +9,4 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
-  <servlet>
-  	<servlet-name>baord</servlet-name>
-  	<servlet-class>jspBoardMVCProject.controller.BoardFrontController</servlet-class>
-  </servlet>
-  <servlet-mapping>
-  	<servlet-name>baord</servlet-name>
-  	<url-pattern>*.naver</url-pattern>
-  </servlet-mapping>
 </web-app>
