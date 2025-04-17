@@ -20,7 +20,7 @@ public class EmployeeUpdateService {
 		if(passwordEncoder.matches(employeeCommand.getEmpPw(), dto.getEmpPw())) {
 			dto = new EmployeeDTO();
 			dto.setEmpHireDate(employeeCommand.getEmpHireDate());
-			dto.setEmpName(employeeCommand.getEmpNum());
+			dto.setEmpName(employeeCommand.getEmpName());
 			dto.setEmpNum(employeeCommand.getEmpNum());
 			employeeRepository.employeeUpdate(dto);
 			i = 1;
