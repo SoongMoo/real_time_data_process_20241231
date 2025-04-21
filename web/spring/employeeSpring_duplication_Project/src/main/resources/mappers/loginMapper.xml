@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC 	
+	"-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="loginMapperSql">
+<select id="loginSelectOne" parameterType="string" resultType="auth">
+	select emp_id userId, emp_pw userPw, emp_name userName, 'emp' grade
+	from employees
+	where emp_id = #{userId}
+	union
+	select member_id, member_pw , member_name , 'mem'
+	from members
+	where member_id = #{userId}
+</select>
+</mapper>
