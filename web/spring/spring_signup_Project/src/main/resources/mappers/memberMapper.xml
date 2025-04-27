@@ -4,11 +4,44 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="memberSql">
 <sql id="memberNum">
-	select concat('mem', nvl(substr(max(member_num),5),100000) + 1) from members
+	select concat('mem_', nvl(substr(max(member_num),5),100000) + 1) from members
 </sql>
 <insert id="memberInsert" parameterType="mem">
 	insert into members(member_num, member_id, member_pw, member_name, member_email)
 	values( (<include refid="memberNum" />),   #{memberId}, #{memberPw}, #{memberName}
 			, #{memberEmail})
 </insert>
+<select id="loginSelectOne" parameterType="string" resultType="auth">
+	select member_id userId, member_pw userPw, member_name userName
+		, member_email userEmail, 'mem' grade
+	from members
+	where member_id = #{userId} and MEMBER_EMAIL_CONF is not null
+	union
+	select emp_id, emp_pw, emp_name, emp_email, 'emp' grade
+	from employees
+	where emp_id = #{userId}
+</select>
+
+<update id="userPwUpdate" parameterType="userChangePasswordDTO">
+	update ${tableName}
+	set ${pwColumnName} = #{userPw}
+	where ${userIdColumnName} = #{userId} 
+	and ${phoneColumnName} = #{userPhone}	
+</update>
+
+<update id="emailCheckUpdate" parameterType="string">
+	update members
+	set MEMBER_EMAIL_CONF = 'Y'
+	where MEMBER_ID = #{userId} and MEMBER_EMAIL_CONF is null
+</update>
+
+
+
+
+
+
+
+
+
+
 </mapper>
