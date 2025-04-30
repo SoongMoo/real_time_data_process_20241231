@@ -29,6 +29,7 @@
 	</scm>
 	<properties>
 		<java.version>17</java.version>
+		<webapp.lib>${project.basedir}/libs</webapp.lib>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -80,6 +81,11 @@
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<!-- template : .html : jsp대신 사용-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+		</dependency>
 		
 		<!-- email -->
 		<dependency>
@@ -120,6 +126,14 @@
 			<groupId>org.bgee.log4jdbc-log4j2</groupId>
 			<artifactId>log4jdbc-log4j2-jdbc4.1</artifactId>
 			<version>1.16</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>INIpaySample</groupId>
+		    <artifactId>INIpaySample</artifactId>
+		    <version>1.3</version>
+		    <scope>system</scope>
+		    <systemPath>${webapp.lib}/INIpaySample_v1.3.jar</systemPath>
 		</dependency>	
 	</dependencies>
 
