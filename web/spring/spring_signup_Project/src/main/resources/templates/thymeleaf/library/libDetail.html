@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+상세보기:111<br />
+글번호 :  [[${libraryCommand.libNum }]]<br />
+글쓴이 :	[[${libraryCommand.libWriter }]]<br />
+제목 :	[[${libraryCommand.libSubject }]]<br />
+내용 : 	[[${libraryCommand.libContent }]]<br />
+
+<div th:each="fileName , idx : ${#strings.arraySplit(libraryCommand.libOriginalName,'`')}">
+	<a th:href="|libDownLoad?oname=${fileName}&sname=${#strings.arraySplit(libraryCommand.libStoreName,'`')[idx.index]}|">[[${fileName}]]</a>
+</div>
+
+<img th:src="|/static/libUpload/${libraryCommand.libImageStoreName }|" width=300 /><br />
+
+<a th:href="|libUpdate?libNum=${libraryCommand.libNum }|">자료실 수정</a> | 
+<a th:href="|libDelete?libNum=${libraryCommand.libNum }|">자료실 삭제</a> | 
+<a href="library">자료실</a>
+</body>
+</html>

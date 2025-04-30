@@ -1,5 +1,7 @@
 package springProject.domain;
 
+import java.util.Date;
+
 import org.apache.ibatis.type.Alias;
 
 import lombok.Data;
@@ -15,6 +17,7 @@ public class LibraryDTO {
 	String libImageStoreName;
 	String libOriginalName;
 	String libStoreName; 
+	Date libRegist;
 }
 
 

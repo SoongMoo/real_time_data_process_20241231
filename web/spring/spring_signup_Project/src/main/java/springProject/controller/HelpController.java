@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import springProject.service.help.FindIdService;
 import springProject.service.help.FindPwService;
 
 @Controller
@@ -23,4 +24,23 @@ public class HelpController {
 		findPwService.execute(userId, userPhone, model);
 		return "help/findPwOk";
 	}
+	@GetMapping("/findId")
+	public String findId() {
+		return "thymeleaf/help/findId";
+	}
+	@Autowired
+	FindIdService findIdService;
+	@PostMapping("/findId")
+	public String findId(String userPhone, String userEmail, Model model) {
+		findIdService.execute(userPhone, userEmail, model);
+		return "thymeleaf/help/findIdOk"; // 찾은 아이디 출력
+	}
+	
 }
+
+
+
+
+
+
+

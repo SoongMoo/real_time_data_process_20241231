@@ -63,15 +63,14 @@ function fileDel(btn, org, store, kind){
 			<input type="file" name="libFile" multiple="multiple"/> 
 		</td></tr>
 	<tr><th>이미지파일</th>
-		<td><span id="imageFile">
-			<c:if test="${empty fn:trim(libraryCommand.libImageOriginalName)}">
+		<td><c:if test="${empty fn:trim(libraryCommand.libImageOriginalName)}">
 				<input type='file' name='libImageFile' /> <!--  추가 -->
 			</c:if>
 			<c:if test="${!empty fn:trim(libraryCommand.libImageOriginalName)}">
-			</span>
+			<span id="imageFile"></span>
 			<span id="image">${libraryCommand.libImageOriginalName }</span>
 			<button type="button" onclick="fileDel(this,'${libraryCommand.libImageOriginalName }'
-										,'${libraryCommand.libImageStoreName }', 'image')">삭제</button></td></tr>
+					,'${libraryCommand.libImageStoreName }', 'image')">삭제</button></td></tr>
 			</c:if>
 	<tr><th colspan="2"><input type="submit" value="자료수정완료"/></th></tr>
 </table>

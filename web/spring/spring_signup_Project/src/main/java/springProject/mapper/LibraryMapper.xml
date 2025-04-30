@@ -9,7 +9,8 @@
 <insert id="libraryInsert" parameterType="lib">
 	insert into libraries(lib_num, lib_writer, lib_subject, lib_content
 						, LIB_ORIGINAL_NAME, LIB_STORE_NAME
-						, LIB_IMAGE_ORIGINAL_NAME, LIB_IMAGE_STORE_NAME)
+						, LIB_IMAGE_ORIGINAL_NAME, LIB_IMAGE_STORE_NAME
+						, lib_regist)
 	values(( <include refid="libNum" /> ), #{libWriter},#{libSubject},#{libContent}
 			<if test="libOriginalName != null">
 			,#{libOriginalName},#{libStoreName}
@@ -23,20 +24,28 @@
 			<if test="libImageOriginalName == null">
 			, null, null
 			</if>
-			)
+			, sysdate)
 </insert>
 <select id="libSelectList" resultType="lib">
-	select lib_num, lib_writer, lib_subject, lib_content
-	     , LIB_ORIGINAL_NAME, LIB_STORE_NAME
-		 , LIB_IMAGE_ORIGINAL_NAME, LIB_IMAGE_STORE_NAME
-	from libraries
-	order by lib_num desc
+select *
+from(   select row_number() over (order by lib_num desc) as rn
+           ,lib_num, lib_writer, lib_subject, lib_content
+           , LIB_ORIGINAL_NAME, LIB_STORE_NAME
+           , LIB_IMAGE_ORIGINAL_NAME, LIB_IMAGE_STORE_NAME
+           , lib_regist
+        from libraries
+        where lib_writer like '%' || #{searchWord} || '%' 
+           or lib_subject like '%' ||  #{searchWord} || '%' 
+           or lib_content like '%' ||  #{searchWord} || '%' 
+        )
+where rn between #{startRow} and #{endRow}
 </select>
 
 <select id="libSelectOne" parameterType="integer" resultType="lib">
 	select lib_num, lib_writer, lib_subject, lib_content
 			, LIB_ORIGINAL_NAME, LIB_STORE_NAME
 			, LIB_IMAGE_ORIGINAL_NAME, LIB_IMAGE_STORE_NAME
+			, lib_regist
 	from libraries
 	where lib_num = #{libNum}
 </select>
@@ -67,10 +76,33 @@
 		LIB_IMAGE_STORE_NAME = null
 		</if>
 	</trim>
-	where lib_num = #{libNum}
-
+	<trim prefix="where" prefixOverrides="AND | OR">
+	 	AND lib_num = #{libNum} 
+	</trim>
 </update>
+<select id="libraryCount" resultType="int">
+	select count(*) from libraries
+	where lib_writer like '%' || #{searchWord} || '%' 
+       or lib_subject like '%' ||  #{searchWord} || '%' 
+       or lib_content like '%' ||  #{searchWord} || '%' 
+</select>
+<delete id="libraryNumsDelete" parameterType="integer">
+	delete from libraries
+	where lib_num in 
+			<foreach collection="nums" item="libNum" index="index" 
+					open="(" close=")" separator=",">
+				#{libNum}
+			</foreach>
+</delete>
 </mapper>
+
+
+
+
+
+
+
+
 
 
 

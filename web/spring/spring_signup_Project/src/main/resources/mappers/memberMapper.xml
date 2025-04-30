@@ -35,7 +35,16 @@
 	where MEMBER_ID = #{userId} and MEMBER_EMAIL_CONF is null
 </update>
 
-
+<select id="selectId" parameterType="hashmap" resultType="string">
+	select member_id 
+	from members
+	where member_email = #{userEmail} 
+	 AND (member_phone1 = #{userPhone} or member_phone2 = #{userPhone})
+	union 
+	select emp_id
+	from employees
+	where emp_id = #{userEmail} and emp_phone = #{userPhone}
+</select>
 
 
 

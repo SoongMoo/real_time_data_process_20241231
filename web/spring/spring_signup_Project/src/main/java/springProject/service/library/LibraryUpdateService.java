@@ -27,7 +27,7 @@ public class LibraryUpdateService {
 		dto.setLibNum(libraryCommand.getLibNum());
 		dto.setLibSubject(libraryCommand.getLibSubject());
 		dto.setLibWriter(libraryCommand.getLibWriter());
-
+		
 		URL resource = getClass().getClassLoader().getResource("static/libUpload");
 		String fileDir = resource.getFile();
 		// 단일 파일 추가		
@@ -68,6 +68,7 @@ public class LibraryUpdateService {
 			dto.setLibOriginalName(totalOriginalName);
 			dto.setLibStoreName(totalStoreName);
 		}
+		
 		// session에 있는 파일정보 , 디비에서 session에 있는 파일정보 제거
 		List<FileDTO> list = (List<FileDTO>) session.getAttribute("fileList");
 		LibraryDTO libraryDTO = libraryMapper.libSelectOne(dto.getLibNum());
@@ -93,8 +94,8 @@ public class LibraryUpdateService {
 				}
 			}
 			
-			// 새로운 파일과 제거된 데이터베이스 파일 정보와 합친다.-- 수정
-			String totalOrigianlName = dto.getLibOriginalName();
+			// 새로운 파일과 제거된 데이터베이스 파일 정보와 합친다.
+			String totalOrigianlName = dto.getLibOriginalName(); // null
 			if(totalOrigianlName == null) totalOrigianlName = "";
 			String totalStoreName = dto.getLibStoreName();
 			if(totalStoreName == null) totalStoreName = "";
@@ -113,7 +114,6 @@ public class LibraryUpdateService {
 			if(libraryDTO.getLibImageStoreName() != null && libraryCommand.getLibImageFile().isEmpty()) {
 				if (list != null) {
 					for(FileDTO fd : list) { 
-						System.out.println("삭제");
 						if(fd.getStoreFile().equals(libraryDTO.getLibStoreName())) {
 							dto.setLibImageOriginalName(null);
 							dto.setLibImageStoreName(null);
@@ -121,7 +121,7 @@ public class LibraryUpdateService {
 					}
 				}
 			}
-		}else {
+		}else { // if문이 처리 안되었다면 dto에 데이터베이스에 있는 값을 저장
 			dto.setLibImageOriginalName(libraryDTO.getLibImageOriginalName());
 			dto.setLibImageStoreName(libraryDTO.getLibImageStoreName());
 		}

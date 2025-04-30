@@ -1,5 +1,8 @@
 package springProject.repository;
 
+import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -26,11 +29,15 @@ public class MemberRepository{
 		statement = namespace + ".userPwUpdate";
 		return sqlSession.update(statement, dto);		
 	}
-	
 	public Integer emailCheckUpdate(String userId) {
 		statement = namespace + ".emailCheckUpdate";
 		return sqlSession.update(statement, userId);
 	}
+	public List<String> selectId(Map<String , String > map) {
+		statement = namespace + ".selectId";
+		return sqlSession.selectList(statement, map);
+	}
+	
 }
 
 

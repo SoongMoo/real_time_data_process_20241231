@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
+<script type="text/javascript">
+function fileDel(btn, org, store, kind){
+	$.ajax({//삭제하려는 파일을 session에 저장 : session에 저장하려면 스프링부트에 갔다와야 하는데 화면은 그대로 있어야 한다.
+		type:'post',
+		url:'/file/fileDel',
+		data:{"orgFile": org,"storeFile":store},
+		dataType:'text',
+		success: function(result){
+			if($(btn).text() == "삭제"){
+				$(btn).text("삭제취소");
+				if(kind == 'image'){
+					$("#imageFile").html("<input type='file' name='libImageFile' />");
+					$("#image").text("");
+				}
+			}else{
+				$(btn).text("삭제");
+				if(kind == 'image'){
+					$("#imageFile").html("");
+					$("#image").text(org);
+				}
+			}
+		},
+		error:function(){
+			alert("서버오류");
+		}
+	});
+	
+}
+</script>
+</head>
+<body>
+<form action="libUpdate" method="post" th:object="${libraryCommand}"
+	enctype="multipart/form-data">
+	<input type="hidden" name="libNum" th:field="*{libNum}"/>
+<table border = 1 width=600>
+	<tr><th>제목</th>
+		<td>
+			<input type="text" name="libSubject" th:field="*{libSubject}" />
+			<span th:if="${#fields.hasErrors('libSubject')}" th:errors="*{libSubject}"></span>
+		</td>
+	</tr>
+	<tr><th>글쓴이</th>
+		<td>
+			<input type="text" name="libWriter" th:field="*{libWriter}" />
+			<span th:if="${#fields.hasErrors('libWriter')}" th:errors="*{libWriter}"></span>
+		</td>
+	</tr>
+	<tr><th>내용</th>
+		<td>
+			<textarea name="libContent" >[[${libraryCommand.libContent}]]</textarea>
+			<span th:if="${#fields.hasErrors('libContent')}" th:errors="*{libContent}"></span>
+		</td>
+	</tr>
+	<tr><th>파일</th>
+		<td>
+			<div th:each="fileName , idx : ${#strings.arraySplit(libraryCommand.libOriginalName,'`')}">
+			[[${fileName}]]
+			<button type="button" th:attr="onclick=|fileDel(this,'${fileName }'
+					,'${#strings.arraySplit(libraryCommand.libStoreName,'`')[idx.index] }')|">삭제</button>
+			</div>
+			<input type="file" name="libFile"  multiple="multiple" />
+		</td>
+	</tr>
+	<tr><th>이미지파일</th>
+		<td>
+			<th:block th:if="${#strings.isEmpty(#strings.trim(libraryCommand.libImageOriginalName))}">
+				<input type="file" name="libImageFile"/>
+			</th:block>
+			<th:block th:if="${not #strings.isEmpty(#strings.trim(libraryCommand.libImageOriginalName))}">
+				<span id="imageFile"></span>
+				<span id="image">[[${libraryCommand.libImageOriginalName }]]</span>
+				<button type="button" th:attr="onclick=|fileDel(this,'${libraryCommand.libImageOriginalName }'
+					,'${libraryCommand.libImageStoreName }', 'image')|">삭제</button>
+			</th:block>
+		</td>
+	</tr>
+			
+	<tr><th colspan="2"><input type="submit" value="자료수정완료"/></th></tr>
+</table>
+</form>
+</body>
+</html>
+
+
+
+
+
+
+
+
