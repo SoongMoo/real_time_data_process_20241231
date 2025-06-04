@@ -59,7 +59,7 @@ public class KafkaWebSocketServer extends WebSocketServer {
     	ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
     	stockRepository = context.getBean(StockRepository.class);
     	
-        InetSocketAddress address = new InetSocketAddress("localhost", 8080);
+        InetSocketAddress address = new InetSocketAddress("localhost", 1234);
         KafkaWebSocketServer server = new KafkaWebSocketServer(address);
         server.start();
         System.out.println("WebSocket server started on port: " + server.getPort());
