@@ -43,7 +43,7 @@ $(function(){
 </script>
 </head>
 <body>
-안녕하세요<br /><a href="/mailling">메일링</a> | <a href="/library">자료실</a>
+안녕하세요<br /><a href="/mailling">메일링</a> | <a href="/library">자료실</a> | <a href="/realStock">실시간데이터</a>
 <c:if test="${!empty auth }">
 <a href="/login/logout">로그아웃</a>
 </c:if>
