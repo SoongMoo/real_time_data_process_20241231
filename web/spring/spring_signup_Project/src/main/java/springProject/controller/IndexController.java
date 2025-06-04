@@ -55,7 +55,10 @@ public class IndexController {
 		return mav;
 	}
 
-	
+	@GetMapping("/realStock")
+	public String realStock() {
+		return "/socket/chattingClient";
+	}
 	
 	
 	
