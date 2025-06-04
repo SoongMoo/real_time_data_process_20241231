@@ -1,1 +1,15 @@
-sefgsagf
+1) zookeeper 실행 (Kafka 모니터링 도구)
+     C:\dev\kafka_2.13-3.8.1\bin\windows\zookeeper-server-start.bat "C:\dev\kafka_2.13-3.8.1\config\zookeeper.properties"
+2) kafka를 실행
+     C:\dev\kafka_2.13-3.8.1\bin\windows\kafka-server-start.bat C:\dev\kafka_2.13-3.8.1\config\server.properties
+3) MultiThreadedUDPServer 실행
+4) KafkaWebSocketServer 실행
+
+데이터베이스 예시
+create table stock(
+    trading_hours timestamp, -- 거래시간
+    symbol VARCHAR2(50), -- 종목코드
+    price NUMBER(20,5), -- 체결가격
+    volume NUMBER, -- 거래량
+    cumulative_Volume NUMBER -- 누적거래량
+);
