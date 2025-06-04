@@ -23,6 +23,7 @@ public class WebMvcConfig  implements WebMvcConfigurer{
 		excludeList.add("/register/**/*");
 		excludeList.add("/mailling");
 		excludeList.add("/lib*");
+		excludeList.add("/realStock");
 		registry.addInterceptor(inteceptorConfig)
 				.addPathPatterns("/**/*")// 모두차단
 				.excludePathPatterns(excludeList);// 허용할 주소
