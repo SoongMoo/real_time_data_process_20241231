@@ -7,6 +7,7 @@
 
 데이터베이스 예시
 create table stock(
+    trading_date date,
     trading_hours VARCHAR2(50), -- 거래시간
     symbol VARCHAR2(50), -- 종목코드
     price NUMBER(20,5), -- 체결가격
