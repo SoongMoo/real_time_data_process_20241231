@@ -35,7 +35,7 @@ public class StockRepository {
 				+ "        volume, "
 				+ "        cumulative_volume "
 				+ "    FROM stock "
-				+ "    WHERE TO_NUMBER(trading_hours) < 152000 "
+				+ "    WHERE TO_NUMBER(trading_hours) < 153100 "
 				+ ") "
 				+ "WHERE rn = 1 "
 				+ "ORDER BY trading_date DESC ";
