@@ -1,18 +1,24 @@
 package springProject.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import jakarta.servlet.http.HttpServletRequest;
 import springProject.command.LoginCommand;
 import springProject.command.MailCommand;
+import springProject.domain.StockA3;
 import springProject.repository.MemberRepository;
+import springProject.repository.StockRepository;
 import springProject.service.CookieService;
 import springProject.service.EmailService;
 import springProject.service.library.LibraryListService;
@@ -54,20 +60,21 @@ public class IndexController {
 		libraryListService.execute(model, page, "");
 		return mav;
 	}
-
+	
+	@Autowired
+	StockRepository stockRepository ;
 	@GetMapping("/realStock")
-	public String realStock() {
-		return "/socket/chattingClient";
+	public String realStock(Model model) {
+		List<StockA3> list =  stockRepository.stockSelect();
+		model.addAttribute("list", list);
+		return "socket/stock";
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	@GetMapping("/stockCurrent")
+	public @ResponseBody List<StockA3> currentDate(){
+		System.out.println("q21341414");
+		List<StockA3> list = stockRepository.stockCurrentSelect();
+		System.out.println(list.size());
+		return list;
+	}
 }
