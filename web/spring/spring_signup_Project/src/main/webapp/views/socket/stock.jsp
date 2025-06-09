@@ -33,7 +33,7 @@
 let chart;
 
 function createChart(data) {
-  const MAX_LENGTH = 80000;
+  const MAX_LENGTH = 45000;
   const ctx = document.getElementById('myChart').getContext('2d');
 
   if (chart) {
@@ -226,7 +226,7 @@ $(function(){
   <table class="table table-bordered table-hover table-sm text-center align-middle">
     <thead class="table-light">
       <tr>
-        <th>거래시간</th>
+        <th>거래일</th>
         <th>종가</th>
         <th>누적거래량</th>
       </tr>
