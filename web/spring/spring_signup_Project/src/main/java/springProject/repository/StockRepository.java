@@ -52,6 +52,7 @@ public class StockRepository {
 				+ "               ORDER BY TO_CHAR(trading_date, 'yyyy-MM-dd') DESC, trading_hours DESC, ROWID DESC "
 				+ "           ) AS rn "
 				+ "    FROM stock s "
+				+ "    WHERE TRUNC(trading_date) = TRUNC(SYSDATE) "
 				+ ") "
 				+ "WHERE rn = 1";
 		return jdbcTemplate.query(sql
