@@ -15,8 +15,8 @@ public class StockRepository {
 	public void stockInsert(JSONObject stockData) {
 		try {
 			System.out.println("ssss");
-			sql = " insert into stock (trading_hours, symbol, price , volume, cumulative_Volume) "
-				+ "             values( ?,?, ?,?,?)";
+			sql = " insert into stock (trading_date, trading_hours, symbol, price , volume, cumulative_Volume) "
+				+ "             values(sysdate, ?,?, ?,?,?)";
 			jdbcTemplate.update(sql, stockData.getString("timestamp")
 								   , stockData.getString("symbol")
 								   , stockData.getInt("price")
@@ -26,23 +26,5 @@ public class StockRepository {
 	        System.out.println("DB 저장 실패: " + e.getMessage());
 	        e.printStackTrace();
 	    }
-		
-		/*
-		System.out.println("records" +  stockData);
-		String sql = "INSERT INTO stock (trading_hours, symbol, price, volume, cumulative_volume) VALUES (?, ?, ?, ?, ?)";
-		try {
-			pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, stockData.getString("timestamp"));
-            pstmt.setString(2, stockData.getString("symbol"));
-            pstmt.setInt(3, stockData.getInt("price"));
-            pstmt.setInt(4, stockData.getInt("volume"));
-            pstmt.setInt(5, stockData.getInt("cumulativeVolume"));
-            pstmt.executeUpdate();
-            System.out.println("주식 정보 저장 성공");
-        } catch (SQLException e) {
-            System.out.println("DB 저장 실패: " + e.getMessage());
-            e.printStackTrace();
-        }
-        */
 	}
 }
