@@ -33,7 +33,7 @@
 let chart;
 
 function createChart(data) {
-  const MAX_LENGTH = 45000;
+  const MAX_LENGTH = 42000;
   const ctx = document.getElementById('myChart').getContext('2d');
 
   if (chart) {
@@ -153,9 +153,33 @@ function fetchData() {
 }
 
 $(document).ready(function() {
-  fetchData();
-  setInterval(fetchData, 1000);
-});
+	  function startFetching() {
+	    const intervalId = setInterval(() => {
+	      const now = new Date();
+	      const targetHour = 15;
+	      const targetMinute = 30;
+
+	      fetchData();
+
+	      if (now.getHours() > targetHour || (now.getHours() === targetHour && now.getMinutes() >= targetMinute)) {
+	        clearInterval(intervalId);
+	        console.log("3시 30분이 지나 인터벌을 멈췄습니다.");
+	      }
+	    }, 1000);
+	  }
+
+	  const now = new Date();
+	  const targetTime = new Date();
+	  targetTime.setHours(9, 30, 0, 0); // 오전 9시 30분
+
+	  if (now < targetTime) {
+	    const delay = targetTime.getTime() - now.getTime(); // ms 단위
+	    console.log("9시 30분까지 대기 중... (" + Math.round(delay / 1000) + "초)");
+	    setTimeout(startFetching, delay);
+	  } else {
+	    startFetching();
+	  }
+	});
 </script>
 <script>
 const today = new Date();
