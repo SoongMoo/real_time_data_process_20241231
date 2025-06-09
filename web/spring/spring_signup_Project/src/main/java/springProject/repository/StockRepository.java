@@ -16,28 +16,29 @@ public class StockRepository {
 	JdbcTemplate jdbcTemplate;
 	String sql;
 	public List<StockA3> stockSelect() { 
-		sql = "SELECT "
-				+ "    TO_CHAR(trading_date, 'yyyy-MM-dd') AS trading_date,"
-				+ "    rn AS max_rn,"
-				+ "    symbol,"
-				+ "    price,"
-				+ "    volume,"
+		sql = "SELECT  "
+				+ "    TO_CHAR(trading_date, 'yyyy-MM-dd') AS trading_date, "
+				+ "    rn AS max_rn, "
+				+ "    symbol, "
+				+ "    price, "
+				+ "    volume, "
 				+ "    cumulative_volume "
-				+ "FROM ("
-				+ "    SELECT "
-				+ "        ROW_NUMBER() OVER ("
-				+ "            PARTITION BY TO_CHAR(trading_date, 'yyyy-MM-dd') "
-				+ "            ORDER BY trading_hours"
-				+ "        ) AS rn,"
-				+ "        trading_date,"
-				+ "        symbol,"
-				+ "        price,"
-				+ "        volume,"
+				+ "FROM ( "
+				+ "    SELECT  "
+				+ "        ROW_NUMBER() OVER ( "
+				+ "            PARTITION BY TO_CHAR(trading_date, 'yyyy-MM-dd')  "
+				+ "            ORDER BY trading_hours DESC  "
+				+ "        ) AS rn, "
+				+ "        trading_date, "
+				+ "        symbol, "
+				+ "        price, "
+				+ "        volume, "
 				+ "        cumulative_volume "
-				+ "    FROM stock"
-				+ "    WHERE TRUNC(trading_date) <> TRUNC(SYSDATE) "
+				+ "    FROM stock "
+				+ "    WHERE TO_NUMBER(trading_hours) < 152000 "
 				+ ") "
-				+ "WHERE rn = 1";
+				+ "WHERE rn = 1 "
+				+ "ORDER BY trading_date DESC ";
 		return jdbcTemplate.query(sql
 				, new BeanPropertyRowMapper<StockA3>(StockA3.class));
 	}
