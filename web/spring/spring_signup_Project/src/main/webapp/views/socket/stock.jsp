@@ -33,7 +33,7 @@
 let chart;
 
 function createChart(data) {
-  const MAX_LENGTH = 42000;
+  const MAX_LENGTH = 23000;
   const ctx = document.getElementById('myChart').getContext('2d');
 
   if (chart) {
