@@ -157,10 +157,11 @@ $(document).ready(function() {
 	    const intervalId = setInterval(() => {
 	      const now = new Date();
 	      const targetHour = 15;
-	      const targetMinute = 30;
+	      const targetMinute = 30; // 3시 30분
 
 	      fetchData();
 
+	      // 현재 시간이 3시 30분을 지나면 인터벌을 멈추도록 설정
 	      if (now.getHours() > targetHour || (now.getHours() === targetHour && now.getMinutes() >= targetMinute)) {
 	        clearInterval(intervalId);
 	        console.log("3시 30분이 지나 인터벌을 멈췄습니다.");
@@ -170,16 +171,19 @@ $(document).ready(function() {
 
 	  const now = new Date();
 	  const targetTime = new Date();
-	  targetTime.setHours(9, 30, 0, 0); // 오전 9시 30분
+	  targetTime.setHours(8, 30, 0, 0); // 오전 8시 30분
 
+	  // 현재 시간이 8시 30분 이전이면 대기 후 실행
 	  if (now < targetTime) {
 	    const delay = targetTime.getTime() - now.getTime(); // ms 단위
-	    console.log("9시 30분까지 대기 중... (" + Math.round(delay / 1000) + "초)");
+	    console.log("8시 30분까지 대기 중... (" + Math.round(delay / 1000) + "초)");
 	    setTimeout(startFetching, delay);
 	  } else {
+	    // 이미 8시 30분 이후라면 바로 실행
 	    startFetching();
 	  }
 	});
+
 </script>
 <script>
 const today = new Date();
@@ -188,7 +192,7 @@ const yyyy = today.getFullYear();
 const mm = String(today.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 +1
 const dd = String(today.getDate()).padStart(2, '0');
 function connect() {
-	ws = new WebSocket("ws://localhost:1234");
+	ws = new WebSocket("ws://localhost:5678");
 	ws.onopen = onOpen;
 	ws.onmessage = onMessage;
 	ws.onclose = onClose;
