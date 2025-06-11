@@ -152,38 +152,68 @@ function fetchData() {
   });
 }
 
-$(document).ready(function() {
-	  function startFetching() {
-	    const intervalId = setInterval(() => {
-	      const now = new Date();
-	      const targetHour = 15;
-	      const targetMinute = 30; // 3시 30분
+function startInterval() {
+    // 8시 30분부터 15시 30분까지 interval 시작
+    const now = new Date();
+    const startTime = new Date();
+    startTime.setHours(8, 30, 0, 0);  // 8시 30분
+    const endTime = new Date();
+    endTime.setHours(15, 30, 0, 0);  // 15시 30분
 
-	      fetchData();
+    // 인터벌이 실행되는 시간대인지 체크
+    if (now >= startTime && now <= endTime) {
+        // 1초마다 fetchData 실행
+        fetchData();  // 새로 고침시 최초 한번 실행
+        return setInterval(fetchData, 1000);  // 1초마다 fetchData 실행
+    } else {
+        return null;
+    }
+}
 
-	      // 현재 시간이 3시 30분을 지나면 인터벌을 멈추도록 설정
-	      if (now.getHours() > targetHour || (now.getHours() === targetHour && now.getMinutes() >= targetMinute)) {
-	        clearInterval(intervalId);
-	        console.log("3시 30분이 지나 인터벌을 멈췄습니다.");
-	      }
-	    }, 1000);
-	  }
+function stopInterval(intervalId) {
+    // 인터벌 멈추기
+    clearInterval(intervalId);
+}
 
-	  const now = new Date();
-	  const targetTime = new Date();
-	  targetTime.setHours(8, 30, 0, 0); // 오전 8시 30분
+function checkTimeAndStartInterval() {
+    const now = new Date();
+    const startTime = new Date();
+    startTime.setHours(8, 30, 0, 0);  // 8시 30분
+    const endTime = new Date();
+    endTime.setHours(15, 30, 0, 0);  // 15시 30분
 
-	  // 현재 시간이 8시 30분 이전이면 대기 후 실행
-	  if (now < targetTime) {
-	    const delay = targetTime.getTime() - now.getTime(); // ms 단위
-	    console.log("8시 30분까지 대기 중... (" + Math.round(delay / 1000) + "초)");
-	    setTimeout(startFetching, delay);
-	  } else {
-	    // 이미 8시 30분 이후라면 바로 실행
-	    startFetching();
-	  }
-	});
+    // 인터벌을 시작할 시간인지 체크
+    if (now >= startTime && now <= endTime) {
+        return startInterval();  // interval 시작
+    }
+    return null;
+}
 
+// 페이지 로딩 시 첫 실행
+window.onload = function() {
+    // 새로고침 시 fetchData()를 한 번 실행
+    fetchData();
+
+    // 시간 체크 후 interval 시작/멈춤
+    let intervalId = checkTimeAndStartInterval();
+
+    // 시간을 계속 체크해서 인터벌을 관리
+    setInterval(() => {
+        const now = new Date();
+        const startTime = new Date();
+        startTime.setHours(8, 30, 0, 0);  // 8시 30분
+        const endTime = new Date();
+        endTime.setHours(15, 30, 0, 0);  // 15시 30분
+
+        // 현재 시간이 인터벌 시작 시간 범위 안에 있는지 확인
+        if (now >= startTime && now <= endTime && !intervalId) {
+            intervalId = startInterval();
+        } else if ((now < startTime || now > endTime) && intervalId) {
+            stopInterval(intervalId);
+            intervalId = null;
+        }
+    }, 60000 * 60);  // 매 1분마다 현재 시간을 체크
+}
 </script>
 <script>
 const today = new Date();
