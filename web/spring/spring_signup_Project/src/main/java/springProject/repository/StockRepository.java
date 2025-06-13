@@ -17,35 +17,27 @@ public class StockRepository {
 	String sql;
 	public List<StockA3> stockSelect() { 
 		sql = "SELECT  "
-				+ "    TO_CHAR(trading_date, 'yyyy-MM-dd') AS trading_date, "
-				+ "    rn AS max_rn, "
-				+ "    symbol, "
-				+ "    price, "
-				+ "    volume, "
-				+ "    cumulative_volume "
-				+ "FROM ( "
+				+ "    TO_CHAR(s.TRADING_DATE, 'yyyy-MM-dd') AS TRADING_DATE,  "
+				+ "    s.CUMULATIVE_VOLUME,  "
+				+ "    s.PRICE,  "
+				+ "    s.SYMBOL "
+				+ "FROM  "
+				+ "    stock s "
+				+ "JOIN (  "
 				+ "    SELECT  "
-				+ "        ROW_NUMBER() OVER ( "
-				+ "            PARTITION BY TO_CHAR(trading_date, 'yyyy-MM-dd')  "
-				+ "            ORDER BY trading_hours DESC  "
-				+ "        ) AS rn, "
-				+ "        trading_date, "
-				+ "        symbol, "
-				+ "        price, "
-				+ "        volume, "
-				+ "        cumulative_volume "
-				+ "    FROM stock "
-				+ "    WHERE TO_NUMBER(trading_hours) <= 153000 "
-				+ "      AND ( "
-				+ "          TRUNC(trading_date) < TRUNC(SYSDATE) "
-				+ "          OR ( "
-				+ "              TRUNC(trading_date) = TRUNC(SYSDATE)   "
-				+ "              AND TO_NUMBER(TO_CHAR(SYSDATE, 'HH24MI')) >= '1530'   "
-				+ "          ) "
-				+ "      ) "
-				+ ") "
-				+ "WHERE rn = 1 "
-				+ "ORDER BY trading_date DESC ";
+				+ "        TRUNC(TRADING_DATE) AS TRADING_DATE,  "
+				+ "        MAX(CUMULATIVE_VOLUME) AS MAX_CUMULATIVE_VOLUME "
+				+ "    FROM  "
+				+ "        stock "
+				+ "    WHERE  "
+				+ "        TRUNC(TRADING_DATE) != TRUNC(SYSDATE) "
+				+ "    GROUP BY  "
+				+ "        TRUNC(TRADING_DATE)  "
+				+ ") max_values  "
+				+ "    ON TRUNC(s.TRADING_DATE) = max_values.TRADING_DATE  "
+				+ "    AND s.CUMULATIVE_VOLUME = max_values.MAX_CUMULATIVE_VOLUME "
+				+ "ORDER BY  "
+				+ "    TRUNC(s.TRADING_DATE) DESC ";
 		return jdbcTemplate.query(sql
 				, new BeanPropertyRowMapper<StockA3>(StockA3.class));
 	}
@@ -61,7 +53,7 @@ public class StockRepository {
 				+ "    FROM stock s "
 				+ "    WHERE TRUNC(trading_date) = TRUNC(SYSDATE) "
 				+ ") "
-				+ "WHERE rn = 1";
+				+ "WHERE rn = 1 ";
 		return jdbcTemplate.query(sql
 				, new BeanPropertyRowMapper<StockA3>(StockA3.class));
 	}
