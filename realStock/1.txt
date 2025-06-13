@@ -15,7 +15,7 @@ create table stock(
     cumulative_Volume NUMBER -- 누적거래량
 );
 
-
+알고리즘에 다른 주식 데이터 : 많이 구매한 상품 회사에 대한 주식 정보를 보여준다.
 public List<StockA3> recommandStock(String memberNum){
 		System.out.println("recommandStock");
 		sql = "  SELECT S1.* , CASE WHEN SYMBOL = 'KR7005930003' THEN '삼성전자' "
